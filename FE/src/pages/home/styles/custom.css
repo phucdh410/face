@@ -1,0 +1,88 @@
+.panel-heading {
+    padding-bottom: 18px !important;
+}
+
+.dropdown-menu {
+    top: 28px !important;
+}
+
+table>tbody tr>td.dataTables_empty {
+    display: none;
+}
+
+.attendance-item .label {
+    font-size: 14px;
+    color: #9a9da0;
+}
+
+.attendance-item .value {
+    font-size: 18px;
+    font-weight: 500;
+    color: #558B2F;
+}
+
+.divider {
+    height: 1px;
+    margin: 9px 1px;
+    overflow: hidden;
+    border-bottom: 1px solid #4a5059;
+}
+
+.pagination {
+    display: inline-block !important;
+}
+
+.datatables-paginate {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.datatables-paginate .pagination {
+    margin-bottom: 0;
+}
+
+.user-avatar, .user-avatar img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+}
+
+.live-webcam-container img {
+    border-radius: 6px;
+}
+
+@media screen and (max-width: 768px) {
+  .user-avatar, .user-avatar img {
+      width: 64px;
+      height: 64px;
+  }
+}
+
+@media screen and (min-width: 0px) {
+    .live-webcam-container img {
+        height: 310px !important;
+    }
+
+    .camera-container .camera-table-container {
+        height: 256px !important;
+    }
+    
+    .attendance-container .attendance-table-container {
+        height: 356px !important;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .live-webcam-container img {
+        height: 370px !important;
+    }
+
+    .camera-container .camera-table-container {
+        height: 316px !important;
+    }
+    
+    .attendance-container .attendance-table-container {
+        height: 450px !important;
+    }
+}

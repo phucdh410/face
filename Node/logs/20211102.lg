@@ -1,0 +1,56 @@
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-02 08:32:03
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":307,"path":"thaonts-005.jpg","date":"2021-11-02","check_in":"2021-11-02 08:32:03","accuracy":207}}
+time: 2021-11-02 08:32:03
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-02 09:20:02
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-02 09:20:15
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_DISCONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-02 09:46:13
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-02 09:46:13
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-02 10:17:00
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":26,"fullname":"Võ Thị Xoan","gender":0,"birth_day":16,"birth_month":2,"birth_year":1996,"avatar":"xoanvt.jpg","face_id":259,"path":"xoanvt-013.jpg","date":"2021-11-02","check_in":"2021-11-02 10:17:02","accuracy":294}}
+time: 2021-11-02 10:17:00
+-------------------------------------------
+[END]
+

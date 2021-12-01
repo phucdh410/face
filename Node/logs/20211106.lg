@@ -1,0 +1,112 @@
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-06 10:36:40
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-06 10:36:40
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-06 10:38:26
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-06 10:38:26
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-06 10:43:04
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":12,"fullname":"Chung Cát Tiên","gender":0,"birth_day":12,"birth_month":2,"birth_year":1996,"avatar":"tiencc.jpg","face_id":156,"path":"tiencc-004.jpg","date":"2021-11-06","check_in":"2021-11-06 10:43:08","accuracy":93}}
+time: 2021-11-06 10:43:04
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_DISCONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-06 11:38:57
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-06 11:38:57
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-06 11:53:52
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-06 11:53:52
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-06 11:58:17
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-06 11:58:17
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-06 11:58:47
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-06 11:58:47
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_DISCONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-06 12:08:13
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-06 12:08:13
+-------------------------------------------
+[END]
+

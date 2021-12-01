@@ -1,0 +1,1078 @@
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 08:20:01
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 08:20:01
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_DISCONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 08:37:36
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 08:37:36
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 08:48:13
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 08:48:13
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 08:51:31
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":305,"path":"thaonts-003.jpg","date":"2021-11-08","check_in":"2021-11-08 08:51:31","accuracy":205}}
+time: 2021-11-08 08:51:31
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_DISCONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 08:56:48
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 08:56:48
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 09:29:45
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":20,"fullname":"Lê Văn Nhân","gender":1,"birth_day":16,"birth_month":3,"birth_year":1984,"avatar":"nhanlv.jpg","face_id":369,"path":"nhanlv-019.jpg","date":"2021-11-08","check_in":"2021-11-08 09:29:45","accuracy":121}}
+time: 2021-11-08 09:29:45
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 09:30:05
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":22,"fullname":"Phan Thị Tư","gender":0,"birth_day":28,"birth_month":9,"birth_year":1985,"avatar":"tupt.jpg","face_id":212,"path":"tupt-006.jpg","date":"2021-11-08","check_in":"2021-11-08 09:30:05","accuracy":258}}
+time: 2021-11-08 09:30:05
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 09:49:10
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":24,"fullname":"Nguyễn Đức Hạnh","gender":1,"birth_day":28,"birth_month":2,"birth_year":1980,"avatar":"hanhnd.jpg","face_id":201,"path":"hanhnd-005.jpg","date":"2021-11-08","check_in":"2021-11-08 09:49:10","accuracy":248}}
+time: 2021-11-08 09:49:10
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 09:57:13
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 09:57:13
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 10:00:52
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":24,"fullname":"Nguyễn Đức Hạnh","gender":1,"birth_day":28,"birth_month":2,"birth_year":1980,"avatar":"hanhnd.jpg","face_id":198,"path":"hanhnd-003.jpg","date":"2021-11-08","check_in":"2021-11-08 10:00:52","accuracy":246}}
+time: 2021-11-08 10:00:52
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 10:02:35
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":14,"fullname":"Nguyễn Thị Hằng","gender":0,"birth_day":15,"birth_month":5,"birth_year":1984,"avatar":"hangnt.jpg","face_id":400,"path":"hangnt-004.jpg","date":"2021-11-08","check_in":"2021-11-08 10:02:35","accuracy":178}}
+time: 2021-11-08 10:02:35
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 10:06:58
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":18,"fullname":"Đặng Thành Nhân","gender":1,"birth_day":31,"birth_month":3,"birth_year":1992,"avatar":"nhandt.jpg","face_id":172,"path":"nhandt-001.jpg","date":"2021-11-08","check_in":"2021-11-08 10:06:58","accuracy":317}}
+time: 2021-11-08 10:06:58
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 10:19:53
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":19,"fullname":"Nguyễn Thị Huyền Trang","gender":0,"birth_day":14,"birth_month":2,"birth_year":1995,"avatar":"trangnth.jpg","face_id":262,"path":"trangnth92-013.jpg","date":"2021-11-08","check_in":"2021-11-08 10:19:53","accuracy":192}}
+time: 2021-11-08 10:19:53
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_DISCONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 10:23:33
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 10:23:33
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 10:30:21
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 10:30:21
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 10:32:33
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":33,"fullname":"Trương Hoàng Dương","gender":1,"birth_day":28,"birth_month":9,"birth_year":1987,"avatar":"duongth.jpg","face_id":545,"path":"duongth-010.jpg","date":"2021-11-08","check_in":"2021-11-08 10:32:32","accuracy":436}}
+time: 2021-11-08 10:32:33
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 10:35:30
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":389,"path":"thanhdv85-019.jpg","date":"2021-11-08","check_in":"2021-11-08 10:35:30","accuracy":509}}
+time: 2021-11-08 10:35:30
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 10:43:07
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":33,"fullname":"Trương Hoàng Dương","gender":1,"birth_day":28,"birth_month":9,"birth_year":1987,"avatar":"duongth.jpg","face_id":545,"path":"duongth-010.jpg","date":"2021-11-08","check_in":"2021-11-08 10:43:07","accuracy":436}}
+time: 2021-11-08 10:43:07
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 10:46:17
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":149,"path":"thanhdv85-006.jpg","date":"2021-11-08","check_in":"2021-11-08 10:46:17","accuracy":496}}
+time: 2021-11-08 10:46:17
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 10:46:30
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":1,"store_name":"Công ty TNHH Space Connection","employee_id":2,"fullname":"Trần Thanh Dũng","gender":1,"birth_day":14,"birth_month":2,"birth_year":1990,"avatar":"dungtt.jpg","face_id":93,"path":"dungtt-016.jpg","date":"2021-11-08","check_in":"2021-11-08 10:46:30","accuracy":68}}
+time: 2021-11-08 10:46:30
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 11:36:20
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":239,"path":"thanhdv85-013.jpg","date":"2021-11-08","check_in":"2021-11-08 11:36:20","accuracy":503}}
+time: 2021-11-08 11:36:20
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 11:38:29
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":557,"path":"thanhdv85-028.jpg","date":"2021-11-08","check_in":"2021-11-08 11:38:29","accuracy":518}}
+time: 2021-11-08 11:38:29
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 11:40:04
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":239,"path":"thanhdv85-013.jpg","date":"2021-11-08","check_in":"2021-11-08 11:40:04","accuracy":503}}
+time: 2021-11-08 11:40:04
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 11:44:57
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 11:44:57
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 11:46:07
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":33,"fullname":"Trương Hoàng Dương","gender":1,"birth_day":28,"birth_month":9,"birth_year":1987,"avatar":"duongth.jpg","face_id":545,"path":"duongth-010.jpg","date":"2021-11-08","check_in":"2021-11-08 11:46:07","accuracy":446}}
+time: 2021-11-08 11:46:07
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 11:50:00
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":26,"fullname":"Võ Thị Xoan","gender":0,"birth_day":16,"birth_month":2,"birth_year":1996,"avatar":"xoanvt.jpg","face_id":405,"path":"xoanvt-015.jpg","date":"2021-11-08","check_in":"2021-11-08 11:50:00","accuracy":466}}
+time: 2021-11-08 11:50:00
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 11:52:40
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":33,"fullname":"Trương Hoàng Dương","gender":1,"birth_day":28,"birth_month":9,"birth_year":1987,"avatar":"duongth.jpg","face_id":540,"path":"duongth-005.jpg","date":"2021-11-08","check_in":"2021-11-08 11:52:39","accuracy":441}}
+time: 2021-11-08 11:52:40
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 11:55:06
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":33,"fullname":"Trương Hoàng Dương","gender":1,"birth_day":28,"birth_month":9,"birth_year":1987,"avatar":"duongth.jpg","face_id":543,"path":"duongth-008.jpg","date":"2021-11-08","check_in":"2021-11-08 11:55:06","accuracy":444}}
+time: 2021-11-08 11:55:06
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 11:58:04
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":31,"fullname":"Nguyễn Ngọc Tường Duy","gender":0,"birth_day":26,"birth_month":7,"birth_year":1995,"avatar":"duynnt.jpg","face_id":509,"path":"duynnt-013.jpg","date":"2021-11-08","check_in":"2021-11-08 11:58:04","accuracy":195}}
+time: 2021-11-08 11:58:04
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 11:59:59
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":304,"path":"thaonts-002.jpg","date":"2021-11-08","check_in":"2021-11-08 11:59:59","accuracy":296}}
+time: 2021-11-08 11:59:59
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 12:04:08
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":33,"fullname":"Trương Hoàng Dương","gender":1,"birth_day":28,"birth_month":9,"birth_year":1987,"avatar":"duongth.jpg","face_id":543,"path":"duongth-008.jpg","date":"2021-11-08","check_in":"2021-11-08 12:04:08","accuracy":444}}
+time: 2021-11-08 12:04:08
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_DISCONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 12:08:04
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 12:08:04
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 12:13:48
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 12:13:48
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 12:18:53
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":34,"fullname":"Nguyễn Thị Thể","gender":0,"birth_day":15,"birth_month":3,"birth_year":1991,"avatar":"","face_id":416,"path":"thent-008.jpg","date":"2021-11-08","check_in":"2021-11-08 12:18:53","accuracy":366}}
+time: 2021-11-08 12:18:53
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 12:22:25
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":301,"path":"thanhdv85-016.jpg","date":"2021-11-08","check_in":"2021-11-08 12:22:25","accuracy":516}}
+time: 2021-11-08 12:22:25
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 12:24:01
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":19,"fullname":"Nguyễn Thị Huyền Trang","gender":0,"birth_day":14,"birth_month":2,"birth_year":1995,"avatar":"trangnth.jpg","face_id":466,"path":"trangnth92-016.jpg","date":"2021-11-08","check_in":"2021-11-08 12:24:01","accuracy":265}}
+time: 2021-11-08 12:24:01
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 12:25:43
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":427,"path":"thaonts-048.jpg","date":"2021-11-08","check_in":"2021-11-08 12:25:43","accuracy":340}}
+time: 2021-11-08 12:25:43
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 12:29:22
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":26,"fullname":"Võ Thị Xoan","gender":0,"birth_day":16,"birth_month":2,"birth_year":1996,"avatar":"xoanvt.jpg","face_id":256,"path":"xoanvt-010.jpg","date":"2021-11-08","check_in":"2021-11-08 12:29:22","accuracy":461}}
+time: 2021-11-08 12:29:22
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 12:31:42
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":31,"fullname":"Nguyễn Ngọc Tường Duy","gender":0,"birth_day":26,"birth_month":7,"birth_year":1995,"avatar":"duynnt.jpg","face_id":515,"path":"duynnt-019.jpg","date":"2021-11-08","check_in":"2021-11-08 12:31:42","accuracy":201}}
+time: 2021-11-08 12:31:42
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 13:28:44
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 13:28:44
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 13:33:20
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":24,"fullname":"Nguyễn Đức Hạnh","gender":1,"birth_day":28,"birth_month":2,"birth_year":1980,"avatar":"hanhnd.jpg","face_id":201,"path":"hanhnd-005.jpg","date":"2021-11-08","check_in":"2021-11-08 13:33:20","accuracy":381}}
+time: 2021-11-08 13:33:20
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 13:34:33
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":552,"path":"thanhdv85-023.jpg","date":"2021-11-08","check_in":"2021-11-08 13:34:33","accuracy":523}}
+time: 2021-11-08 13:34:33
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 13:35:16
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":22,"fullname":"Phan Thị Tư","gender":0,"birth_day":28,"birth_month":9,"birth_year":1985,"avatar":"tupt.jpg","face_id":216,"path":"tupt-007.jpg","date":"2021-11-08","check_in":"2021-11-08 13:35:16","accuracy":394}}
+time: 2021-11-08 13:35:16
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 13:39:07
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":26,"fullname":"Võ Thị Xoan","gender":0,"birth_day":16,"birth_month":2,"birth_year":1996,"avatar":"xoanvt.jpg","face_id":405,"path":"xoanvt-015.jpg","date":"2021-11-08","check_in":"2021-11-08 13:39:07","accuracy":466}}
+time: 2021-11-08 13:39:07
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 13:40:29
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":17,"fullname":"Trần Duy Toại","gender":1,"birth_day":30,"birth_month":4,"birth_year":1989,"avatar":"toaitd.jpg","face_id":170,"path":"toaitd-004.jpg","date":"2021-11-08","check_in":"2021-11-08 13:40:29","accuracy":411}}
+time: 2021-11-08 13:40:29
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 13:50:04
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":26,"fullname":"Võ Thị Xoan","gender":0,"birth_day":16,"birth_month":2,"birth_year":1996,"avatar":"xoanvt.jpg","face_id":256,"path":"xoanvt-010.jpg","date":"2021-11-08","check_in":"2021-11-08 13:50:04","accuracy":461}}
+time: 2021-11-08 13:50:04
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 15:26:40
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 15:26:40
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 15:35:02
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":22,"fullname":"Phan Thị Tư","gender":0,"birth_day":28,"birth_month":9,"birth_year":1985,"avatar":"tupt.jpg","face_id":503,"path":"tupt-015.jpg","date":"2021-11-08","check_in":"2021-11-08 15:35:04","accuracy":402}}
+time: 2021-11-08 15:35:02
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 15:42:57
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":552,"path":"thanhdv85-023.jpg","date":"2021-11-08","check_in":"2021-11-08 15:42:59","accuracy":523}}
+time: 2021-11-08 15:42:57
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_CONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 16:54:37
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_CONNECTED
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 16:54:37
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 17:00:47
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":22,"fullname":"Phan Thị Tư","gender":0,"birth_day":28,"birth_month":9,"birth_year":1985,"avatar":"tupt.jpg","face_id":218,"path":"tupt-009.jpg","date":"2021-11-08","check_in":"2021-11-08 17:00:48","accuracy":396}}
+time: 2021-11-08 17:00:47
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 17:04:52
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":301,"path":"thanhdv85-016.jpg","date":"2021-11-08","check_in":"2021-11-08 17:04:54","accuracy":516}}
+time: 2021-11-08 17:04:52
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 17:27:15
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":18,"fullname":"Đặng Thành Nhân","gender":1,"birth_day":31,"birth_month":3,"birth_year":1992,"avatar":"nhandt.jpg","face_id":172,"path":"nhandt-001.jpg","date":"2021-11-08","check_in":"2021-11-08 17:27:17","accuracy":498}}
+time: 2021-11-08 17:27:15
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 17:31:04
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":19,"fullname":"Nguyễn Thị Huyền Trang","gender":0,"birth_day":14,"birth_month":2,"birth_year":1995,"avatar":"trangnth.jpg","face_id":474,"path":"trangnth92-023.jpg","date":"2021-11-08","check_in":"2021-11-08 17:31:06","accuracy":273}}
+time: 2021-11-08 17:31:04
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 17:33:51
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":13,"fullname":"Võ Thị Xuân Hoa","gender":0,"birth_day":16,"birth_month":3,"birth_year":1985,"avatar":"hoavtx.jpg","face_id":213,"path":"hoavtx-003.jpg","date":"2021-11-08","check_in":"2021-11-08 17:33:53","accuracy":475}}
+time: 2021-11-08 17:33:51
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 17:34:36
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":35,"fullname":"Trần Thị Quỳnh Dung","gender":0,"birth_day":5,"birth_month":6,"birth_year":1990,"avatar":"dungttq.jpg","face_id":589,"path":"dungttq-007.jpg","date":"2021-11-08","check_in":"2021-11-08 17:34:38","accuracy":434}}
+time: 2021-11-08 17:34:36
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 17:53:46
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":301,"path":"thanhdv85-016.jpg","date":"2021-11-08","check_in":"2021-11-08 17:53:47","accuracy":516}}
+time: 2021-11-08 17:53:46
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 17:56:03
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":391,"path":"thanhdv85-021.jpg","date":"2021-11-08","check_in":"2021-11-08 17:56:05","accuracy":521}}
+time: 2021-11-08 17:56:03
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 17:57:12
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":552,"path":"thanhdv85-023.jpg","date":"2021-11-08","check_in":"2021-11-08 17:57:13","accuracy":523}}
+time: 2021-11-08 17:57:12
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:01:53
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":427,"path":"thaonts-048.jpg","date":"2021-11-08","check_in":"2021-11-08 18:01:55","accuracy":340}}
+time: 2021-11-08 18:01:53
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:02:23
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":356,"path":"thaonts-032.jpg","date":"2021-11-08","check_in":"2021-11-08 18:02:24","accuracy":325}}
+time: 2021-11-08 18:02:23
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:03:16
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":22,"fullname":"Phan Thị Tư","gender":0,"birth_day":28,"birth_month":9,"birth_year":1985,"avatar":"tupt.jpg","face_id":218,"path":"tupt-009.jpg","date":"2021-11-08","check_in":"2021-11-08 18:03:18","accuracy":396}}
+time: 2021-11-08 18:03:16
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:04:37
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":552,"path":"thanhdv85-023.jpg","date":"2021-11-08","check_in":"2021-11-08 18:04:39","accuracy":523}}
+time: 2021-11-08 18:04:37
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:07:05
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":422,"path":"thaonts-043.jpg","date":"2021-11-08","check_in":"2021-11-08 18:07:06","accuracy":335}}
+time: 2021-11-08 18:07:05
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:08:07
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":22,"fullname":"Phan Thị Tư","gender":0,"birth_day":28,"birth_month":9,"birth_year":1985,"avatar":"tupt.jpg","face_id":218,"path":"tupt-009.jpg","date":"2021-11-08","check_in":"2021-11-08 18:08:08","accuracy":396}}
+time: 2021-11-08 18:08:07
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:24:16
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":421,"path":"thaonts-042.jpg","date":"2021-11-08","check_in":"2021-11-08 18:24:17","accuracy":334}}
+time: 2021-11-08 18:24:16
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:27:09
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":34,"fullname":"Nguyễn Thị Thể","gender":0,"birth_day":15,"birth_month":3,"birth_year":1991,"avatar":"thent.jpg","face_id":411,"path":"thent-003.jpg","date":"2021-11-08","check_in":"2021-11-08 18:27:10","accuracy":361}}
+time: 2021-11-08 18:27:09
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:34:57
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":356,"path":"thaonts-032.jpg","date":"2021-11-08","check_in":"2021-11-08 18:34:58","accuracy":325}}
+time: 2021-11-08 18:34:57
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:43:05
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":429,"path":"thaonts-050.jpg","date":"2021-11-08","check_in":"2021-11-08 18:43:06","accuracy":342}}
+time: 2021-11-08 18:43:05
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:44:44
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":347,"path":"thaonts-023.jpg","date":"2021-11-08","check_in":"2021-11-08 18:44:46","accuracy":317}}
+time: 2021-11-08 18:44:44
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_DISCONNECTED
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:46:57
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"camera_id":9}
+time: 2021-11-08 18:46:57
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 18:53:52
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":13,"fullname":"Võ Thị Xuân Hoa","gender":0,"birth_day":16,"birth_month":3,"birth_year":1985,"avatar":"hoavtx.jpg","face_id":375,"path":"hoavtx-019.jpg","date":"2021-11-08","check_in":"2021-11-08 18:53:54","accuracy":491}}
+time: 2021-11-08 18:53:52
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 19:01:42
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":427,"path":"thaonts-048.jpg","date":"2021-11-08","check_in":"2021-11-08 19:01:43","accuracy":340}}
+time: 2021-11-08 19:01:42
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 19:10:28
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":429,"path":"thaonts-050.jpg","date":"2021-11-08","check_in":"2021-11-08 19:10:29","accuracy":342}}
+time: 2021-11-08 19:10:28
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 19:11:34
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":429,"path":"thaonts-050.jpg","date":"2021-11-08","check_in":"2021-11-08 19:11:35","accuracy":342}}
+time: 2021-11-08 19:11:34
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 19:28:40
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":306,"path":"thaonts-004.jpg","date":"2021-11-08","check_in":"2021-11-08 19:28:42","accuracy":298}}
+time: 2021-11-08 19:28:40
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-08 20:38:04
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":10,"fullname":"Đặng Văn Thanh","gender":1,"birth_day":15,"birth_month":11,"birth_year":1985,"avatar":"thanhdv.jpg","face_id":301,"path":"thanhdv85-016.jpg","date":"2021-11-08","check_in":"2021-11-08 20:38:06","accuracy":516}}
+time: 2021-11-08 20:38:05
+-------------------------------------------
+[END]
+

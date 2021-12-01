@@ -1,0 +1,42 @@
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-07 09:34:02
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":356,"path":"thaonts-032.jpg","date":"2021-11-07","check_in":"2021-11-07 09:34:02","accuracy":233}}
+time: 2021-11-07 09:34:02
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-07 09:58:07
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":338,"path":"thaonts-014.jpg","date":"2021-11-07","check_in":"2021-11-07 09:58:07","accuracy":216}}
+time: 2021-11-07 09:58:07
+-------------------------------------------
+[END]
+
+[SOCKET EVENT] - CAMERA_RECOGNIZE
+-------------------------------------------
+payload: [object Object]
+time: 2021-11-07 10:15:01
+-------------------------------------------
+[END]
+
+[WEBSOCKET] - DEVICE_DISCONNECTED_TO_BOARD
+-------------------------------------------
+params: {"payload":{"store_id":3,"store_name":"Công ty TNHH Tư Vấn Thiết Kế VTCO","employee_id":30,"fullname":"Nguyễn Thị Sông Thao","gender":0,"birth_day":15,"birth_month":3,"birth_year":1985,"avatar":"thaonts.jpg","face_id":356,"path":"thaonts-032.jpg","date":"2021-11-07","check_in":"2021-11-07 10:15:01","accuracy":233}}
+time: 2021-11-07 10:15:01
+-------------------------------------------
+[END]
+

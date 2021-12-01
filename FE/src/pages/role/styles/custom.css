@@ -1,0 +1,11 @@
+.panel-heading {
+    padding-bottom: 18px !important;
+}
+
+.dropdown-menu {
+    top: 28px !important;
+}
+
+table > tbody tr > td.dataTables_empty {
+    display: none;
+}

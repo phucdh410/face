@@ -1,0 +1,12 @@
+.panel-heading {
+    padding-bottom: 18px !important;
+}
+
+.col-form-label {
+    text-align: left;
+    font-weight: normal;
+}
+
+table > tbody tr > td.dataTables_empty {
+    display: none;
+}

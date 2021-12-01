@@ -1,0 +1,20 @@
+{
+    "FACE_R_APP_PREFIX": "FACE_R_APP_PREFIX",
+    "FACE_R_APP_TITLE": "Face-R System",
+    "FACE_R_APP_TOKEN": "FACE_R_APP_TOKEN",
+    "FACE_R_APP_PAGES_ON_RANGE": 5,
+    "FACE_R_APP_API_ENDPOINT": "http://face-r.studiobox.vn:5000/api",
+    "FACE_R_APP_DOMAIN": "http://face-r.studiobox.vn:5000",
+    "FACE_R_APP_SOCKET_DOMAIN": "http://192.168.1.102:5002",
+    "FACE_R_APP_UPLOAD_FILE_API": "http://face-r.studiobox.vn:5000/api/upload/files",
+    "FACE_R_APP_DOWNLOAD_FILE_API": "http://face-r.studiobox.vn:5000/api/requests/export",
+
+    "FACE_R_APP_PERMISSION_001": "5fb631cc0d264715d7fed8d9",
+    "FACE_R_APP_PERMISSION_002": "5fb632260d264715d7fed8da",
+    "FACE_R_APP_PERMISSION_003": "5fb632510d264715d7fed8db",
+    "FACE_R_APP_PERMISSION_004": "5fb632750d264715d7fed8dc",
+    "FACE_R_APP_PERMISSION_005": "5fb632850d264715d7fed8dd",
+    "FACE_R_APP_PERMISSION_006": "5fb6329b0d264715d7fed8de",
+    "FACE_R_APP_PERMISSION_007": "5fb632c90d264715d7fed8e0",
+    "FACE_R_APP_PERMISSION_008": "5fb632d60d264715d7fed8e1"
+}

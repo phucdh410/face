@@ -1,0 +1,23 @@
+.panel-heading {
+    padding-bottom: 18px !important;
+}
+
+.dropdown-menu {
+    top: 28px !important;
+}
+
+table > tbody tr > td.dataTables_empty {
+    display: none;
+}
+
+@media screen and (min-width: 0px) {
+    .panel .data-container {
+        height: 256px !important;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .panel .data-container {
+        height: 316px !important;
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "mongoURI": "mongodb://adminUser:%40dm1n*Ic00l123@203.205.33.55:27100/sync_call?authSource=sync_call", 
+    "mongoURIDebug": "mongodb://admin:%40dm1n%2aIc00l123@192.168.1.16:27017/sync_call?authSource=sync_call",
+    "items_on_page": 10,
+    "pages_on_range": 5
+}
