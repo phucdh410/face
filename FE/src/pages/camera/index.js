@@ -1,10 +1,13 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback, useState,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Link, withRouter } from "react-router-dom";
-import {
-  Box, TableCell, TableRow, Typography,
-} from "@mui/material";
+import { Box, TableCell, TableRow, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
@@ -27,6 +30,7 @@ import SuspenseLoading from "../../components/SuspenseLoading";
 import "./styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../config";
+import { LoadingContext } from "../../context/LoadingContext";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 
@@ -36,6 +40,7 @@ const FilterPanel = lazy(() => import("./components/FilterPanel"));
 let source = axios.CancelToken.source();
 
 const Camera = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
@@ -50,12 +55,10 @@ const Camera = React.memo(() => {
       errors: state.errors,
       stores: state.root.stores,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
-  const {
-    cameras, pages, page, success, errors, stores,
-  } = state;
+  const { cameras, pages, page, success, errors, stores } = state;
 
   const [searchStore, setSearchStore] = useState(state.searchStore);
 
@@ -77,7 +80,7 @@ const Camera = React.memo(() => {
 
       dispatch(getCameras(params, source.token, history));
     },
-    [dispatch, history, searchStore],
+    [dispatch, history, searchStore]
   );
 
   useEffect(() => {
@@ -103,19 +106,20 @@ const Camera = React.memo(() => {
     (e) => {
       prevHandler(e, pages, page, handleRequest);
     },
-    [handleRequest, page, pages],
+    [handleRequest, page, pages]
   );
 
   const next = useCallback(
     (e) => {
       nextHandler(e, pages, page, handleRequest);
     },
-    [handleRequest, page, pages],
+    [handleRequest, page, pages]
   );
 
   const onDelete = useCallback(
     async (id) => {
-      window.start_preloader();
+      setLoading(true);
+      // window.start_preloader();
       source = axios.CancelToken.source();
       dispatch(removeCamera(id, source.token, history));
 
@@ -127,12 +131,14 @@ const Camera = React.memo(() => {
           "success",
           async () => {
             handleRequest(0, true);
-            window.stop_preloader();
-          },
+            // window.stop_preloader();
+            setLoading(false);
+          }
         );
-      } else window.stop_preloader();
+        // } else window.stop_preloader();
+      } else setLoading(false);
     },
-    [dispatch, handleRequest, history, success],
+    [dispatch, handleRequest, history, success]
   );
 
   const onChange = useCallback(
@@ -142,7 +148,7 @@ const Camera = React.memo(() => {
       setSearchStore(e.target.value);
       handleRequest(0, 0);
     },
-    [handleRequest],
+    [handleRequest]
   );
 
   const renderData = useCallback(() => {
@@ -288,6 +294,7 @@ const Camera = React.memo(() => {
       />
 
       {/* Data container */}
+      {/* <Loading /> */}
       <Box className="row">
         <Box className="col-sm-12 p-0">
           <Box className="panel panel-bd lobidrag">

@@ -1,5 +1,10 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback, useState,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Box } from "@mui/material";
 import { withRouter } from "react-router-dom";
@@ -20,6 +25,8 @@ import SuspenseLoading from "../../../components/SuspenseLoading";
 import "../styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../../config";
+import Loading from "../../../components/Loading/Loading";
+import { LoadingContext } from "../../../context/LoadingContext";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -29,6 +36,7 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const EditEmployee = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -41,7 +49,7 @@ const EditEmployee = React.memo(() => {
       faceResponseStatus: state.face.success,
       errors: state.errors,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
   const {
@@ -64,12 +72,14 @@ const EditEmployee = React.memo(() => {
       source = axios.CancelToken.source();
       await dispatch(getEmployee(id, source.token, history));
     },
-    [dispatch, history],
+    [dispatch, history]
   );
 
   useEffect(() => {
     if (!_.isEqual(photos, prevPhotos)) {
-      if (prevPhotos) { prevPhotos.forEach((file) => URL.revokeObjectURL(file.preview)); }
+      if (prevPhotos) {
+        prevPhotos.forEach((file) => URL.revokeObjectURL(file.preview));
+      }
     }
   }, [photos, prevPhotos]);
 
@@ -97,11 +107,11 @@ const EditEmployee = React.memo(() => {
         ...state.employee,
         date: state.employee
           ? makeDate(
-            state.employee.birth_day,
-            state.employee.birth_month,
-            state.employee.birth_year,
-            "DD-MM-YYYY",
-          )
+              state.employee.birth_day,
+              state.employee.birth_month,
+              state.employee.birth_year,
+              "DD-MM-YYYY"
+            )
           : "",
         changed: false,
       });
@@ -115,7 +125,7 @@ const EditEmployee = React.memo(() => {
       e.preventDefault();
       history.goBack();
     },
-    [history],
+    [history]
   );
 
   const onDeleteFace = useCallback(
@@ -132,7 +142,7 @@ const EditEmployee = React.memo(() => {
 
       setFaces(faces);
     },
-    [dispatch, employee, faceResponseStatus, history],
+    [dispatch, employee, faceResponseStatus, history]
   );
 
   const onSubmit = useCallback(
@@ -156,7 +166,8 @@ const EditEmployee = React.memo(() => {
         params.append("active", values.active);
         params.append("changed", values.changed ? 1 : 0);
 
-        window.start_preloader();
+        // window.start_preloader();
+        setLoading(true);
         await dispatch(editEmployee(id, params, source.token, history));
 
         if (employeeResponseStatus) {
@@ -169,10 +180,12 @@ const EditEmployee = React.memo(() => {
             "success",
             () => {
               history.replace("/employees");
-              window.stop_preloader();
-            },
+              // window.stop_preloader();
+              setLoading(false);
+            }
           );
-        } else window.stop_preloader();
+          // } else window.stop_preloader();
+        } else setLoading(false);
       } else {
         window.toast(
           FACE_R_APP_TITLE,
@@ -180,12 +193,13 @@ const EditEmployee = React.memo(() => {
           4000,
           "warning",
           () => {
-            window.stop_preloader();
-          },
+            // window.stop_preloader();
+            setLoading(false);
+          }
         );
       }
     },
-    [dispatch, employeeResponseStatus, history, id, photos],
+    [dispatch, employeeResponseStatus, history, id, photos]
   );
 
   return (
@@ -193,24 +207,24 @@ const EditEmployee = React.memo(() => {
       <Breadcrum />
 
       {employee && (
-      <Box className="row">
-        <Box className="col-md-12">
-          <Box className="panel panel-bd lobidrag">
-            <PanelHeading />
-            <Body
-              employee={employee}
-              faces={faces}
-              photos={photos}
-              stores={stores}
-              uploadErrors={uploadErrors}
-              goBack={goBack}
-              setPhotos={setPhotos}
-              onDeleteFace={onDeleteFace}
-              onSubmit={onSubmit}
-            />
+        <Box className="row">
+          <Box className="col-md-12">
+            <Box className="panel panel-bd lobidrag">
+              <PanelHeading />
+              <Body
+                employee={employee}
+                faces={faces}
+                photos={photos}
+                stores={stores}
+                uploadErrors={uploadErrors}
+                goBack={goBack}
+                setPhotos={setPhotos}
+                onDeleteFace={onDeleteFace}
+                onSubmit={onSubmit}
+              />
+            </Box>
           </Box>
         </Box>
-      </Box>
       )}
     </Suspense>
   );

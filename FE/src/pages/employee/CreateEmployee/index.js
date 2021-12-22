@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useCallback,
   useState,
+  useContext,
 } from "react";
 import { Box } from "@mui/material";
 import { withRouter } from "react-router-dom";
@@ -23,6 +24,9 @@ import "../styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../../config";
 
+import Loading from "../../../components/Loading/Loading";
+import { LoadingContext } from "../../../context/LoadingContext";
+
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
 
@@ -31,6 +35,7 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const CreateEmployee = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const state = useSelector(
@@ -41,7 +46,7 @@ const CreateEmployee = React.memo(() => {
       faceResponseStatus: state.face.success,
       errors: state.errors,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
   const {
@@ -72,7 +77,7 @@ const CreateEmployee = React.memo(() => {
       e.preventDefault();
       history.goBack();
     },
-    [history],
+    [history]
   );
 
   const onDeleteFace = useCallback(
@@ -89,7 +94,7 @@ const CreateEmployee = React.memo(() => {
 
       setFaces(faces);
     },
-    [dispatch, faceResponseStatus, history],
+    [dispatch, faceResponseStatus, history]
   );
 
   const onSubmit = useCallback(
@@ -112,7 +117,8 @@ const CreateEmployee = React.memo(() => {
         params.append("avatar", values.avatar);
         params.append("active", values.active);
 
-        window.start_preloader();
+        // window.start_preloader();
+        setLoading(true);
         await dispatch(addEmployee(params, source.token, history));
 
         if (employeeResponseStatus) {
@@ -125,9 +131,11 @@ const CreateEmployee = React.memo(() => {
 
           window.toast(FACE_R_APP_TITLE, message, 2000, "success", () => {
             history.replace("/employees");
-            window.stop_preloader();
+            // window.stop_preloader();
+            setLoading(false);
           });
-        } else window.stop_preloader();
+          // } else window.stop_preloader();
+        } else setLoading(false);
       } else {
         window.toast(
           FACE_R_APP_TITLE,
@@ -135,12 +143,13 @@ const CreateEmployee = React.memo(() => {
           4000,
           "warning",
           () => {
-            window.stop_preloader();
-          },
+            setLoading(false);
+            // window.stop_preloader();
+          }
         );
       }
     },
-    [dispatch, employeeResponseStatus, history, photos, uploadErrors],
+    [dispatch, employeeResponseStatus, history, photos, uploadErrors]
   );
 
   return (

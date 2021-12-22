@@ -1,10 +1,13 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback, useState,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Link, withRouter } from "react-router-dom";
-import {
-  Box, TableCell, TableRow, Typography,
-} from "@mui/material";
+import { Box, TableCell, TableRow, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
@@ -24,6 +27,8 @@ import SuspenseLoading from "../../components/SuspenseLoading";
 import "./styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../config";
+import Loading from "../../components/Loading/Loading";
+import { LoadingContext } from "../../context/LoadingContext";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 
@@ -33,6 +38,7 @@ const FilterPanel = lazy(() => import("./components/FilterPanel"));
 let source = axios.CancelToken.source();
 
 const Role = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
@@ -46,12 +52,10 @@ const Role = React.memo(() => {
       searchInput: state.role.search_input,
       errors: state.errors,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
-  const {
-    roles, pages, page, success, errors,
-  } = state;
+  const { roles, pages, page, success, errors } = state;
 
   const [searchInput, setSearcInput] = useState(state.searchInput);
 
@@ -66,7 +70,7 @@ const Role = React.memo(() => {
 
       dispatch(getRoles(params, source.token, history));
     },
-    [dispatch, history, searchInput],
+    [dispatch, history, searchInput]
   );
 
   useEffect(() => {
@@ -91,19 +95,20 @@ const Role = React.memo(() => {
     (e) => {
       prevHandler(e, pages, page, handleRequest);
     },
-    [handleRequest, page, pages],
+    [handleRequest, page, pages]
   );
 
   const next = useCallback(
     (e) => {
       nextHandler(e, pages, page, handleRequest);
     },
-    [handleRequest, page, pages],
+    [handleRequest, page, pages]
   );
 
   const onDelete = useCallback(
     async (id) => {
-      window.start_preloader();
+      // window.start_preloader();
+      setLoading(true);
       source = axios.CancelToken.source();
       await dispatch(removeRole(id, source.token, history));
 
@@ -115,12 +120,14 @@ const Role = React.memo(() => {
           "success",
           async () => {
             await handleRequest(0, 0);
-            window.stop_preloader();
-          },
+            // window.stop_preloader();
+            setLoading(false);
+          }
         );
-      } else window.stop_preloader();
+        // } else window.stop_preloader();
+      } else setLoading(false);
     },
-    [dispatch, handleRequest, history, success],
+    [dispatch, handleRequest, history, success]
   );
 
   const onChange = useCallback(
@@ -130,7 +137,7 @@ const Role = React.memo(() => {
       setSearcInput(e.target.value);
       handleRequest(0, 0);
     },
-    [handleRequest],
+    [handleRequest]
   );
 
   const renderData = useCallback(() => {
@@ -228,7 +235,9 @@ const Role = React.memo(() => {
           <Box className="panel panel-bd lobidrag">
             <Box className="panel-heading">
               <Box className="panel-title">
-                <Typography variant="h4">Thông tin vai trò người dùng</Typography>
+                <Typography variant="h4">
+                  Thông tin vai trò người dùng
+                </Typography>
               </Box>
             </Box>
 

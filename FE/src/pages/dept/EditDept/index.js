@@ -1,5 +1,10 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback, useState,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Box } from "@mui/material";
 import { withRouter } from "react-router-dom";
@@ -14,6 +19,8 @@ import "../styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../../config";
 import SuspenseLoading from "../../../components/SuspenseLoading";
+import Loading from "../../../components/Loading/Loading";
+import { LoadingContext } from "../../../context/LoadingContext";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -23,6 +30,7 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const EditDept = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -33,7 +41,7 @@ const EditDept = React.memo(() => {
       success: state.store.success,
       errors: state.errors,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
   const { stores, success, errors } = state;
@@ -44,7 +52,7 @@ const EditDept = React.memo(() => {
       source = axios.CancelToken.source();
       dispatch(getDept(id, source.token, history));
     },
-    [dispatch, history],
+    [dispatch, history]
   );
 
   useEffect(() => {
@@ -74,7 +82,7 @@ const EditDept = React.memo(() => {
       e.preventDefault();
       history.goBack();
     },
-    [history],
+    [history]
   );
 
   const onSubmit = useCallback(
@@ -85,7 +93,8 @@ const EditDept = React.memo(() => {
         name: values.name.toUpperCase(),
       };
 
-      window.start_preloader();
+      // window.start_preloader();
+      setLoading(true);
       await dispatch(editDept(params, source.token, history));
 
       if (success) {
@@ -96,12 +105,14 @@ const EditDept = React.memo(() => {
           "success",
           () => {
             history.goBack();
-            window.stop_preloader();
-          },
+            // window.stop_preloader();
+            setLoading(false);
+          }
         );
-      } else window.stop_preloader();
+        // } else window.stop_preloader();
+      } else setLoading(false);
     },
-    [dispatch, history, dept, success],
+    [dispatch, history, dept, success]
   );
 
   return (
@@ -109,19 +120,19 @@ const EditDept = React.memo(() => {
       <Breadcrum />
 
       {dept && (
-      <Box className="row">
-        <Box className="col-md-12">
-          <Box className="panel panel-bd lobidrag">
-            <PanelHeading />
-            <Body
-              dept={dept}
-              stores={stores}
-              goBack={goBack}
-              onSubmit={onSubmit}
-            />
+        <Box className="row">
+          <Box className="col-md-12">
+            <Box className="panel panel-bd lobidrag">
+              <PanelHeading />
+              <Body
+                dept={dept}
+                stores={stores}
+                goBack={goBack}
+                onSubmit={onSubmit}
+              />
+            </Box>
           </Box>
         </Box>
-      </Box>
       )}
     </Suspense>
   );

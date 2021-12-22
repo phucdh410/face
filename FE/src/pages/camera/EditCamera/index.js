@@ -1,5 +1,10 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback, useState,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Box } from "@mui/material";
 import { withRouter } from "react-router-dom";
@@ -15,6 +20,8 @@ import SuspenseLoading from "../../../components/SuspenseLoading";
 import "../styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../../config";
+import Loading from "../../../components/Loading/Loading";
+import { LoadingContext } from "../../../context/LoadingContext";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -24,6 +31,7 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const EditCamera = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -34,7 +42,7 @@ const EditCamera = React.memo(() => {
       success: state.camera.success,
       errors: state.errors,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
   const { stores, success, errors } = state;
@@ -45,7 +53,7 @@ const EditCamera = React.memo(() => {
       source = axios.CancelToken.source();
       await dispatch(getCamera(id, source.token, history));
     },
-    [dispatch, history],
+    [dispatch, history]
   );
 
   useEffect(() => {
@@ -67,7 +75,8 @@ const EditCamera = React.memo(() => {
   }, [errors]);
 
   useEffect(() => {
-    if (state.camera && state.camera.id.toString() === id) setCamera(state.camera);
+    if (state.camera && state.camera.id.toString() === id)
+      setCamera(state.camera);
   }, [state.camera]);
 
   const goBack = useCallback(
@@ -75,7 +84,7 @@ const EditCamera = React.memo(() => {
       e.preventDefault();
       history.goBack();
     },
-    [history],
+    [history]
   );
 
   const onSubmit = useCallback(
@@ -91,7 +100,8 @@ const EditCamera = React.memo(() => {
           cancel_token: source.token,
         };
 
-        window.start_preloader();
+        // window.start_preloader();
+        setLoading(true);
         await dispatch(editCamera(params, history));
 
         if (success) {
@@ -102,13 +112,15 @@ const EditCamera = React.memo(() => {
             "success",
             () => {
               history.goBack();
-              window.stop_preloader();
-            },
+              // window.stop_preloader();
+              setLoading(false);
+            }
           );
-        } else window.stop_preloader();
+          // } else window.stop_preloader();
+        } else setLoading(false);
       }
     },
-    [camera, dispatch, history, success],
+    [camera, dispatch, history, success]
   );
 
   return (
@@ -116,19 +128,19 @@ const EditCamera = React.memo(() => {
       <Breadcrum />
 
       {camera && (
-      <Box className="row">
-        <Box className="col-md-12">
-          <Box className="panel panel-bd lobidrag">
-            <PanelHeading />
-            <Body
-              camera={camera}
-              stores={stores}
-              goBack={goBack}
-              onSubmit={onSubmit}
-            />
+        <Box className="row">
+          <Box className="col-md-12">
+            <Box className="panel panel-bd lobidrag">
+              <PanelHeading />
+              <Body
+                camera={camera}
+                stores={stores}
+                goBack={goBack}
+                onSubmit={onSubmit}
+              />
+            </Box>
           </Box>
         </Box>
-      </Box>
       )}
     </Suspense>
   );

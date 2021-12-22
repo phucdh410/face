@@ -1,5 +1,10 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Box } from "@mui/material";
 import { withRouter } from "react-router-dom";
@@ -13,6 +18,9 @@ import { changePassword } from "../../../actions/auth.actions";
 import SuspenseLoading from "../../../components/SuspenseLoading";
 
 import { FACE_R_APP_TITLE } from "../../../config";
+import { LoadingContext } from "../../../context/LoadingContext";
+
+import Loading from "../../../components/Loading/Loading";
 
 const Header = lazy(() => import("./components/Header"));
 const Body = lazy(() => import("./components/Body"));
@@ -20,13 +28,14 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const ChangePassword = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const { errors } = useSelector(
     (state) => ({
       errors: state.errors,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
   useEffect(() => {
@@ -46,23 +55,26 @@ const ChangePassword = React.memo(() => {
       e.preventDefault();
       history.goBack();
     },
-    [history],
+    [history]
   );
 
   const logoutUser = useCallback(
     async (e) => {
       e.preventDefault();
 
-      window.start_preloader();
+      // window.start_preloader();
+      setLoading(true);
       await dispatch(logoutUser(history));
-      window.stop_preloader();
+      // window.stop_preloader();
+      setLoading(false);
     },
-    [dispatch, history],
+    [dispatch, history]
   );
 
   const onSubmit = useCallback(
     async (values) => {
-      window.start_preloader();
+      // window.start_preloader();
+      setLoading(true);
 
       source = axios.CancelToken.source();
       const payload = {
@@ -72,9 +84,10 @@ const ChangePassword = React.memo(() => {
       };
 
       await dispatch(changePassword(payload, source.token, history));
-      window.stop_preloader();
+      // window.stop_preloader();
+      setLoading(false);
     },
-    [dispatch, history],
+    [dispatch, history]
   );
 
   return (
@@ -83,11 +96,7 @@ const ChangePassword = React.memo(() => {
         <Box className="panel panel-bd">
           <Suspense fallback={<SuspenseLoading />}>
             <Header />
-            <Body
-              goBack={goBack}
-              logoutUser={logoutUser}
-              onSubmit={onSubmit}
-            />
+            <Body goBack={goBack} logoutUser={logoutUser} onSubmit={onSubmit} />
           </Suspense>
         </Box>
       </Box>

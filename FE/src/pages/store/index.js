@@ -1,10 +1,13 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback, useState,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Link, withRouter } from "react-router-dom";
-import {
-  Box, TableCell, TableRow, Typography,
-} from "@mui/material";
+import { Box, TableCell, TableRow, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
@@ -21,6 +24,8 @@ import {
 
 import { FACE_R_APP_TITLE } from "../../config";
 import SuspenseLoading from "../../components/SuspenseLoading";
+import Loading from "../../components/Loading/Loading";
+import { LoadingContext } from "../../context/LoadingContext";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 
@@ -30,6 +35,7 @@ const FilterPanel = lazy(() => import("./components/FilterPanel"));
 let source = axios.CancelToken.source();
 
 const Store = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
@@ -43,12 +49,10 @@ const Store = React.memo(() => {
       searchInput: state.store.search_input,
       errors: state.errors,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
-  const {
-    stores, pages, page, success, errors,
-  } = state;
+  const { stores, pages, page, success, errors } = state;
 
   const [searchInput, setSearcInput] = useState(state.searchInput);
 
@@ -63,7 +67,7 @@ const Store = React.memo(() => {
 
       dispatch(getStores(params, source.token, history));
     },
-    [dispatch, history, searchInput],
+    [dispatch, history, searchInput]
   );
 
   useEffect(() => {
@@ -88,19 +92,20 @@ const Store = React.memo(() => {
     (e) => {
       prevHandler(e, pages, page, handleRequest);
     },
-    [handleRequest, page, pages],
+    [handleRequest, page, pages]
   );
 
   const next = useCallback(
     (e) => {
       nextHandler(e, pages, page, handleRequest);
     },
-    [handleRequest, page, pages],
+    [handleRequest, page, pages]
   );
 
   const onDelete = useCallback(
     async (id) => {
-      window.start_preloader();
+      // window.start_preloader();
+      setLoading(true);
       source = axios.CancelToken.source();
       await dispatch(removeStore(id, source.token, history));
 
@@ -112,12 +117,14 @@ const Store = React.memo(() => {
           "success",
           () => {
             handleRequest(0, true);
-            window.stop_preloader();
-          },
+            // window.stop_preloader();
+            setLoading(false);
+          }
         );
-      } else window.stop_preloader();
+        // } else window.stop_preloader();
+      } else setLoading(false);
     },
-    [dispatch, handleRequest, history, success],
+    [dispatch, handleRequest, history, success]
   );
 
   const onChange = useCallback(
@@ -127,7 +134,7 @@ const Store = React.memo(() => {
       setSearcInput(e.target.value);
       handleRequest(0, 0);
     },
-    [handleRequest],
+    [handleRequest]
   );
 
   const renderData = useCallback(() => {

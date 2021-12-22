@@ -1,5 +1,10 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Box } from "@mui/material";
 import { withRouter } from "react-router-dom";
@@ -16,6 +21,9 @@ import "../styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../../config";
 
+import Loading from "../../../components/Loading/Loading";
+import { LoadingContext } from "../../../context/LoadingContext";
+
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
 
@@ -24,6 +32,8 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const CreateCamera = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const { stores, success, errors } = useSelector(
@@ -32,7 +42,7 @@ const CreateCamera = React.memo(() => {
       success: state.camera.success,
       errors: state.errors,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
   useEffect(() => {
@@ -52,7 +62,7 @@ const CreateCamera = React.memo(() => {
       e.preventDefault();
       history.goBack();
     },
-    [history],
+    [history]
   );
 
   const onSubmit = useCallback(
@@ -63,7 +73,8 @@ const CreateCamera = React.memo(() => {
         store_id: parseInt(values.store_id),
       };
 
-      window.start_preloader();
+      // window.start_preloader();
+      setLoading(true);
       await dispatch(addCamera(params, source.token, history));
 
       if (success) {
@@ -74,12 +85,14 @@ const CreateCamera = React.memo(() => {
           "success",
           () => {
             history.goBack();
-            window.stop_preloader();
-          },
+            // window.stop_preloader();
+            setLoading(false);
+          }
         );
-      } else window.stop_preloader();
+        // } else window.stop_preloader();
+      } else setLoading(false);
     },
-    [dispatch, history, success],
+    [dispatch, history, success]
   );
 
   return (
@@ -90,11 +103,7 @@ const CreateCamera = React.memo(() => {
         <Box className="col-md-12">
           <Box className="panel panel-bd lobidrag">
             <PanelHeading />
-            <Body
-              stores={stores}
-              goBack={goBack}
-              onSubmit={onSubmit}
-            />
+            <Body stores={stores} goBack={goBack} onSubmit={onSubmit} />
           </Box>
         </Box>
       </Box>

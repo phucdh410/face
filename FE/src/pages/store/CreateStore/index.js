@@ -1,5 +1,10 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Box } from "@mui/material";
 import { withRouter } from "react-router-dom";
@@ -15,6 +20,8 @@ import SuspenseLoading from "../../../components/SuspenseLoading";
 import "../styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../../config";
+import Loading from "../../../components/Loading/Loading";
+import { LoadingContext } from "../../../context/LoadingContext";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -24,6 +31,7 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const CreateStore = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const { success, errors } = useSelector(
@@ -31,7 +39,7 @@ const CreateStore = React.memo(() => {
       success: state.store.success,
       errors: state.errors,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
   useEffect(() => {
@@ -51,7 +59,7 @@ const CreateStore = React.memo(() => {
       e.preventDefault();
       history.goBack();
     },
-    [history],
+    [history]
   );
 
   const onSubmit = useCallback(
@@ -64,7 +72,8 @@ const CreateStore = React.memo(() => {
         address: values.address ? values.address.toUpperCase() : "",
       };
 
-      window.start_preloader();
+      // window.start_preloader();
+      setLoading(true);
       await dispatch(addStore(params, source.token, history));
 
       if (success) {
@@ -75,12 +84,14 @@ const CreateStore = React.memo(() => {
           "success",
           () => {
             history.goBack();
-            window.stop_preloader();
-          },
+            // window.stop_preloader();
+            setLoading(false);
+          }
         );
-      } else window.stop_preloader();
+        // } else window.stop_preloader();
+      } else setLoading(false);
     },
-    [dispatch, history, success],
+    [dispatch, history, success]
   );
 
   return (
@@ -91,10 +102,7 @@ const CreateStore = React.memo(() => {
         <Box className="col-md-12">
           <Box className="panel panel-bd lobidrag">
             <PanelHeading />
-            <Body
-              goBack={goBack}
-              onSubmit={onSubmit}
-            />
+            <Body goBack={goBack} onSubmit={onSubmit} />
           </Box>
         </Box>
       </Box>

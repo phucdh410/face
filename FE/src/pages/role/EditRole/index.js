@@ -1,5 +1,10 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback, useState,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Box } from "@mui/material";
 import { withRouter } from "react-router-dom";
@@ -16,6 +21,9 @@ import "../styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../../config";
 
+import Loading from "../../../components/Loading/Loading";
+import { LoadingContext } from "../../../context/LoadingContext";
+
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
 
@@ -24,6 +32,7 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const EditRole = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -33,7 +42,7 @@ const EditRole = React.memo(() => {
       success: state.role.success,
       errors: state.errors,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
   const { success, errors } = state;
@@ -44,7 +53,7 @@ const EditRole = React.memo(() => {
       source = axios.CancelToken.source();
       await dispatch(getRole(id, source.token, history));
     },
-    [dispatch, history],
+    [dispatch, history]
   );
 
   useEffect(() => {
@@ -74,7 +83,7 @@ const EditRole = React.memo(() => {
       e.preventDefault();
       history.goBack();
     },
-    [history],
+    [history]
   );
 
   const onSubmit = useCallback(
@@ -85,7 +94,8 @@ const EditRole = React.memo(() => {
         cancel_token: source.token,
       };
 
-      window.start_preloader();
+      // window.start_preloader();
+      setLoading(true);
       await dispatch(editRole(params, history));
 
       if (success) {
@@ -96,12 +106,14 @@ const EditRole = React.memo(() => {
           "success",
           () => {
             history.goBack();
-            window.stop_preloader();
-          },
+            // window.stop_preloader();
+            setLoading(false);
+          }
         );
-      } else window.stop_preloader();
+        // } else window.stop_preloader();
+      } else setLoading(false);
     },
-    [dispatch, history, success],
+    [dispatch, history, success]
   );
 
   return (
@@ -109,18 +121,14 @@ const EditRole = React.memo(() => {
       <Breadcrum />
 
       {role && (
-      <Box className="row">
-        <Box className="col-md-12">
-          <Box className="panel panel-bd lobidrag">
-            <PanelHeading />
-            <Body
-              role={role}
-              goBack={goBack}
-              onSubmit={onSubmit}
-            />
+        <Box className="row">
+          <Box className="col-md-12">
+            <Box className="panel panel-bd lobidrag">
+              <PanelHeading />
+              <Body role={role} goBack={goBack} onSubmit={onSubmit} />
+            </Box>
           </Box>
         </Box>
-      </Box>
       )}
     </Suspense>
   );

@@ -1,5 +1,10 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Box } from "@mui/system";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
@@ -12,6 +17,8 @@ import { loginUser } from "../../../actions/auth.actions";
 import SuspenseLoading from "../../../components/SuspenseLoading";
 
 import { FACE_R_APP_TITLE } from "../../../config";
+import Loading from "../../../components/Loading/Loading";
+import { LoadingContext } from "../../../context/LoadingContext";
 
 const Header = lazy(() => import("./components/Header"));
 const Body = lazy(() => import("./components/Body"));
@@ -20,6 +27,7 @@ const Footer = lazy(() => import("./components/Footer"));
 const source = axios.CancelToken.source();
 
 const Login = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -28,7 +36,7 @@ const Login = React.memo(() => {
       isAuth: state.auth.isAuth,
       errors: state.errors,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
   useEffect(() => {
@@ -59,11 +67,13 @@ const Login = React.memo(() => {
 
       console.log("payload: ", payload);
 
-      window.start_preloader();
+      // window.start_preloader();
+      setLoading(true);
       await dispatch(loginUser(payload, source.token));
-      window.stop_preloader();
+      // window.stop_preloader();
+      setLoading(false);
     },
-    [dispatch],
+    [dispatch]
   );
 
   return (

@@ -1,73 +1,82 @@
 /* [page-wrapper] */
 body {
-    overflow: hidden;
+  overflow: hidden;
 }
 #wrapper {
-    height: 100vh;
+  height: 100vh;
 }
 .panel {
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 .content-header {
-    padding: 15px !important;
+  padding: 15px !important;
 }
 legend {
-    width: 0 !important;
+  width: 0 !important;
 }
 
 /* [input] */
-a, button {
-    text-transform: none !important;
+a,
+button {
+  text-transform: none !important;
 }
 
 /* [modal] */
 .modal-backdrop.fade {
-    opacity: 0.5 !important;
+  opacity: 0.5 !important;
 }
 .modal-dialog .modal-title {
-    flex: 4;
+  flex: 4;
 }
 .modal-dialog button.close {
-    margin-top: -24px !important;
+  margin-top: -24px !important;
 }
 
 /* [smooth-scrollbar-react] */
 .scrollbar-track {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 .scrollbar-thumb-y {
-    background: rgba(0, 0, 0, 0.5) !important;
-    width: 6px !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  width: 6px !important;
 }
 
 @media screen and (max-width: 767px) {
-    .table-responsive {
-        border: none;
-    }
+  .table-responsive {
+    border: none;
+  }
 }
 
 /* [material-ui] */
 .MuiCalendarPicker-root {
-    background-color: #1c1f22;
+  background-color: #1c1f22;
 }
 .MuiCalendarPicker-root .PrivatePickersFadeTransitionGroup-root > div,
 .MuiCalendarPicker-root .MuiCalendarPicker-viewTransitionContainer span,
-.MuiCalendarPicker-root .PrivatePickersSlideTransition-root button.MuiPickersDay-dayWithMargin {
-    font-size: 1.4993rem;
+.MuiCalendarPicker-root
+  .PrivatePickersSlideTransition-root
+  button.MuiPickersDay-dayWithMargin {
+  font-size: 1.4993rem;
 }
-.MuiCalendarPicker-root .PrivatePickersSlideTransition-root button.MuiPickersDay-dayWithMargin:hover {
-    background-color: #85bb5c;
-    color: #fff;
+.MuiCalendarPicker-root
+  .PrivatePickersSlideTransition-root
+  button.MuiPickersDay-dayWithMargin:hover {
+  background-color: #85bb5c;
+  color: #fff;
 }
-.MuiCalendarPicker-root .PrivatePickersSlideTransition-root button.MuiPickersDay-dayWithMargin.Mui-selected {
-    background-color: #558b2f;
+.MuiCalendarPicker-root
+  .PrivatePickersSlideTransition-root
+  button.MuiPickersDay-dayWithMargin.Mui-selected {
+  background-color: #558b2f;
 }
-.MuiCalendarPicker-root .PrivatePickersSlideTransition-root button.MuiPickersDay-dayWithMargin.Mui-selected:hover {
-    background-color: #255d00;
+.MuiCalendarPicker-root
+  .PrivatePickersSlideTransition-root
+  button.MuiPickersDay-dayWithMargin.Mui-selected:hover {
+  background-color: #255d00;
 }
 .MuiPickersDay-today:not(.Mui-selected) {
-    border: 1px solid #85bb5c !important;
-    background-color: #85bb5c;
-    color: #fff;
+  border: 1px solid #85bb5c !important;
+  background-color: #85bb5c;
+  color: #fff;
 }

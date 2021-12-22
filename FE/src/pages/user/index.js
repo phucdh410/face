@@ -1,10 +1,13 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback, useState,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Link, withRouter } from "react-router-dom";
-import {
-  Box, TableCell, TableRow, Typography,
-} from "@mui/material";
+import { Box, TableCell, TableRow, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
@@ -25,6 +28,9 @@ import "./styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../config";
 
+import Loading from "../../components/Loading/Loading";
+import { LoadingContext } from "../../context/LoadingContext";
+
 const DataTable = lazy(() => import("../../components/DataTable"));
 
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -33,6 +39,7 @@ const FilterPanel = lazy(() => import("./components/FilterPanel"));
 let source = axios.CancelToken.source();
 
 const User = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
@@ -46,12 +53,10 @@ const User = React.memo(() => {
       searchInput: state.user.search_input,
       errors: state.errors,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
-  const {
-    users, pages, page, success, errors,
-  } = state;
+  const { users, pages, page, success, errors } = state;
 
   const [searchInput, setSearcInput] = useState(state.searchInput);
 
@@ -66,7 +71,7 @@ const User = React.memo(() => {
 
       dispatch(getUsers(params, source.token, history));
     },
-    [dispatch, history, searchInput],
+    [dispatch, history, searchInput]
   );
 
   useEffect(() => {
@@ -91,19 +96,20 @@ const User = React.memo(() => {
     (e) => {
       prevHandler(e, pages, page, handleRequest);
     },
-    [handleRequest, page, pages],
+    [handleRequest, page, pages]
   );
 
   const next = useCallback(
     (e) => {
       nextHandler(e, pages, page, handleRequest);
     },
-    [handleRequest, page, pages],
+    [handleRequest, page, pages]
   );
 
   const onDelete = useCallback(
     async (id) => {
-      window.start_preloader();
+      // window.start_preloader();
+      setLoading(true);
       source = axios.CancelToken.source();
       await dispatch(removeUser(id, source.token, history));
 
@@ -115,12 +121,14 @@ const User = React.memo(() => {
           "success",
           () => {
             handleRequest(0, 0);
-            window.stop_preloader();
-          },
+            // window.stop_preloader();
+            setLoading(false);
+          }
         );
-      } else window.stop_preloader();
+        // } else window.stop_preloader();
+      } else setLoading(false);
     },
-    [dispatch, handleRequest, history, success],
+    [dispatch, handleRequest, history, success]
   );
 
   const onChange = useCallback(
@@ -130,7 +138,7 @@ const User = React.memo(() => {
       setSearcInput(e.target.value);
       handleRequest(0, 0);
     },
-    [handleRequest],
+    [handleRequest]
   );
 
   const renderData = useCallback(() => {

@@ -1,6 +1,4 @@
-import React, {
-  Suspense, lazy, useCallback, useEffect,
-} from "react";
+import React, { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -12,14 +10,14 @@ import { getSocket } from "./socket";
 import { setHttpConfig } from "./utils";
 import getStore from "./store";
 
-import {
-  FACE_R_APP_SOCKET_DOMAIN,
-  FACE_R_APP_TOKEN,
-} from "./config";
+import { FACE_R_APP_SOCKET_DOMAIN, FACE_R_APP_TOKEN } from "./config";
 
 import theme from "./theme";
 
 import("./styles/global.css");
+import Loading from "./components/Loading/Loading";
+import _ from "lodash";
+import { LoadingContext } from "./context/LoadingContext";
 
 // Authorize user before redirect to Route
 const AuthorizeRoute = lazy(() => import("./components/AuthorizeRoute"));
@@ -35,16 +33,17 @@ const { store, persistor } = getStore();
 const socket = getSocket(FACE_R_APP_SOCKET_DOMAIN, store);
 
 const App = () => {
-  const initial = useCallback(
-    async () => {
-      // Get token from localStorage
-      const token = await localStorage.getItem(FACE_R_APP_TOKEN);
+  const [loading, setLoading] = useState(false);
 
-      // Set auth token header auth
-      setHttpConfig(token, store, window);
-    },
-    [],
-  );
+  const value = { loading, setLoading };
+
+  const initial = useCallback(async () => {
+    // Get token from localStorage
+    const token = await localStorage.getItem(FACE_R_APP_TOKEN);
+
+    // Set auth token header auth
+    setHttpConfig(token, store, window);
+  }, []);
 
   useEffect(() => {
     initial();
@@ -54,29 +53,36 @@ const App = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <Router>
-            <Suspense fallback={<SuspenseLoading />}>
-              <Switch>
-                <LockRoute exact path="/login" component={Login} />
+    <LoadingContext.Provider value={value}>
+      {/* <Loading /> */}
+      {loading ? (
+        <Loading />
+      ) : (
+        <ThemeProvider theme={theme}>
+          <Provider store={store}>
+            <PersistGate persistor={persistor}>
+              <Router>
+                <Suspense fallback={<SuspenseLoading />}>
+                  <Switch>
+                    <LockRoute exact path="/login" component={Login} />
 
-                <PrivateRoute path="/" component={Layout} socket={socket} />
+                    <PrivateRoute path="/" component={Layout} socket={socket} />
 
-                <AuthorizeRoute
-                  exact
-                  path="/change-password"
-                  component={ChangePassword}
-                />
+                    <AuthorizeRoute
+                      exact
+                      path="/change-password"
+                      component={ChangePassword}
+                    />
 
-                <Route component={Page404} />
-              </Switch>
-            </Suspense>
-          </Router>
-        </PersistGate>
-      </Provider>
-    </ThemeProvider>
+                    <Route component={Page404} />
+                  </Switch>
+                </Suspense>
+              </Router>
+            </PersistGate>
+          </Provider>
+        </ThemeProvider>
+      )}
+    </LoadingContext.Provider>
   );
 };
 

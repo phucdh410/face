@@ -1,10 +1,13 @@
 import React, {
-  Suspense, lazy, useEffect, useCallback, useState,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
 } from "react";
 import { Link, withRouter } from "react-router-dom";
-import {
-  Box, TableCell, TableRow, Typography,
-} from "@mui/material";
+import { Box, TableCell, TableRow, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
@@ -24,7 +27,8 @@ import "./styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../config";
 import SuspenseLoading from "../../components/SuspenseLoading";
-
+import Loading from "../../components/Loading/Loading";
+import { LoadingContext } from "../../context/LoadingContext";
 const DataTable = lazy(() => import("../../components/DataTable"));
 
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -33,6 +37,7 @@ const FilterPanel = lazy(() => import("./components/FilterPanel"));
 let source = axios.CancelToken.source();
 
 const Employee = React.memo(() => {
+  const { loading, setLoading } = useContext(LoadingContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
@@ -48,12 +53,10 @@ const Employee = React.memo(() => {
       errors: state.errors,
       stores: state.root.stores,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
-  const {
-    employees, pages, page, success, errors, stores,
-  } = state;
+  const { employees, pages, page, success, errors, stores } = state;
 
   const [searchStore, setSearchStoreId] = useState(state.searchStore);
   const [searchInput, setSearcInput] = useState(state.searchInput);
@@ -70,7 +73,7 @@ const Employee = React.memo(() => {
 
       dispatch(getEmployees(params, source.token, history));
     },
-    [dispatch, history, searchStore, searchInput],
+    [dispatch, history, searchStore, searchInput]
   );
 
   useEffect(() => {
@@ -95,19 +98,20 @@ const Employee = React.memo(() => {
     (e) => {
       prevHandler(e, pages, page, handleRequest);
     },
-    [handleRequest, page, pages],
+    [handleRequest, page, pages]
   );
 
   const next = useCallback(
     (e) => {
       nextHandler(e, pages, page, handleRequest);
     },
-    [handleRequest, page, pages],
+    [handleRequest, page, pages]
   );
 
   const onDelete = useCallback(
     async (id) => {
-      window.start_preloader();
+      // window.start_preloader();
+      setLoading(true);
       source = axios.CancelToken.source();
       await dispatch(removeEmployee(id, source.token, history));
 
@@ -119,12 +123,14 @@ const Employee = React.memo(() => {
           "success",
           () => {
             handleRequest(0, 0);
-            window.stop_preloader();
-          },
+            // window.stop_preloader();
+            setLoading(false);
+          }
         );
-      } else window.stop_preloader();
+        // } else window.stop_preloader();
+      } else setLoading(false);
     },
-    [dispatch, handleRequest, history, success],
+    [dispatch, handleRequest, history, success]
   );
 
   const onChange = useCallback(
@@ -144,7 +150,7 @@ const Employee = React.memo(() => {
 
       handleRequest(0, 0);
     },
-    [handleRequest],
+    [handleRequest]
   );
 
   const renderData = useCallback(() => {
@@ -220,7 +226,8 @@ const Employee = React.memo(() => {
           </TableCell>
         </TableRow>
       ));
-    } return null;
+    }
+    return null;
   }, [employees, onDelete]);
 
   return (
