@@ -23,6 +23,7 @@ import { FACE_R_APP_TITLE } from "../../../config";
 
 import Loading from "../../../components/Loading/Loading";
 import { LoadingContext } from "../../../context/LoadingContext";
+import { PopupContext } from "../../../context/PopupContext";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -33,6 +34,7 @@ let source = axios.CancelToken.source();
 
 const CreateCamera = React.memo(() => {
   const { loading, setLoading } = useContext(LoadingContext);
+  const { showPopup, setShowPopup, info, setInfo } = useContext(PopupContext);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -78,19 +80,33 @@ const CreateCamera = React.memo(() => {
       await dispatch(addCamera(params, source.token, history));
 
       if (success) {
-        window.toast(
-          FACE_R_APP_TITLE,
-          "Lưu thông tin camera thành công!",
-          2000,
-          "success",
-          () => {
-            history.goBack();
-            // window.stop_preloader();
-            setLoading(false);
-          }
-        );
-        // } else window.stop_preloader();
-      } else setLoading(false);
+        setShowPopup(true);
+        setInfo({
+          title: FACE_R_APP_TITLE,
+          message: "Lưu thông tin camera thành công!",
+          type: "success",
+        });
+
+        setTimeout(() => {
+          setLoading(false);
+          setShowPopup(false);
+          history.goBack();
+        }, 2000);
+
+        // window.toast(
+        //   FACE_R_APP_TITLE,
+        //   "Lưu thông tin camera thành công!",
+        //   2000,
+        //   "success",
+        //   () => {
+        //     history.goBack();
+        //     setLoading(false);
+        //   }
+        // );
+      } else {
+        setLoading(false);
+        setShowPopup(false);
+      }
     },
     [dispatch, history, success]
   );

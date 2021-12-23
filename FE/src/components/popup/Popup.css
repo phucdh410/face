@@ -1,0 +1,29 @@
+.popup {
+  justify-content: center;
+  text-align: center;
+  width: 380px;
+  border-radius: 20px;
+  height: 85px;
+  padding: 10px;
+  font-size: 20;
+  color: white;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999999;
+}
+.popup.info {
+  background-color: #2196f3;
+}
+
+.popup.success {
+  background-color: #4caf50;
+}
+
+.popup.warning {
+  background-color: #ff9800;
+}
+
+.popup.errors {
+  background-color: #f44336;
+}

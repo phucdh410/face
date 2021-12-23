@@ -31,6 +31,7 @@ import "./styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../config";
 import { LoadingContext } from "../../context/LoadingContext";
+import { PopupContext } from "../../context/PopupContext";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 
@@ -41,6 +42,8 @@ let source = axios.CancelToken.source();
 
 const Camera = React.memo(() => {
   const { loading, setLoading } = useContext(LoadingContext);
+  const { showPopup, setShowPopup, info, setInfo } = useContext(PopupContext);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
@@ -77,7 +80,6 @@ const Camera = React.memo(() => {
         pages,
         page,
       };
-
       dispatch(getCameras(params, source.token, history));
     },
     [dispatch, history, searchStore]
@@ -97,7 +99,16 @@ const Camera = React.memo(() => {
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
-        window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
+        setShowPopup(true);
+        setInfo({
+          title: FACE_R_APP_TITLE,
+          message: errors.message,
+          type: "errors",
+        });
+        setTimeout(() => {
+          setShowPopup(false);
+        }, 2000);
+        // window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
   }, [errors]);
@@ -119,24 +130,38 @@ const Camera = React.memo(() => {
   const onDelete = useCallback(
     async (id) => {
       setLoading(true);
-      // window.start_preloader();
       source = axios.CancelToken.source();
       dispatch(removeCamera(id, source.token, history));
 
       if (success) {
-        window.toast(
-          FACE_R_APP_TITLE,
-          "Xoá thông tin camera thành công!",
-          2000,
-          "success",
-          async () => {
-            handleRequest(0, true);
-            // window.stop_preloader();
-            setLoading(false);
-          }
-        );
-        // } else window.stop_preloader();
-      } else setLoading(false);
+        setShowPopup(true);
+
+        setInfo({
+          title: FACE_R_APP_TITLE,
+          message: "Xoá thông tin camera thành công!",
+          type: "success",
+        });
+
+        setTimeout(() => {
+          handleRequest(0, true);
+          setLoading(false);
+          setShowPopup(false);
+        }, 2000);
+
+        // window.toast(
+        //   FACE_R_APP_TITLE,
+        //   "Xoá thông tin camera thành công!",
+        //   2000,
+        //   "success",
+        //   async () => {
+        //     handleRequest(0, true);
+        //     setLoading(false); //Tắt loading
+        //   }
+        // );
+      } else {
+        setLoading(false);
+        setShowPopup(false);
+      }
     },
     [dispatch, handleRequest, history, success]
   );
