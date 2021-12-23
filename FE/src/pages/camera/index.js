@@ -42,7 +42,7 @@ let source = axios.CancelToken.source();
 
 const Camera = React.memo(() => {
   const { loading, setLoading } = useContext(LoadingContext);
-  const { showPopup, setShowPopup, info, setInfo } = useContext(PopupContext);
+  const { setShowPopup, setInfo } = useContext(PopupContext);
 
   const dispatch = useDispatch();
   const history = useHistory();
