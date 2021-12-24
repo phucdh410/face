@@ -19,7 +19,8 @@ import _ from "lodash";
 import Loading from "./components/Loading/Loading";
 import { LoadingContext } from "./context/LoadingContext";
 import Popup from "./components/popup/Popup";
-import { PopupContext } from "./context/PopupContext";
+import CreatePopupProvider from "./components/popup/CreatePopupProvider";
+import CreateLoadingProvider from "./components/Loading/CreateLoadingProvider";
 
 // Authorize user before redirect to Route
 const AuthorizeRoute = lazy(() => import("./components/AuthorizeRoute"));
@@ -35,15 +36,6 @@ const { store, persistor } = getStore();
 const socket = getSocket(FACE_R_APP_SOCKET_DOMAIN, store);
 
 const App = () => {
-  // LoadingContext init
-  const [loading, setLoading] = useState(false);
-  const value = { loading, setLoading };
-
-  // PopupContext init
-  const [showPopup, setShowPopup] = useState(false);
-  const [info, setInfo] = useState({});
-  const popupValue = { showPopup, setShowPopup, info, setInfo };
-
   const initial = useCallback(async () => {
     // Get token from localStorage
     const token = await localStorage.getItem(FACE_R_APP_TOKEN);
@@ -66,46 +58,33 @@ const App = () => {
     //   type={"success"}
     // />
 
-    <PopupContext.Provider value={popupValue}>
-      <LoadingContext.Provider value={value}>
-        {showPopup && (
-          <Popup title={info.title} type={info.type} message={info.message} />
-        )}
-        {loading && showPopup ? (
-          <>
-            <Loading />
-          </>
-        ) : (
-          <ThemeProvider theme={theme}>
-            <Provider store={store}>
-              <PersistGate persistor={persistor}>
-                <Router>
-                  <Suspense fallback={<SuspenseLoading />}>
-                    <Switch>
-                      <LockRoute exact path="/login" component={Login} />
+    <CreatePopupProvider>
+      <CreateLoadingProvider>
+        <ThemeProvider theme={theme}>
+          <Provider store={store}>
+            <PersistGate persistor={persistor}>
+              <Router>
+                <Suspense fallback={<SuspenseLoading />}>
+                  <Switch>
+                    <LockRoute exact path="/login" component={Login} />
 
-                      <PrivateRoute
-                        path="/"
-                        component={Layout}
-                        socket={socket}
-                      />
+                    <PrivateRoute path="/" component={Layout} socket={socket} />
 
-                      <AuthorizeRoute
-                        exact
-                        path="/change-password"
-                        component={ChangePassword}
-                      />
+                    <AuthorizeRoute
+                      exact
+                      path="/change-password"
+                      component={ChangePassword}
+                    />
 
-                      <Route component={Page404} />
-                    </Switch>
-                  </Suspense>
-                </Router>
-              </PersistGate>
-            </Provider>
-          </ThemeProvider>
-        )}
-      </LoadingContext.Provider>
-    </PopupContext.Provider>
+                    <Route component={Page404} />
+                  </Switch>
+                </Suspense>
+              </Router>
+            </PersistGate>
+          </Provider>
+        </ThemeProvider>
+      </CreateLoadingProvider>
+    </CreatePopupProvider>
   );
 };
 
