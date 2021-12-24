@@ -41,7 +41,7 @@ const FilterPanel = lazy(() => import("./components/FilterPanel"));
 let source = axios.CancelToken.source();
 
 const Camera = React.memo(() => {
-  const { loading, setLoading } = useContext(LoadingContext);
+  const { setLoading } = useContext(LoadingContext);
   const { setShowPopup, setInfo } = useContext(PopupContext);
 
   const dispatch = useDispatch();
@@ -85,6 +85,20 @@ const Camera = React.memo(() => {
     [dispatch, history, searchStore]
   );
 
+  const handlePopup = (title, message, expired, type) => {
+    setInfo({
+      title,
+      message,
+      expired,
+      type,
+    });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, expired);
+    clearTimeout();
+  };
+
   useEffect(() => {
     // app.min.js
     window.loading();
@@ -99,15 +113,8 @@ const Camera = React.memo(() => {
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
-        setShowPopup(true);
-        setInfo({
-          title: FACE_R_APP_TITLE,
-          message: errors.message,
-          type: "errors",
-        });
-        setTimeout(() => {
-          setShowPopup(false);
-        }, 2000);
+        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
+
         // window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
@@ -134,30 +141,18 @@ const Camera = React.memo(() => {
       dispatch(removeCamera(id, source.token, history));
 
       if (success) {
-        setShowPopup(true);
-
-        setInfo({
-          title: FACE_R_APP_TITLE,
-          message: "Xoá thông tin camera thành công!",
-          type: "success",
-        });
+        handlePopup(
+          FACE_R_APP_TITLE,
+          "Xoá thông tin camera thành công!",
+          2000,
+          "success"
+        );
 
         setTimeout(() => {
           handleRequest(0, true);
           setLoading(false);
-          setShowPopup(false);
         }, 2000);
-
-        // window.toast(
-        //   FACE_R_APP_TITLE,
-        //   "Xoá thông tin camera thành công!",
-        //   2000,
-        //   "success",
-        //   async () => {
-        //     handleRequest(0, true);
-        //     setLoading(false); //Tắt loading
-        //   }
-        // );
+        clearTimeout();
       } else {
         setLoading(false);
         setShowPopup(false);

@@ -20,7 +20,6 @@ import SuspenseLoading from "../../../components/SuspenseLoading";
 import "../styles/custom.css";
 
 import { FACE_R_APP_TITLE } from "../../../config";
-import Loading from "../../../components/Loading/Loading";
 import { LoadingContext } from "../../../context/LoadingContext";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
@@ -31,7 +30,8 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const EditCamera = React.memo(() => {
-  const { loading, setLoading } = useContext(LoadingContext);
+  const { setLoading } = useContext(LoadingContext);
+  const { setShowPopup, setInfo } = useContext(PopupContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -55,7 +55,19 @@ const EditCamera = React.memo(() => {
     },
     [dispatch, history]
   );
-
+  const handlePopup = (title, message, expired, type) => {
+    setInfo({
+      title,
+      message,
+      expired,
+      type,
+    });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, expired);
+    clearTimeout();
+  };
   useEffect(() => {
     // app.min.js
     window.loading();
@@ -65,7 +77,7 @@ const EditCamera = React.memo(() => {
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
-        window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
+        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
 
@@ -112,11 +124,9 @@ const EditCamera = React.memo(() => {
             "success",
             () => {
               history.goBack();
-              // window.stop_preloader();
               setLoading(false);
             }
           );
-          // } else window.stop_preloader();
         } else setLoading(false);
       }
     },

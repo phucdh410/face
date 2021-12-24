@@ -1,25 +1,21 @@
+import("./styles/global.css");
 import React, { Suspense, lazy, useCallback, useEffect, useState } from "react";
-import { ThemeProvider } from "@mui/material/styles";
-import { Provider } from "react-redux";
+import _ from "lodash";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { PersistGate } from "redux-persist/lib/integration/react";
-
-import SuspenseLoading from "./components/SuspenseLoading";
-
-import { getSocket } from "./socket";
-import { setHttpConfig } from "./utils";
-import getStore from "./store";
+import { Provider } from "react-redux";
+import { ThemeProvider } from "@mui/material/styles";
 
 import { FACE_R_APP_SOCKET_DOMAIN, FACE_R_APP_TOKEN } from "./config";
-
-import theme from "./theme";
-
-import("./styles/global.css");
-import _ from "lodash";
-import Loading from "./components/Loading/Loading";
+import { getSocket } from "./socket";
 import { LoadingContext } from "./context/LoadingContext";
+import { setHttpConfig } from "./utils";
+import CreateLoadingProvider from "./components/Loading/CreateLoadingProvider";
+import CreatePopupProvider from "./components/popup/CreatePopupProvider";
+import getStore from "./store";
 import Popup from "./components/popup/Popup";
-import { PopupContext } from "./context/PopupContext";
+import SuspenseLoading from "./components/SuspenseLoading";
+import theme from "./theme";
 
 // Authorize user before redirect to Route
 const AuthorizeRoute = lazy(() => import("./components/AuthorizeRoute"));
@@ -35,15 +31,6 @@ const { store, persistor } = getStore();
 const socket = getSocket(FACE_R_APP_SOCKET_DOMAIN, store);
 
 const App = () => {
-  // LoadingContext init
-  const [loading, setLoading] = useState(false);
-  const value = { loading, setLoading };
-
-  // PopupContext init
-  const [showPopup, setShowPopup] = useState(false);
-  const [info, setInfo] = useState({});
-  const popupValue = { showPopup, setShowPopup, info, setInfo };
-
   const initial = useCallback(async () => {
     // Get token from localStorage
     const token = await localStorage.getItem(FACE_R_APP_TOKEN);
@@ -58,54 +45,46 @@ const App = () => {
       if (socket) socket.disconnect();
     };
   }, []);
-
+  // const handle = () => {
+  //   window.toast("Face R System", "Xóa thiết bị thành công", 40000000, "error");
+  // };
   return (
-    // <Popup
-    //   title={"Face R System"}
-    //   message={"Xóa thiết bị thành công"}
-    //   type={"success"}
-    // />
+    // <>
+    //   <Popup
+    //     title={"Face R System"}
+    //     message={"Xóa thiết bị thành công"}
+    //     type={"success"}
+    //   />
+    //   <button onClick={handle}>Click</button>
+    // </>
 
-    <PopupContext.Provider value={popupValue}>
-      <LoadingContext.Provider value={value}>
-        {showPopup && (
-          <Popup title={info.title} type={info.type} message={info.message} />
-        )}
-        {loading && showPopup ? (
-          <>
-            <Loading />
-          </>
-        ) : (
-          <ThemeProvider theme={theme}>
-            <Provider store={store}>
-              <PersistGate persistor={persistor}>
-                <Router>
-                  <Suspense fallback={<SuspenseLoading />}>
-                    <Switch>
-                      <LockRoute exact path="/login" component={Login} />
+    <CreatePopupProvider>
+      <CreateLoadingProvider>
+        <ThemeProvider theme={theme}>
+          <Provider store={store}>
+            <PersistGate persistor={persistor}>
+              <Router>
+                <Suspense fallback={<SuspenseLoading />}>
+                  <Switch>
+                    <LockRoute exact path="/login" component={Login} />
 
-                      <PrivateRoute
-                        path="/"
-                        component={Layout}
-                        socket={socket}
-                      />
+                    <PrivateRoute path="/" component={Layout} socket={socket} />
 
-                      <AuthorizeRoute
-                        exact
-                        path="/change-password"
-                        component={ChangePassword}
-                      />
+                    <AuthorizeRoute
+                      exact
+                      path="/change-password"
+                      component={ChangePassword}
+                    />
 
-                      <Route component={Page404} />
-                    </Switch>
-                  </Suspense>
-                </Router>
-              </PersistGate>
-            </Provider>
-          </ThemeProvider>
-        )}
-      </LoadingContext.Provider>
-    </PopupContext.Provider>
+                    <Route component={Page404} />
+                  </Switch>
+                </Suspense>
+              </Router>
+            </PersistGate>
+          </Provider>
+        </ThemeProvider>
+      </CreateLoadingProvider>
+    </CreatePopupProvider>
   );
 };
 
