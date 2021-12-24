@@ -32,6 +32,7 @@ import "./styles/custom.css";
 import { FACE_R_APP_TITLE } from "../../config";
 import { LoadingContext } from "../../context/LoadingContext";
 import { PopupContext } from "../../context/PopupContext";
+import usePopup from "../../utils/handlePopup";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 
@@ -41,7 +42,7 @@ const FilterPanel = lazy(() => import("./components/FilterPanel"));
 let source = axios.CancelToken.source();
 
 const Camera = React.memo(() => {
-  const { loading, setLoading } = useContext(LoadingContext);
+  const { setLoading } = useContext(LoadingContext);
   const { setShowPopup, setInfo } = useContext(PopupContext);
 
   const dispatch = useDispatch();
@@ -99,12 +100,12 @@ const Camera = React.memo(() => {
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
-        setShowPopup(true);
         setInfo({
           title: FACE_R_APP_TITLE,
           message: errors.message,
-          type: "errors",
+          type: "error",
         });
+        setShowPopup(true);
         setTimeout(() => {
           setShowPopup(false);
         }, 2000);
@@ -134,18 +135,24 @@ const Camera = React.memo(() => {
       dispatch(removeCamera(id, source.token, history));
 
       if (success) {
-        setShowPopup(true);
-
         setInfo({
           title: FACE_R_APP_TITLE,
           message: "Xoá thông tin camera thành công!",
           type: "success",
         });
+        setShowPopup(true);
+
+        // usePopup(
+        //   FACE_R_APP_TITLE,
+        //   "Xoá thông tin camera thành công!",
+        //   2000,
+        //   "success"
+        // );
 
         setTimeout(() => {
           handleRequest(0, true);
-          setLoading(false);
           setShowPopup(false);
+          setLoading(false);
         }, 2000);
 
         // window.toast(

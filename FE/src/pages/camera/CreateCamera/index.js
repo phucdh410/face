@@ -33,7 +33,7 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const CreateCamera = React.memo(() => {
-  const { loading, setLoading } = useContext(LoadingContext);
+  const { setLoading } = useContext(LoadingContext);
   const { setShowPopup, setInfo } = useContext(PopupContext);
 
   const dispatch = useDispatch();
@@ -80,12 +80,12 @@ const CreateCamera = React.memo(() => {
       await dispatch(addCamera(params, source.token, history));
 
       if (success) {
-        setShowPopup(true);
         setInfo({
           title: FACE_R_APP_TITLE,
           message: "Lưu thông tin camera thành công!",
           type: "success",
         });
+        setShowPopup(true);
 
         setTimeout(() => {
           setLoading(false);
