@@ -84,6 +84,7 @@ const Camera = React.memo(() => {
     },
     [dispatch, history, searchStore]
   );
+
   const handlePopup = (title, message, expired, type) => {
     setInfo({
       title,
@@ -97,6 +98,7 @@ const Camera = React.memo(() => {
     }, expired);
     clearTimeout();
   };
+
   useEffect(() => {
     // app.min.js
     window.loading();

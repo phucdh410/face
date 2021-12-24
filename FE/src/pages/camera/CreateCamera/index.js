@@ -66,7 +66,19 @@ const CreateCamera = React.memo(() => {
     },
     [history]
   );
-
+  const handlePopup = (title, message, expired, type) => {
+    setInfo({
+      title,
+      message,
+      expired,
+      type,
+    });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, expired);
+    clearTimeout();
+  };
   const onSubmit = useCallback(
     async (values) => {
       source = axios.CancelToken.source();
@@ -75,38 +87,22 @@ const CreateCamera = React.memo(() => {
         store_id: parseInt(values.store_id),
       };
 
-      // window.start_preloader();
       setLoading(true);
       await dispatch(addCamera(params, source.token, history));
 
       if (success) {
-        setInfo({
-          title: FACE_R_APP_TITLE,
-          message: "Lưu thông tin camera thành công!",
-          type: "success",
-        });
-        setShowPopup(true);
+        handlePopup(
+          FACE_R_APP_TITLE,
+          "Lưu thông tin camera thành công!",
+          2000,
+          "success"
+        );
 
         setTimeout(() => {
           setLoading(false);
-          setShowPopup(false);
           history.goBack();
         }, 2000);
-
-        // window.toast(
-        //   FACE_R_APP_TITLE,
-        //   "Lưu thông tin camera thành công!",
-        //   2000,
-        //   "success",
-        //   () => {
-        //     history.goBack();
-        //     setLoading(false);
-        //   }
-        // );
-      } else {
-        setLoading(false);
-        setShowPopup(false);
-      }
+      } else setLoading(false);
     },
     [dispatch, history, success]
   );
