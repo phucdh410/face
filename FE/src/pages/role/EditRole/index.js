@@ -1,3 +1,4 @@
+import "../styles/custom.css";
 import React, {
   Suspense,
   lazy,
@@ -6,23 +7,18 @@ import React, {
   useState,
   useContext,
 } from "react";
+
 import { Box } from "@mui/material";
-import { withRouter } from "react-router-dom";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory, useParams } from "react-router";
-
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 
-import { getRole, editRole } from "../../../actions/role.actions";
-
-import SuspenseLoading from "../../../components/SuspenseLoading";
-
-import "../styles/custom.css";
-
 import { FACE_R_APP_TITLE } from "../../../config";
-
-import Loading from "../../../components/Loading/Loading";
+import { getRole, editRole } from "../../../actions/role.actions";
 import { LoadingContext } from "../../../context/LoadingContext";
+import SuspenseLoading from "../../../components/SuspenseLoading";
+import { PopupContext } from "../../../context/PopupContext";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -32,7 +28,8 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const EditRole = React.memo(() => {
-  const { loading, setLoading } = useContext(LoadingContext);
+  const { setLoading } = useContext(LoadingContext);
+  const { setShowPopup, setInfo } = useContext(PopupContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -61,11 +58,23 @@ const EditRole = React.memo(() => {
     window.loading();
     handleRequest(id);
   }, [handleRequest, id]);
-
+  const handlePopup = (title, message, expired, type) => {
+    setInfo({
+      title,
+      message,
+      expired,
+      type,
+    });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, expired);
+    clearTimeout();
+  };
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
-        window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
+        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
 
@@ -99,7 +108,7 @@ const EditRole = React.memo(() => {
       await dispatch(editRole(params, history));
 
       if (success) {
-        window.toast(
+        handlePopup(
           FACE_R_APP_TITLE,
           "Lưu thông tin vai trò người dùng thành công!",
           2000,

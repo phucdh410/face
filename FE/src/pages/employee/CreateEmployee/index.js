@@ -1,3 +1,4 @@
+import "../styles/custom.css";
 import React, {
   Suspense,
   lazy,
@@ -6,26 +7,20 @@ import React, {
   useState,
   useContext,
 } from "react";
+
 import { Box } from "@mui/material";
-import { withRouter } from "react-router-dom";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
-
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 
 import { addEmployee } from "../../../actions/employee.actions";
-import removeFace from "../../../actions/face.actions";
-
 import { convertStringToDate, isValidDate } from "../../../utils";
-
-import SuspenseLoading from "../../../components/SuspenseLoading";
-
-import "../styles/custom.css";
-
 import { FACE_R_APP_TITLE } from "../../../config";
-
-import Loading from "../../../components/Loading/Loading";
 import { LoadingContext } from "../../../context/LoadingContext";
+import removeFace from "../../../actions/face.actions";
+import SuspenseLoading from "../../../components/SuspenseLoading";
+import { PopupContext } from "../../../context/PopupContext";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -35,7 +30,8 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const CreateEmployee = React.memo(() => {
-  const { loading, setLoading } = useContext(LoadingContext);
+  const { setLoading } = useContext(LoadingContext);
+  const { setShowPopup, setInfo } = useContext(PopupContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const state = useSelector(
@@ -59,11 +55,23 @@ const CreateEmployee = React.memo(() => {
 
   const [photos, setPhotos] = useState([]);
   const [faces, setFaces] = useState([]);
-
+  const handlePopup = (title, message, expired, type) => {
+    setInfo({
+      title,
+      message,
+      expired,
+      type,
+    });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, expired);
+    clearTimeout();
+  };
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
-        window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
+        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
 
@@ -129,7 +137,7 @@ const CreateEmployee = React.memo(() => {
             message += "\r\n Upload files xảy ra sự cố, vui lòng thử lại.";
           }
 
-          window.toast(FACE_R_APP_TITLE, message, 2000, "success", () => {
+          handlePopup(FACE_R_APP_TITLE, message, 2000, "success", () => {
             history.replace("/employees");
             // window.stop_preloader();
             setLoading(false);
@@ -137,7 +145,7 @@ const CreateEmployee = React.memo(() => {
           // } else window.stop_preloader();
         } else setLoading(false);
       } else {
-        window.toast(
+        handlePopup(
           FACE_R_APP_TITLE,
           "Định dạng ngày sinh không hợp lệ!",
           4000,

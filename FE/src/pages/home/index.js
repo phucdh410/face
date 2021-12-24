@@ -1,21 +1,17 @@
-import React, {
-  Suspense, lazy, useEffect, useCallback, useState,
-} from "react";
-import { Box } from "@mui/material";
-import { withRouter } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
+import "./styles/custom.css";
+import React, { Suspense, lazy, useEffect, useCallback, useState } from "react";
 
+import { Box } from "@mui/material";
+import { useSelector, shallowEqual } from "react-redux";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 
 import { convertMilisecondsToDate, convertDateToString } from "../../utils";
-import { renderSelect } from "../../utils/handler";
-
-import SuspenseLoading from "../../components/SuspenseLoading";
-
-import "./styles/custom.css";
-
 import { FACE_R_APP_TITLE } from "../../config";
+import { renderSelect } from "../../utils/handler";
+import SuspenseLoading from "../../components/SuspenseLoading";
+import { PopupContext } from "../../context/PopupContext";
 
 const Breadcrum = lazy(() => import("./components/Breadcrum"));
 const FilterPanel = lazy(() => import("./components/FilterPanel"));
@@ -27,6 +23,7 @@ const Live = lazy(() => import("./components/Live"));
 const source = axios.CancelToken.source();
 
 const Home = React.memo(({ socket }) => {
+  const { setShowPopup, setInfo } = useContext(PopupContext);
   const state = useSelector(
     (state) => ({
       searchStore: state.attendance.search_store_id,
@@ -35,16 +32,16 @@ const Home = React.memo(({ socket }) => {
       errors: state.errors,
       stores: state.root.stores,
     }),
-    shallowEqual,
+    shallowEqual
   );
 
   const { errors, currentCamera, stores } = state;
   const [searchStore, setSearchStore] = useState(state.searchStore || 0);
   const [searchFrom, setSearchFrom] = useState(
-    moment(convertMilisecondsToDate(state.searchFrom)).format("DD-MM-YYYY"),
+    moment(convertMilisecondsToDate(state.searchFrom)).format("DD-MM-YYYY")
   );
   const [searchTo, setSearchTo] = useState(
-    moment(convertMilisecondsToDate(state.searchTo)).format("DD-MM-YYYY"),
+    moment(convertMilisecondsToDate(state.searchTo)).format("DD-MM-YYYY")
   );
 
   const onChange = useCallback((name, value) => {
@@ -63,11 +60,23 @@ const Home = React.memo(({ socket }) => {
   const onSelect = useCallback((e) => {
     setSearchStore(e.target.value);
   }, []);
-
+  const handlePopup = (title, message, expired, type) => {
+    setInfo({
+      title,
+      message,
+      expired,
+      type,
+    });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, expired);
+    clearTimeout();
+  };
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
-        window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
+        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
 

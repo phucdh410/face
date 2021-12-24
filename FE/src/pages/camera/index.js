@@ -1,3 +1,4 @@
+import "./styles/custom.css";
 import React, {
   Suspense,
   lazy,
@@ -6,17 +7,13 @@ import React, {
   useState,
   useContext,
 } from "react";
-import { Link, withRouter } from "react-router-dom";
+
 import { Box, TableCell, TableRow, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Link, withRouter } from "react-router-dom";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
-
+import { useTheme } from "@mui/material/styles";
 import axios from "axios";
-
-import { getCameras, removeCamera } from "../../actions/camera.actions";
-import { getStoresList } from "../../actions/store.actions";
-import { getRolesList } from "../../actions/role.actions";
 
 import {
   prevHandler,
@@ -24,14 +21,13 @@ import {
   renderSelect,
   renderPagination,
 } from "../../utils/handler";
-
-import SuspenseLoading from "../../components/SuspenseLoading";
-
-import "./styles/custom.css";
-
 import { FACE_R_APP_TITLE } from "../../config";
+import { getCameras, removeCamera } from "../../actions/camera.actions";
+import { getRolesList } from "../../actions/role.actions";
+import { getStoresList } from "../../actions/store.actions";
 import { LoadingContext } from "../../context/LoadingContext";
 import { PopupContext } from "../../context/PopupContext";
+import SuspenseLoading from "../../components/SuspenseLoading";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 
@@ -114,8 +110,6 @@ const Camera = React.memo(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
         handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-
-        // window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
   }, [errors]);
@@ -153,10 +147,7 @@ const Camera = React.memo(() => {
           setLoading(false);
         }, 2000);
         clearTimeout();
-      } else {
-        setLoading(false);
-        setShowPopup(false);
-      }
+      } else setLoading(false);
     },
     [dispatch, handleRequest, history, success]
   );

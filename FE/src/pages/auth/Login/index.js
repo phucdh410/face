@@ -6,19 +6,17 @@ import React, {
   useState,
   useContext,
 } from "react";
+
 import { Box } from "@mui/system";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory, useLocation } from "react-router";
-
 import axios from "axios";
 
-import { loginUser } from "../../../actions/auth.actions";
-
-import SuspenseLoading from "../../../components/SuspenseLoading";
-
 import { FACE_R_APP_TITLE } from "../../../config";
-import Loading from "../../../components/Loading/Loading";
 import { LoadingContext } from "../../../context/LoadingContext";
+import { loginUser } from "../../../actions/auth.actions";
+import { PopupContext } from "../../../context/PopupContext";
+import SuspenseLoading from "../../../components/SuspenseLoading";
 
 const Header = lazy(() => import("./components/Header"));
 const Body = lazy(() => import("./components/Body"));
@@ -27,7 +25,8 @@ const Footer = lazy(() => import("./components/Footer"));
 const source = axios.CancelToken.source();
 
 const Login = React.memo(() => {
-  const { loading, setLoading } = useContext(LoadingContext);
+  const { setLoading } = useContext(LoadingContext);
+  const { setShowPopup, setInfo } = useContext(PopupContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -39,6 +38,19 @@ const Login = React.memo(() => {
     shallowEqual
   );
 
+  const handlePopup = (title, message, expired, type) => {
+    setInfo({
+      title,
+      message,
+      expired,
+      type,
+    });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, expired);
+    clearTimeout();
+  };
   useEffect(() => {
     if (isAuth) {
       const { from } = location.state || { from: { pathname: "/" } };
@@ -49,7 +61,7 @@ const Login = React.memo(() => {
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
-        window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
+        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
 

@@ -1,3 +1,4 @@
+import "./styles/custom.css";
 import React, {
   Suspense,
   lazy,
@@ -6,29 +7,24 @@ import React, {
   useState,
   useContext,
 } from "react";
-import { Link, withRouter } from "react-router-dom";
+
 import { Box, TableCell, TableRow, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Link, withRouter } from "react-router-dom";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
-
+import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 
-import { getRoles, removeRole } from "../../actions/role.actions";
-
 import {
-  prevHandler,
   nextHandler,
+  prevHandler,
   renderPagination,
 } from "../../utils/handler";
-
-import SuspenseLoading from "../../components/SuspenseLoading";
-
-import "./styles/custom.css";
-
 import { FACE_R_APP_TITLE } from "../../config";
-import Loading from "../../components/Loading/Loading";
+import { getRoles, removeRole } from "../../actions/role.actions";
 import { LoadingContext } from "../../context/LoadingContext";
+import SuspenseLoading from "../../components/SuspenseLoading";
+import { PopupContext } from "../../context/PopupContext";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 
@@ -38,7 +34,8 @@ const FilterPanel = lazy(() => import("./components/FilterPanel"));
 let source = axios.CancelToken.source();
 
 const Role = React.memo(() => {
-  const { loading, setLoading } = useContext(LoadingContext);
+  const { setLoading } = useContext(LoadingContext);
+  const { setShowPopup, setInfo } = useContext(PopupContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
@@ -82,11 +79,23 @@ const Role = React.memo(() => {
       if (source) source.cancel();
     };
   }, [handleRequest, page, pages]);
-
+  const handlePopup = (title, message, expired, type) => {
+    setInfo({
+      title,
+      message,
+      expired,
+      type,
+    });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, expired);
+    clearTimeout();
+  };
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
-        window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
+        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
   }, [errors]);
@@ -113,7 +122,7 @@ const Role = React.memo(() => {
       await dispatch(removeRole(id, source.token, history));
 
       if (success) {
-        window.toast(
+        handlePopup(
           FACE_R_APP_TITLE,
           "Xoá thông tin vai trò thành công!",
           2000,

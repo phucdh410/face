@@ -1,3 +1,4 @@
+import "../styles/custom.css";
 import React, {
   Suspense,
   lazy,
@@ -6,24 +7,18 @@ import React, {
   useState,
   useContext,
 } from "react";
+
 import { Box } from "@mui/material";
-import { withRouter } from "react-router-dom";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
-
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 
 import { addCamera } from "../../../actions/camera.actions";
-
-import SuspenseLoading from "../../../components/SuspenseLoading";
-
-import "../styles/custom.css";
-
 import { FACE_R_APP_TITLE } from "../../../config";
-
-import Loading from "../../../components/Loading/Loading";
 import { LoadingContext } from "../../../context/LoadingContext";
 import { PopupContext } from "../../../context/PopupContext";
+import SuspenseLoading from "../../../components/SuspenseLoading";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -47,10 +42,23 @@ const CreateCamera = React.memo(() => {
     shallowEqual
   );
 
+  const handlePopup = (title, message, expired, type) => {
+    setInfo({
+      title,
+      message,
+      expired,
+      type,
+    });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, expired);
+    clearTimeout();
+  };
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
-        window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
+        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
 
@@ -66,19 +74,6 @@ const CreateCamera = React.memo(() => {
     },
     [history]
   );
-  const handlePopup = (title, message, expired, type) => {
-    setInfo({
-      title,
-      message,
-      expired,
-      type,
-    });
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-    }, expired);
-    clearTimeout();
-  };
   const onSubmit = useCallback(
     async (values) => {
       source = axios.CancelToken.source();

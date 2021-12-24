@@ -1,3 +1,4 @@
+import "../styles/custom.css";
 import React, {
   Suspense,
   lazy,
@@ -6,21 +7,18 @@ import React, {
   useState,
   useContext,
 } from "react";
+
 import { Box } from "@mui/material";
-import { withRouter } from "react-router-dom";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory, useParams } from "react-router";
-
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 
-import { getCamera, editCamera } from "../../../actions/camera.actions";
-
-import SuspenseLoading from "../../../components/SuspenseLoading";
-
-import "../styles/custom.css";
-
 import { FACE_R_APP_TITLE } from "../../../config";
+import { getCamera, editCamera } from "../../../actions/camera.actions";
 import { LoadingContext } from "../../../context/LoadingContext";
+import { PopupContext } from "../../../context/PopupContext";
+import SuspenseLoading from "../../../components/SuspenseLoading";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -117,7 +115,7 @@ const EditCamera = React.memo(() => {
         await dispatch(editCamera(params, history));
 
         if (success) {
-          window.toast(
+          handlePopup(
             FACE_R_APP_TITLE,
             "Lưu thông tin camera thành công!",
             2000,

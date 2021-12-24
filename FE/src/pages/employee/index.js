@@ -1,3 +1,4 @@
+import "./styles/custom.css";
 import React, {
   Suspense,
   lazy,
@@ -6,29 +7,25 @@ import React, {
   useState,
   useContext,
 } from "react";
-import { Link, withRouter } from "react-router-dom";
+
 import { Box, TableCell, TableRow, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Link, withRouter } from "react-router-dom";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
-
+import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 
-import { getEmployees, removeEmployee } from "../../actions/employee.actions";
-
 import {
-  prevHandler,
   nextHandler,
+  prevHandler,
   renderPagination,
   renderSelect,
 } from "../../utils/handler";
-
-import "./styles/custom.css";
-
 import { FACE_R_APP_TITLE } from "../../config";
-import SuspenseLoading from "../../components/SuspenseLoading";
-import Loading from "../../components/Loading/Loading";
+import { getEmployees, removeEmployee } from "../../actions/employee.actions";
 import { LoadingContext } from "../../context/LoadingContext";
+import SuspenseLoading from "../../components/SuspenseLoading";
+import { PopupContext } from "../../context/PopupContext";
 const DataTable = lazy(() => import("../../components/DataTable"));
 
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -37,7 +34,8 @@ const FilterPanel = lazy(() => import("./components/FilterPanel"));
 let source = axios.CancelToken.source();
 
 const Employee = React.memo(() => {
-  const { loading, setLoading } = useContext(LoadingContext);
+  const { setLoading } = useContext(LoadingContext);
+  const { setShowPopup, setInfo } = useContext(PopupContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
@@ -85,11 +83,23 @@ const Employee = React.memo(() => {
       if (source) source.cancel();
     };
   }, [handleRequest, page, pages]);
-
+  const handlePopup = (title, message, expired, type) => {
+    setInfo({
+      title,
+      message,
+      expired,
+      type,
+    });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, expired);
+    clearTimeout();
+  };
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
-        window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
+        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
   }, [errors]);
@@ -116,7 +126,7 @@ const Employee = React.memo(() => {
       await dispatch(removeEmployee(id, source.token, history));
 
       if (success) {
-        window.toast(
+        handlePopup(
           FACE_R_APP_TITLE,
           "Xoá thông tin nhân viên thành công!",
           2000,
