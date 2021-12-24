@@ -32,7 +32,6 @@ import "./styles/custom.css";
 import { FACE_R_APP_TITLE } from "../../config";
 import { LoadingContext } from "../../context/LoadingContext";
 import { PopupContext } from "../../context/PopupContext";
-import usePopup from "../../utils/handlePopup";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 
@@ -85,7 +84,19 @@ const Camera = React.memo(() => {
     },
     [dispatch, history, searchStore]
   );
-
+  const handlePopup = (title, message, expired, type) => {
+    setInfo({
+      title,
+      message,
+      expired,
+      type,
+    });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, expired);
+    clearTimeout();
+  };
   useEffect(() => {
     // app.min.js
     window.loading();
@@ -100,15 +111,8 @@ const Camera = React.memo(() => {
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
-        setInfo({
-          title: FACE_R_APP_TITLE,
-          message: errors.message,
-          type: "error",
-        });
-        setShowPopup(true);
-        setTimeout(() => {
-          setShowPopup(false);
-        }, 2000);
+        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
+
         // window.toast(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
@@ -135,36 +139,18 @@ const Camera = React.memo(() => {
       dispatch(removeCamera(id, source.token, history));
 
       if (success) {
-        setInfo({
-          title: FACE_R_APP_TITLE,
-          message: "Xoá thông tin camera thành công!",
-          type: "success",
-        });
-        setShowPopup(true);
-
-        // usePopup(
-        //   FACE_R_APP_TITLE,
-        //   "Xoá thông tin camera thành công!",
-        //   2000,
-        //   "success"
-        // );
+        handlePopup(
+          FACE_R_APP_TITLE,
+          "Xoá thông tin camera thành công!",
+          2000,
+          "success"
+        );
 
         setTimeout(() => {
           handleRequest(0, true);
-          setShowPopup(false);
           setLoading(false);
         }, 2000);
-
-        // window.toast(
-        //   FACE_R_APP_TITLE,
-        //   "Xoá thông tin camera thành công!",
-        //   2000,
-        //   "success",
-        //   async () => {
-        //     handleRequest(0, true);
-        //     setLoading(false); //Tắt loading
-        //   }
-        // );
+        clearTimeout();
       } else {
         setLoading(false);
         setShowPopup(false);

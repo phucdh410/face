@@ -10,7 +10,12 @@ const CreatePopupProvider = (props) => {
   return (
     <PopupContext.Provider value={popupValue}>
       {showPopup && (
-        <Popup title={info.title} type={info.type} message={info.message} />
+        <Popup
+          title={info.title}
+          message={info.message}
+          expired={info.expired}
+          type={info.type}
+        />
       )}
       {props.children}
     </PopupContext.Provider>

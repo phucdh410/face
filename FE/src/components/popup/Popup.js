@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import FlashMessage from "react-flash-message";
 import "./Popup.css";
 import checkIcon from "./assets/check.svg";
@@ -6,8 +6,10 @@ import errorIcon from "./assets/error.svg";
 import infoIcon from "./assets/info.svg";
 import warningIcon from "./assets/warning.svg";
 import { useTheme } from "@mui/material/styles";
+import { PopupContext } from "../../context/PopupContext";
 
 const Popup = (props) => {
+  const { setShowPopup } = useContext(PopupContext);
   const theme = useTheme();
 
   const getStyle = (type) => {
@@ -24,13 +26,18 @@ const Popup = (props) => {
         break;
     }
   };
+
+  const handleClose = () => {
+    setShowPopup(false);
+  };
+
   return (
-    <FlashMessage duration={2000}>
+    <FlashMessage duration={props.expired}>
       <div
         className={`popup-${props.type}`}
         style={{ backgroundColor: getStyle(props.type)[1] }}
       >
-        <button type="button" className="close-button">
+        <button type="button" className="close-button" onClick={handleClose}>
           ×
         </button>
         <div className="popup-container">
