@@ -1,5 +1,12 @@
 import "./styles/custom.css";
-import React, { Suspense, lazy, useEffect, useCallback, useState } from "react";
+import React, {
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
+} from "react";
 
 import { Box } from "@mui/material";
 import { useSelector, shallowEqual } from "react-redux";
