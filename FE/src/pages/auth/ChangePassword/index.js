@@ -43,7 +43,7 @@ const ChangePassword = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired);
+    }, expired + 3000);
     clearTimeout();
   };
   useEffect(() => {

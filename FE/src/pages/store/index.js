@@ -88,7 +88,7 @@ const Store = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired);
+    }, expired + 3000);
     clearTimeout();
   };
   useEffect(() => {
@@ -125,13 +125,12 @@ const Store = React.memo(() => {
           FACE_R_APP_TITLE,
           "Xoá thông tin cửa hàng thành công!",
           2000,
-          "success",
-          () => {
-            handleRequest(0, true);
-            // window.stop_preloader();
-            setLoading(false);
-          }
+          "success"
         );
+        setTimeout(() => {
+          handleRequest(0, true);
+          setLoading(false);
+        }, 2000);
         // } else window.stop_preloader();
       } else setLoading(false);
     },

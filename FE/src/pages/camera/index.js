@@ -38,7 +38,7 @@ let source = axios.CancelToken.source();
 
 const Camera = React.memo(() => {
   const { setLoading } = useContext(LoadingContext);
-  const { setShowPopup, setInfo } = useContext(PopupContext);
+  const { showPopup, setShowPopup, setInfo } = useContext(PopupContext);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -91,7 +91,7 @@ const Camera = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired);
+    }, expired + 3000);
     clearTimeout();
   };
 
@@ -141,7 +141,6 @@ const Camera = React.memo(() => {
           2000,
           "success"
         );
-
         setTimeout(() => {
           handleRequest(0, true);
           setLoading(false);

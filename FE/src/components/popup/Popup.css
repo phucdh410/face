@@ -13,6 +13,23 @@
   top: 12px;
   right: 12px;
   z-index: 9999999;
+  animation: slide-in 1s, fade-out 2s 3s infinite alternate;
+}
+@keyframes slide-in {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: skew(0deg);
+  }
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 .popup-container {
   display: flex;

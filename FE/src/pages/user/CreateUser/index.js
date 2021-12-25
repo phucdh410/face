@@ -50,7 +50,7 @@ const CreateUser = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired);
+    }, expired + 3000);
     clearTimeout();
   };
   useEffect(() => {
@@ -90,13 +90,12 @@ const CreateUser = React.memo(() => {
           FACE_R_APP_TITLE,
           "Lưu thông tin người dùng thành công!",
           2000,
-          "success",
-          () => {
-            history.goBack();
-            // window.stop_preloader();
-            setLoading(false);
-          }
+          "success"
         );
+        setTimeout(() => {
+          history.goBack();
+          setLoading(false);
+        }, 2000);
         // } else window.stop_preloader();
       } else setLoading(false);
     },

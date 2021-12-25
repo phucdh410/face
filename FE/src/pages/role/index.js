@@ -89,7 +89,7 @@ const Role = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired);
+    }, expired + 3000);
     clearTimeout();
   };
   useEffect(() => {
@@ -126,13 +126,12 @@ const Role = React.memo(() => {
           FACE_R_APP_TITLE,
           "Xoá thông tin vai trò thành công!",
           2000,
-          "success",
-          async () => {
-            await handleRequest(0, 0);
-            // window.stop_preloader();
-            setLoading(false);
-          }
+          "success"
         );
+        setTimeout(() => {
+          handleRequest(0, 0);
+          setLoading(false);
+        }, 2000);
         // } else window.stop_preloader();
       } else setLoading(false);
     },
