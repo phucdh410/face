@@ -38,7 +38,7 @@ let source = axios.CancelToken.source();
 
 const Camera = React.memo(() => {
   const { setLoading } = useContext(LoadingContext);
-  const { showPopup, setShowPopup, setInfo } = useContext(PopupContext);
+  const { setShowPopup, setInfo } = useContext(PopupContext);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -70,6 +70,8 @@ const Camera = React.memo(() => {
 
   const handleRequest = useCallback(
     (pages, page) => {
+      console.log("Lấy danh sách camera");
+
       source = axios.CancelToken.source();
       const params = {
         store_id: searchStore,

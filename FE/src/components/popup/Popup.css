@@ -6,7 +6,7 @@
   text-align: center;
   width: 300px;
   height: 75px;
-  padding: 10px;
+  padding: 10px 0;
   font-size: 20;
   color: white;
   position: fixed;
@@ -54,7 +54,6 @@
   width: 11%;
 }
 button.close-button {
-  padding: 0;
   cursor: pointer;
   background: 0 0;
   border: 0;

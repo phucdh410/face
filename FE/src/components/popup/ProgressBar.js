@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect } from "react";
 
 const ProgressBar = () => {
   const styles = {
-    height: "4px",
+    height: "6px",
     marginTop: "10px",
     opacity: 0.4,
     backgroundColor: "#000",
