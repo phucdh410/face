@@ -52,8 +52,11 @@ const CreateCamera = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-      func();
+      if (typeof func === "function") {
+        func();
+      }
     }, expired);
+    clearTimeout();
   };
   useEffect(() => {
     if (Object.keys(errors).length > 0) {

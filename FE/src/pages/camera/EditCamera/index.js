@@ -53,7 +53,7 @@ const EditCamera = React.memo(() => {
     },
     [dispatch, history]
   );
-  const handlePopup = (title, message, expired, type) => {
+  const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
       message,
@@ -63,7 +63,10 @@ const EditCamera = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired + 3000);
+      if (typeof func === "function") {
+        func();
+      }
+    }, expired);
     clearTimeout();
   };
   useEffect(() => {

@@ -81,7 +81,7 @@ const Camera = React.memo(() => {
     [dispatch, history, searchStore]
   );
 
-  const handlePopup = (title, message, expired, type) => {
+  const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
       message,
@@ -91,7 +91,10 @@ const Camera = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired + 3000);
+      if (typeof func === "function") {
+        func();
+      }
+    }, expired);
     clearTimeout();
   };
 
@@ -139,13 +142,17 @@ const Camera = React.memo(() => {
           FACE_R_APP_TITLE,
           "Xoá thông tin camera thành công!",
           2000,
-          "success"
+          "success",
+          async () => {
+            handleRequest(0, true);
+            setLoading(false);
+          }
         );
-        setTimeout(() => {
-          handleRequest(0, true);
-          setLoading(false);
-        }, 2000);
-        clearTimeout();
+        // setTimeout(() => {
+        //   handleRequest(0, true);
+        //   setLoading(false);
+        // }, 2000);
+        // clearTimeout();
       } else setLoading(false);
     },
     [dispatch, handleRequest, history, success]
