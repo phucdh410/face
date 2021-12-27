@@ -10,8 +10,8 @@
 }
 
 .loader {
-  height: 50vh;
-  margin: 5vh auto;
+  height: 40vh;
+  margin: 15vh auto;
   position: relative;
   align-self: center;
 }
