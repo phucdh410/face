@@ -85,7 +85,7 @@ const EditEmployee = React.memo(() => {
     window.loading();
     handleRequest(id);
   }, [handleRequest, id]);
-  const handlePopup = (title, message, expired, type) => {
+  const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
       message,
@@ -95,7 +95,10 @@ const EditEmployee = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired + 3000);
+      if (typeof func === "function") {
+        func();
+      }
+    }, expired * 1.5);
     clearTimeout();
   };
   useEffect(() => {
@@ -186,12 +189,12 @@ const EditEmployee = React.memo(() => {
             FACE_R_APP_TITLE,
             "Lưu thông tin nhân viên thành công!",
             2000,
-            "success"
+            "success",
+            () => {
+              history.replace("/employees");
+              setLoading(false);
+            }
           );
-          setTimeout(() => {
-            history.replace("/employees");
-            setLoading(false);
-          }, 2000);
           // } else window.stop_preloader();
         } else setLoading(false);
       } else {
@@ -199,11 +202,11 @@ const EditEmployee = React.memo(() => {
           FACE_R_APP_TITLE,
           "Định dạng ngày sinh không hợp lệ!",
           4000,
-          "warning"
+          "warning",
+          () => {
+            setLoading(false);
+          }
         );
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
       }
     },
     [dispatch, employeeResponseStatus, history, id, photos]

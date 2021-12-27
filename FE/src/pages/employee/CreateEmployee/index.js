@@ -55,7 +55,7 @@ const CreateEmployee = React.memo(() => {
 
   const [photos, setPhotos] = useState([]);
   const [faces, setFaces] = useState([]);
-  const handlePopup = (title, message, expired, type) => {
+  const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
       message,
@@ -65,7 +65,10 @@ const CreateEmployee = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired + 3000);
+      if (typeof func === "function") {
+        func();
+      }
+    }, expired * 1.5);
     clearTimeout();
   };
   useEffect(() => {
@@ -137,12 +140,10 @@ const CreateEmployee = React.memo(() => {
             message += "\r\n Upload files xảy ra sự cố, vui lòng thử lại.";
           }
 
-          handlePopup(FACE_R_APP_TITLE, message, 2000, "success");
-
-          setTimeout(() => {
+          handlePopup(FACE_R_APP_TITLE, message, 2000, "success", () => {
             history.replace("/employees");
             setLoading(false);
-          }, 2000);
+          });
           // } else window.stop_preloader();
         } else setLoading(false);
       } else {
@@ -150,11 +151,11 @@ const CreateEmployee = React.memo(() => {
           FACE_R_APP_TITLE,
           "Định dạng ngày sinh không hợp lệ!",
           4000,
-          "warning"
+          "warning",
+          () => {
+            setLoading(false);
+          }
         );
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
       }
     },
     [dispatch, employeeResponseStatus, history, photos, uploadErrors]

@@ -77,7 +77,7 @@ const Home = React.memo(({ socket }) => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired + 3000);
+    }, expired * 1.5);
     clearTimeout();
   };
   useEffect(() => {

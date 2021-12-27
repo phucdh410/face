@@ -39,7 +39,7 @@ const CreateStore = React.memo(() => {
     }),
     shallowEqual
   );
-  const handlePopup = (title, message, expired, type) => {
+  const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
       message,
@@ -49,7 +49,10 @@ const CreateStore = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired + 3000);
+      if (typeof func === "function") {
+        func();
+      }
+    }, expired * 1.5);
     clearTimeout();
   };
   useEffect(() => {
@@ -91,12 +94,12 @@ const CreateStore = React.memo(() => {
           FACE_R_APP_TITLE,
           "Lưu thông tin cửa hàng thành công!",
           2000,
-          "success"
+          "success",
+          () => {
+            history.goBack();
+            setLoading(false);
+          }
         );
-        setTimeout(() => {
-          history.goBack();
-          setLoading(false);
-        }, 2000);
         // } else window.stop_preloader();
       } else setLoading(false);
     },

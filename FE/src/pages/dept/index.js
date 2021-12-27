@@ -76,7 +76,7 @@ const Dept = React.memo(() => {
       if (source) source.cancel();
     };
   }, [handleRequest, page, pages]);
-  const handlePopup = (title, message, expired, type) => {
+  const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
       message,
@@ -86,7 +86,10 @@ const Dept = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired + 3000);
+      if (typeof func === "function") {
+        func();
+      }
+    }, expired * 1.5);
     clearTimeout();
   };
   useEffect(() => {
@@ -123,12 +126,13 @@ const Dept = React.memo(() => {
           FACE_R_APP_TITLE,
           "Xoá thông tin phòng ban thành công!",
           2000,
-          "success"
+          "success",
+          () => {
+            handleRequest(0, true);
+            setLoading(false);
+          }
         );
-        setTimeout(() => {
-          handleRequest(0, true);
-          setLoading(false);
-        }, 2000);
+
         // } else window.stop_preloader();
       } else setLoading(false);
     },
