@@ -306,6 +306,7 @@ const Camera = React.memo(() => {
       {/* Data container */}
       {/* <Loading /> */}
       <Box className="row">
+        {console.log("Dữ liệu camera render lại")}
         <Box className="col-sm-12 p-0">
           <Box className="panel panel-bd lobidrag">
             <Box className="panel-heading">

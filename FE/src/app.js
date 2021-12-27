@@ -59,6 +59,8 @@ const App = () => {
     // </>
 
     <CreatePopupProvider>
+      {console.log("Trang web render lại")}
+
       <CreateLoadingProvider>
         <ThemeProvider theme={theme}>
           <Provider store={store}>
