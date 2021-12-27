@@ -42,7 +42,7 @@ const CreateCamera = React.memo(() => {
     shallowEqual
   );
 
-  const handlePopup = (title, message, expired, type) => {
+  const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
       message,
@@ -52,8 +52,8 @@ const CreateCamera = React.memo(() => {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, expired + 3000);
-    clearTimeout();
+      func();
+    }, expired);
   };
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
@@ -90,13 +90,12 @@ const CreateCamera = React.memo(() => {
           FACE_R_APP_TITLE,
           "Lưu thông tin camera thành công!",
           2000,
-          "success"
+          "success",
+          () => {
+            history.goBack();
+            setLoading(false);
+          }
         );
-
-        setTimeout(() => {
-          setLoading(false);
-          history.goBack();
-        }, 2000);
       } else setLoading(false);
     },
     [dispatch, history, success]
