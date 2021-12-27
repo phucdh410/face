@@ -13,7 +13,7 @@
   top: 12px;
   right: 12px;
   z-index: 9999999;
-  animation: slide-in 1s, fade-out 2s 3s infinite alternate;
+  animation: slide-in 0.8s, fade-out 1.5s 2s alternate forwards;
 }
 @keyframes slide-in {
   0% {

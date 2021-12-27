@@ -41,7 +41,6 @@ const CreateCamera = React.memo(() => {
     }),
     shallowEqual
   );
-
   const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
@@ -55,7 +54,7 @@ const CreateCamera = React.memo(() => {
       if (typeof func === "function") {
         func();
       }
-    }, expired);
+    }, expired * 1.5);
     clearTimeout();
   };
   useEffect(() => {

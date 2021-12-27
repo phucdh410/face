@@ -38,7 +38,7 @@ const Popup = (props) => {
   };
 
   return (
-    <FlashMessage duration={props.expired + 3000}>
+    <FlashMessage duration={props.expired * 2}>
       <div className={`popup-${type}`} style={{ backgroundColor: styles[1] }}>
         <button type="button" className="close-button" onClick={handleClose}>
           ×
@@ -50,7 +50,7 @@ const Popup = (props) => {
             <strong>{props.message}</strong>
           </div>
         </div>
-        <ProgressBar color={type} />
+        <ProgressBar />
       </div>
     </FlashMessage>
   );

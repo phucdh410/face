@@ -94,7 +94,7 @@ const Camera = React.memo(() => {
       if (typeof func === "function") {
         func();
       }
-    }, expired);
+    }, expired * 1.5);
     clearTimeout();
   };
 
@@ -148,11 +148,6 @@ const Camera = React.memo(() => {
             setLoading(false);
           }
         );
-        // setTimeout(() => {
-        //   handleRequest(0, true);
-        //   setLoading(false);
-        // }, 2000);
-        // clearTimeout();
       } else setLoading(false);
     },
     [dispatch, handleRequest, history, success]
