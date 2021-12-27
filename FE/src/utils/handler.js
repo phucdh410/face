@@ -3,16 +3,15 @@ import { MenuItem, Typography } from "@mui/material";
 import classnames from "classnames";
 import memoizeOne from "memoize-one";
 
-export const renderSelect = memoizeOne((data, theme) => data.map((item, key) => (
-  <MenuItem key={key} value={item.id}>
-    <Typography
-      variant="h5"
-      color={theme.palette.text.primary}
-    >
-      {item.name}
-    </Typography>
-  </MenuItem>
-)));
+export const renderSelect = memoizeOne((data, theme) =>
+  data.map((item, key) => (
+    <MenuItem key={key} value={item.id}>
+      <Typography variant="h5" color={theme.palette.text.primary}>
+        {item.name}
+      </Typography>
+    </MenuItem>
+  ))
+);
 
 const renderPage = memoizeOne((pages, page, handler) => {
   const items = [];
@@ -34,7 +33,7 @@ const renderPage = memoizeOne((pages, page, handler) => {
         >
           {i + 1}
         </a>
-      </li>,
+      </li>
     );
   }
 
@@ -55,9 +54,7 @@ export const renderPagination = memoizeOne(
           role="status"
           aria-live="polite"
         >
-          Trang số:
-          {" "}
-          {page + 1}
+          Trang số: {page + 1}
         </div>
       </div>
 
@@ -99,7 +96,7 @@ export const renderPagination = memoizeOne(
         </li>
       </ul>
     </div>
-  ),
+  )
 );
 
 export const handleError = (err, dispatch, type) => {

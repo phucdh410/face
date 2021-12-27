@@ -70,8 +70,6 @@ const Camera = React.memo(() => {
 
   const handleRequest = useCallback(
     (pages, page) => {
-      console.log("Lấy danh sách camera");
-
       source = axios.CancelToken.source();
       const params = {
         store_id: searchStore,

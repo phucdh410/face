@@ -19,64 +19,68 @@ import {
 import { FACE_R_APP_API_ENDPOINT } from "../config";
 
 // Get list of camera by store
-export const getCamerasByStore = (params, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/cameras/${params.store_id}`, { cancelToken },
-    );
+export const getCamerasByStore =
+  (params, cancelToken, history) => async (dispatch) => {
+    try {
+      const res = await axios.get(
+        `${FACE_R_APP_API_ENDPOINT}/cameras/${params.store_id}`,
+        { cancelToken }
+      );
 
-    const { payload } = res.data;
+      const { payload } = res.data;
 
-    dispatch({
-      type: GET_LIST_OF_CAMERAS_IN_STORE,
-      payload,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
+      dispatch({
+        type: GET_LIST_OF_CAMERAS_IN_STORE,
+        payload,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
       }
+    } finally {
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      });
     }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
+  };
 
 // Get list of camera
-export const getCameras = (params, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/cameras/${params.page}/${params.pages}/${params.store_id}`,
-      { cancelToken },
-    );
+export const getCameras =
+  (params, cancelToken, history) => async (dispatch) => {
+    try {
+      const res = await axios.get(
+        `${FACE_R_APP_API_ENDPOINT}/cameras/${params.page}/${params.pages}/${params.store_id}`,
+        { cancelToken }
+      );
 
-    const { payload, pages, page } = res.data;
+      const { payload, pages, page } = res.data;
 
-    dispatch({
-      type: GET_CAMERAS,
-      payload,
-      pages,
-      page,
-      store_id: params.store_id,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
+      dispatch({
+        type: GET_CAMERAS,
+        payload,
+        pages,
+        page,
+        store_id: params.store_id,
+      });
+    } catch (err) {
+      console.log("Catch lỗi ở action getCameras >>> ", err);
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
       }
+    } finally {
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      });
     }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
+  };
 
 // Get single camera
 export const getCamera = (id, cancelToken, history) => async (dispatch) => {
@@ -86,9 +90,9 @@ export const getCamera = (id, cancelToken, history) => async (dispatch) => {
   });
 
   try {
-    const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/cameras/${id}`, { cancelToken },
-    );
+    const res = await axios.get(`${FACE_R_APP_API_ENDPOINT}/cameras/${id}`, {
+      cancelToken,
+    });
 
     const { payload } = res.data;
 
@@ -111,69 +115,72 @@ export const getCamera = (id, cancelToken, history) => async (dispatch) => {
   }
 };
 
-export const connectToCamera = (_id, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/cameras/connect/${_id}`, { cancelToken },
-    );
+export const connectToCamera =
+  (_id, cancelToken, history) => async (dispatch) => {
+    try {
+      const res = await axios.get(
+        `${FACE_R_APP_API_ENDPOINT}/cameras/connect/${_id}`,
+        { cancelToken }
+      );
 
-    const { status } = res.data;
+      const { status } = res.data;
 
-    dispatch({
-      type: CONNECT_CAMERA,
-      payload: { _id, status },
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
+      dispatch({
+        type: CONNECT_CAMERA,
+        payload: { _id, status },
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
       }
+    } finally {
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      });
     }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
+  };
 
-export const disconnectFromCamera = (_id, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/cameras/disconnect/${_id}`, { cancelToken },
-    );
+export const disconnectFromCamera =
+  (_id, cancelToken, history) => async (dispatch) => {
+    try {
+      const res = await axios.get(
+        `${FACE_R_APP_API_ENDPOINT}/cameras/disconnect/${_id}`,
+        { cancelToken }
+      );
 
-    console.log("res: ", res);
+      console.log("res: ", res);
 
-    const { status } = res.data;
+      const { status } = res.data;
 
-    dispatch({
-      type: DISCONNECT_CAMERA,
-      payload: { _id, status },
-    });
-  } catch (err) {
-    console.log("err: ", err);
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
+      dispatch({
+        type: DISCONNECT_CAMERA,
+        payload: { _id, status },
+      });
+    } catch (err) {
+      console.log("err: ", err);
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
       }
+    } finally {
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      });
     }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
+  };
 
 export const addCamera = (params, cancelToken, history) => async (dispatch) => {
   try {
-    const res = await axios.post(
-      `${FACE_R_APP_API_ENDPOINT}/cameras`,
-      params, { cancelToken },
-    );
+    const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/cameras`, params, {
+      cancelToken,
+    });
 
     if (!res.data.status) {
       dispatch({
@@ -201,45 +208,46 @@ export const addCamera = (params, cancelToken, history) => async (dispatch) => {
   }
 };
 
-export const editCamera = (params, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.put(
-      `${FACE_R_APP_API_ENDPOINT}/cameras/${params.id}`,
-      params, { cancelToken },
-    );
+export const editCamera =
+  (params, cancelToken, history) => async (dispatch) => {
+    try {
+      const res = await axios.put(
+        `${FACE_R_APP_API_ENDPOINT}/cameras/${params.id}`,
+        params,
+        { cancelToken }
+      );
 
-    if (!res.data.status) {
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin camera thất bại!" },
+        });
+      }
+
+      dispatch({
+        type: EDIT_CAMERA,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
       dispatch({
         type: GET_ERRORS,
-        payload: { message: "Lưu thông tin camera thất bại!" },
+        payload: {},
       });
     }
-
-    dispatch({
-      type: EDIT_CAMERA,
-      payload: res.data.status,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
-      }
-    }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
+  };
 
 export const removeCamera = (id, cancelToken, history) => async (dispatch) => {
   try {
-    const res = await axios.delete(
-      `${FACE_R_APP_API_ENDPOINT}/cameras/${id}`, { cancelToken },
-    );
-
+    const res = await axios.delete(`${FACE_R_APP_API_ENDPOINT}/cameras/${id}`, {
+      cancelToken,
+    });
     if (!res.data.status) {
       dispatch({
         type: GET_ERRORS,
