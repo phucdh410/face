@@ -94,7 +94,7 @@ const CreateCamera = React.memo(() => {
         );
 
         setTimeout(() => {
-          setLoading(false);
+          // setLoading(false);
           history.goBack();
         }, 2000);
       } else setLoading(false);

@@ -9,13 +9,16 @@ const CreateLoadingProvider = (props) => {
 
   return (
     <LoadingContext.Provider value={value}>
-      {loading ? (
+      {loading && <Loading />}
+      {props.children}
+
+      {/* {loading ? (
         <>
           <Loading />
         </>
       ) : (
         props.children
-      )}
+      )} */}
     </LoadingContext.Provider>
   );
 };
