@@ -30,7 +30,6 @@ import { PopupContext } from "../../context/PopupContext";
 import SuspenseLoading from "../../components/SuspenseLoading";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
-
 const MainHeader = lazy(() => import("./components/MainHeader"));
 const FilterPanel = lazy(() => import("./components/FilterPanel"));
 
@@ -39,7 +38,6 @@ let source = axios.CancelToken.source();
 const Camera = React.memo(() => {
   const { setLoading } = useContext(LoadingContext);
   const { setShowPopup, setInfo } = useContext(PopupContext);
-
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
@@ -58,7 +56,6 @@ const Camera = React.memo(() => {
   );
 
   const { cameras, pages, page, success, errors, stores } = state;
-
   const [searchStore, setSearchStore] = useState(state.searchStore);
 
   const getInitialProps = useCallback(() => {
@@ -103,7 +100,6 @@ const Camera = React.memo(() => {
     window.loading();
     getInitialProps();
     handleRequest(pages, page);
-
     return () => {
       if (source) source.cancel();
     };
@@ -120,17 +116,14 @@ const Camera = React.memo(() => {
   const prev = useCallback(
     (e) => {
       prevHandler(e, pages, page, handleRequest);
-      console.log("Tổng số trang >>>", pages);
-      console.log("Trang hiện tại >>>", page);
     },
+
     [handleRequest, page, pages]
   );
 
   const next = useCallback(
     (e) => {
       nextHandler(e, pages, page, handleRequest);
-      console.log("Tổng số trang >>>", pages);
-      console.log("Trang hiện tại >>>", page);
     },
     [handleRequest, page, pages]
   );
@@ -162,7 +155,7 @@ const Camera = React.memo(() => {
       e.preventDefault();
 
       setSearchStore(e.target.value);
-      handleRequest(0, 0);
+      // handleRequest(0, 0);
     },
     [handleRequest]
   );

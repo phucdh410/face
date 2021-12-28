@@ -42,7 +42,6 @@ const EditCamera = React.memo(() => {
     }),
     shallowEqual
   );
-
   const { stores, success, errors } = state;
   const [camera, setCamera] = useState(null);
 
@@ -66,7 +65,7 @@ const EditCamera = React.memo(() => {
       if (typeof func === "function") {
         func();
       }
-    }, expired);
+    }, expired * 1.5);
     clearTimeout();
   };
   useEffect(() => {
@@ -81,7 +80,6 @@ const EditCamera = React.memo(() => {
         handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
-
     return () => {
       if (source) source.cancel();
     };
@@ -101,21 +99,17 @@ const EditCamera = React.memo(() => {
   );
 
   const onSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
+    async (values) => {
       const isValid = window.isValidated("#edit-device");
-
       if (isValid) {
         source = axios.CancelToken.source();
         const params = {
-          ...camera,
-          store_id: parseInt(camera.store_id),
-          cancel_token: source.token,
+          ...values,
+          store_id: parseInt(values.store_id),
         };
-
         // window.start_preloader();
         setLoading(true);
-        await dispatch(editCamera(params, history));
+        await dispatch(editCamera(params, source.token, history));
 
         if (success) {
           handlePopup(
@@ -133,7 +127,6 @@ const EditCamera = React.memo(() => {
     },
     [camera, dispatch, history, success]
   );
-
   return (
     <Suspense fallback={<SuspenseLoading />}>
       <Breadcrum />

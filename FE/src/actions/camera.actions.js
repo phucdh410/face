@@ -56,9 +56,7 @@ export const getCameras =
         `${FACE_R_APP_API_ENDPOINT}/cameras/${params.page}/${params.pages}/${params.store_id}`,
         { cancelToken }
       );
-
       const { payload, pages, page } = res.data;
-
       dispatch({
         type: GET_CAMERAS,
         payload,
@@ -215,7 +213,6 @@ export const editCamera =
         params,
         { cancelToken }
       );
-
       if (!res.data.status) {
         dispatch({
           type: GET_ERRORS,
