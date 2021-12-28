@@ -130,7 +130,7 @@ const Store = React.memo(() => {
           2000,
           "success",
           () => {
-            handleRequest(0, true);
+            handleRequest(pages, page);
             setLoading(false);
           }
         );

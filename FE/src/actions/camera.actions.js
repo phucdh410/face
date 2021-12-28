@@ -67,7 +67,6 @@ export const getCameras =
         store_id: params.store_id,
       });
     } catch (err) {
-      console.log("Catch lỗi ở action getCameras >>> ", err);
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {
@@ -248,13 +247,13 @@ export const removeCamera = (id, cancelToken, history) => async (dispatch) => {
     const res = await axios.delete(`${FACE_R_APP_API_ENDPOINT}/cameras/${id}`, {
       cancelToken,
     });
+
     if (!res.data.status) {
       dispatch({
         type: GET_ERRORS,
         payload: { message: "Lưu thông tin camera thất bại!" },
       });
     }
-
     dispatch({
       type: DELETE_CAMERA,
       payload: res.data.status,

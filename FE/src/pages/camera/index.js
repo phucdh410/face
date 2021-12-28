@@ -120,6 +120,8 @@ const Camera = React.memo(() => {
   const prev = useCallback(
     (e) => {
       prevHandler(e, pages, page, handleRequest);
+      console.log("Tổng số trang >>>", pages);
+      console.log("Trang hiện tại >>>", page);
     },
     [handleRequest, page, pages]
   );
@@ -127,6 +129,8 @@ const Camera = React.memo(() => {
   const next = useCallback(
     (e) => {
       nextHandler(e, pages, page, handleRequest);
+      console.log("Tổng số trang >>>", pages);
+      console.log("Trang hiện tại >>>", page);
     },
     [handleRequest, page, pages]
   );
@@ -144,7 +148,7 @@ const Camera = React.memo(() => {
           2000,
           "success",
           async () => {
-            handleRequest(0, true);
+            handleRequest(pages, page);
             setLoading(false);
           }
         );
