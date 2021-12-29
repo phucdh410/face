@@ -114,13 +114,16 @@ export const addDept = (params, cancelToken, history) => async (dispatch) => {
 };
 
 export const editDept = (params, cancelToken, history) => async (dispatch) => {
+  let newSuccess = false;
   try {
     const res = await axios.put(
       `${FACE_R_APP_API_ENDPOINT}/depts/${params.id}`,
       params,
       { cancelToken }
     );
-    console.log(res);
+    newSuccess = res.data.status;
+    console.log(newSuccess);
+
     if (!res.data.status) {
       dispatch({
         type: GET_ERRORS,
@@ -144,6 +147,7 @@ export const editDept = (params, cancelToken, history) => async (dispatch) => {
       type: GET_ERRORS,
       payload: {},
     });
+    return newSuccess;
   }
 };
 

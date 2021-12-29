@@ -42,9 +42,7 @@ const EditDept = React.memo(() => {
     }),
     shallowEqual
   );
-  console.log(state);
   const { stores, success, errors } = state;
-  console.log(success);
   const [dept, setDept] = useState(null);
 
   const handleRequest = useCallback(
@@ -112,9 +110,11 @@ const EditDept = React.memo(() => {
 
       // window.start_preloader();
       setLoading(true);
-      await dispatch(editDept(params, source.token, history));
-
-      if (success) {
+      const newSuccess = await dispatch(
+        editDept(params, source.token, history)
+      );
+      console.log(newSuccess);
+      if (newSuccess) {
         handlePopup(
           FACE_R_APP_TITLE,
           "Lưu thông tin phòng ban thành công!",
