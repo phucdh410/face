@@ -37,13 +37,14 @@ const EditDept = React.memo(() => {
     (state) => ({
       stores: state.root.stores,
       dept: state.dept.dept,
-      success: state.store.success,
+      success: state.dept.success,
       errors: state.errors,
     }),
     shallowEqual
   );
-
+  console.log(state);
   const { stores, success, errors } = state;
+  console.log(success);
   const [dept, setDept] = useState(null);
 
   const handleRequest = useCallback(
@@ -59,6 +60,7 @@ const EditDept = React.memo(() => {
     window.loading();
     handleRequest(id);
   }, [handleRequest, id]);
+
   const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
@@ -75,6 +77,7 @@ const EditDept = React.memo(() => {
     }, expired * 1.5);
     clearTimeout();
   };
+
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {

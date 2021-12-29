@@ -51,13 +51,7 @@ const Layout = React.memo(({ socket }) => (
       <Route exact path="/employees/add" component={CreateEmployee} />
       <Route exact path="/employees/edit/:id" component={EditEmployee} />
 
-      <Route
-        exact
-        path="/home"
-        render={() => (
-          <Home socket={socket} />
-        )}
-      />
+      <Route exact path="/home" render={() => <Home socket={socket} />} />
 
       <Route exact path="/users" component={User} />
       <Route exact path="/users/add" component={CreateUser} />

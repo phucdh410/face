@@ -54,7 +54,6 @@ const Body = React.memo(({ camera, stores, goBack, onSubmit }) => {
     validationSchema,
     onSubmit: (values) => onSubmit(values),
   });
-
   return (
     <Box className="panel-body">
       <form onSubmit={formik.handleSubmit}>

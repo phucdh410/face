@@ -83,6 +83,7 @@ const Employee = React.memo(() => {
       if (source) source.cancel();
     };
   }, [handleRequest, page, pages]);
+
   const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
@@ -99,6 +100,7 @@ const Employee = React.memo(() => {
     }, expired * 1.5);
     clearTimeout();
   };
+
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {

@@ -107,26 +107,28 @@ const EditCamera = React.memo(() => {
           ...values,
           store_id: parseInt(values.store_id),
         };
-        // window.start_preloader();
         setLoading(true);
-        await dispatch(editCamera(params, source.token, history));
-
-        if (success) {
-          handlePopup(
-            FACE_R_APP_TITLE,
-            "Lưu thông tin camera thành công!",
-            2000,
-            "success",
-            () => {
-              history.goBack();
-              setLoading(false);
-            }
-          );
-        } else setLoading(false);
+        await dispatch(
+          editCamera(params, source.token, history, (_success) => {
+            if (_success) {
+              handlePopup(
+                FACE_R_APP_TITLE,
+                "Lưu thông tin camera thành công!",
+                2000,
+                "success",
+                () => {
+                  history.goBack();
+                  setLoading(false);
+                }
+              );
+            } else setLoading(false);
+          })
+        );
       }
     },
-    [camera, dispatch, history, success]
+    [dispatch, history, camera]
   );
+
   return (
     <Suspense fallback={<SuspenseLoading />}>
       <Breadcrum />

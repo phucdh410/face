@@ -1,18 +1,16 @@
 import React from "react";
-import PropTypes from "prop-types";
+
 import { Box } from "@mui/material";
 import { useFormik } from "formik";
-
 import * as yup from "yup";
+import PropTypes from "prop-types";
 
 import { ACTIVES } from "../../../../utils/constants";
 import { renderSelect } from "../../../../utils/handler";
-
-import Input from "../../../../components/label/Input";
-import MaskedInput from "../../../../components/label/MaskedInput";
-import List from "../../../../components/label/List";
-
 import Footer from "./Footer";
+import Input from "../../../../components/label/Input";
+import List from "../../../../components/label/List";
+import MaskedInput from "../../../../components/label/MaskedInput";
 
 const validationSchema = yup.object({
   store_id: yup
@@ -95,7 +93,9 @@ const Body = React.memo(({ stores, goBack, onSubmit }) => {
           value={formik.values.description}
           onChange={formik.handleChange}
           readonly={false}
-          error={formik.touched.description && Boolean(formik.errors.description)}
+          error={
+            formik.touched.description && Boolean(formik.errors.description)
+          }
           helperText={formik.touched.description && formik.errors.description}
           containerClass="form-group row"
           controlContainerClass="col-md-12 col-lg-10"

@@ -85,14 +85,11 @@ export const getCamera = (id, cancelToken, history) => async (dispatch) => {
     type: GET_CAMERA,
     payload: null,
   });
-
   try {
     const res = await axios.get(`${FACE_R_APP_API_ENDPOINT}/cameras/${id}`, {
       cancelToken,
     });
-
     const { payload } = res.data;
-
     dispatch({
       type: GET_CAMERA,
       payload,
@@ -206,33 +203,36 @@ export const addCamera = (params, cancelToken, history) => async (dispatch) => {
 };
 
 export const editCamera =
-  (params, cancelToken, history) => async (dispatch) => {
+  (params, cancelToken, history, cb) => async (dispatch) => {
     try {
       const res = await axios.put(
         `${FACE_R_APP_API_ENDPOINT}/cameras/${params.id}`,
         params,
         { cancelToken }
       );
+
       if (!res.data.status) {
-        dispatch({
+        await dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin camera thất bại!" },
         });
       }
-
-      dispatch({
+      await dispatch({
         type: EDIT_CAMERA,
         payload: res.data.status,
       });
+
+      if (res.data.status) cb(true);
+      else cb(false);
     } catch (err) {
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {
-          dispatch(logoutUser(history));
+          await dispatch(logoutUser(history));
         }
       }
     } finally {
-      dispatch({
+      await dispatch({
         type: GET_ERRORS,
         payload: {},
       });
