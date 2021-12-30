@@ -13,7 +13,6 @@ const Popup = (props) => {
   const theme = useTheme();
   let { type } = props;
   let styles = [];
-
   const getStyle = useCallback(
     (type) => {
       switch (type) {

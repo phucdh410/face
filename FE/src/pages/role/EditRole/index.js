@@ -112,7 +112,7 @@ const EditRole = React.memo(() => {
       if (success) {
         handlePopup(
           FACE_R_APP_TITLE,
-          "Lưu thông tin vai trò người dùng thành công!",
+          "Lưu thông tin vai trò thành công!",
           2000,
           "success",
           () => {
