@@ -111,9 +111,11 @@ const EditStore = React.memo(() => {
 
       // window.start_preloader();
       setLoading(true);
-      await dispatch(editStore(params, source.token, history));
+      const newSuccess = await dispatch(
+        editStore(params, source.token, history)
+      );
 
-      if (success) {
+      if (newSuccess) {
         handlePopup(
           FACE_R_APP_TITLE,
           "Lưu thông tin cửa hàng thành công!",
@@ -134,7 +136,7 @@ const EditStore = React.memo(() => {
     <Suspense fallback={<SuspenseLoading />}>
       <Breadcrum />
 
-      {store && (
+      {store && store === state.store && (
         <Box className="row">
           <Box className="col-md-12">
             <Box className="panel panel-bd lobidrag">

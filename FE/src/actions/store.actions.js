@@ -18,9 +18,9 @@ import { ENCODE_EMPTY_STRING, FACE_R_APP_API_ENDPOINT } from "../config";
 // Get all stores
 export const getStoresList = (cancelToken, history) => async (dispatch) => {
   try {
-    const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/stores`, { cancelToken },
-    );
+    const res = await axios.get(`${FACE_R_APP_API_ENDPOINT}/stores`, {
+      cancelToken,
+    });
 
     const { payload } = res.data;
 
@@ -47,8 +47,10 @@ export const getStoresList = (cancelToken, history) => async (dispatch) => {
 export const getStores = (params, cancelToken, history) => async (dispatch) => {
   try {
     const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/stores/${params.page}/${params.pages}/${params.input || ENCODE_EMPTY_STRING}`,
-      { cancelToken },
+      `${FACE_R_APP_API_ENDPOINT}/stores/${params.page}/${params.pages}/${
+        params.input || ENCODE_EMPTY_STRING
+      }`,
+      { cancelToken }
     );
 
     const { payload, pages, page } = res.data;
@@ -83,9 +85,9 @@ export const getStore = (id, cancelToken, history) => async (dispatch) => {
   });
 
   try {
-    const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/stores/${id}`, { cancelToken },
-    );
+    const res = await axios.get(`${FACE_R_APP_API_ENDPOINT}/stores/${id}`, {
+      cancelToken,
+    });
 
     const { payload } = res.data;
 
@@ -110,9 +112,9 @@ export const getStore = (id, cancelToken, history) => async (dispatch) => {
 
 export const addStore = (params, cancelToken, history) => async (dispatch) => {
   try {
-    const res = await axios.post(
-      `${FACE_R_APP_API_ENDPOINT}/stores`, params, { cancelToken },
-    );
+    const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/stores`, params, {
+      cancelToken,
+    });
 
     if (!res.data.status) {
       dispatch({
@@ -141,12 +143,14 @@ export const addStore = (params, cancelToken, history) => async (dispatch) => {
 };
 
 export const editStore = (params, cancelToken, history) => async (dispatch) => {
+  let newSuccess = false;
   try {
     const res = await axios.put(
       `${FACE_R_APP_API_ENDPOINT}/stores/${params.id}`,
-      params, { cancelToken },
+      params,
+      { cancelToken }
     );
-
+    newSuccess = res.data.status;
     if (!res.data.status) {
       dispatch({
         type: GET_ERRORS,
@@ -170,14 +174,15 @@ export const editStore = (params, cancelToken, history) => async (dispatch) => {
       type: GET_ERRORS,
       payload: {},
     });
+    return newSuccess;
   }
 };
 
 export const removeStore = (id, cancelToken, history) => async (dispatch) => {
   try {
-    const res = await axios.delete(
-      `${FACE_R_APP_API_ENDPOINT}/stores/${id}`, { cancelToken },
-    );
+    const res = await axios.delete(`${FACE_R_APP_API_ENDPOINT}/stores/${id}`, {
+      cancelToken,
+    });
 
     if (!res.data.status) {
       dispatch({
