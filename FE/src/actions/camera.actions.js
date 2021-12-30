@@ -202,6 +202,40 @@ export const addCamera = (params, cancelToken, history) => async (dispatch) => {
   }
 };
 
+// export const editCamera =
+//   (params, cancelToken, history) => async (dispatch) => {
+//     try {
+//       const res = await axios.put(
+//         `${FACE_R_APP_API_ENDPOINT}/cameras/${params.id}`,
+//         params,
+//         { cancelToken }
+//       );
+//       if (!res.data.status) {
+//         dispatch({
+//           type: GET_ERRORS,
+//           payload: { message: "Lưu thông tin camera thất bại!" },
+//         });
+//       }
+//       dispatch({
+//         type: EDIT_CAMERA,
+//         payload: res.data.status,
+//       });
+//     } catch (err) {
+//       const errorResponse = handleError(err, dispatch, GET_ERRORS);
+//       if (errorResponse) {
+//         if (err.response.status === 401) {
+//           dispatch(logoutUser(history));
+//         }
+//       }
+//     } finally {
+//       dispatch({
+//         type: GET_ERRORS,
+//         payload: {},
+//       });
+//     }
+//   };
+
+// SANG FIX ->
 export const editCamera =
   (params, cancelToken, history, cb) => async (dispatch) => {
     try {

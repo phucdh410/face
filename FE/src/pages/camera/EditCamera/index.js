@@ -33,6 +33,7 @@ const EditCamera = React.memo(() => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
+
   const state = useSelector(
     (state) => ({
       stores: state.root.stores,
@@ -43,15 +44,16 @@ const EditCamera = React.memo(() => {
     shallowEqual
   );
   const { stores, success, errors } = state;
-  const [camera, setCamera] = useState(null);
+  const [camera, setCamera] = useState(state.camera);
 
   const handleRequest = useCallback(
-    async (id) => {
+    (id) => {
       source = axios.CancelToken.source();
-      await dispatch(getCamera(id, source.token, history));
+      dispatch(getCamera(id, source.token, history));
     },
     [dispatch, history]
   );
+
   const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
@@ -68,6 +70,7 @@ const EditCamera = React.memo(() => {
     }, expired * 1.5);
     clearTimeout();
   };
+
   useEffect(() => {
     // app.min.js
     window.loading();
@@ -129,11 +132,12 @@ const EditCamera = React.memo(() => {
     [dispatch, history, camera]
   );
 
+  console.log("Thông tin STATE CAMERA>>>>", state.camera);
+  console.log("Thông tin CAMERA>>>>", camera);
   return (
     <Suspense fallback={<SuspenseLoading />}>
       <Breadcrum />
-
-      {camera && (
+      {camera && camera === state.camera && (
         <Box className="row">
           <Box className="col-md-12">
             <Box className="panel panel-bd lobidrag">

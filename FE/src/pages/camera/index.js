@@ -133,7 +133,6 @@ const Camera = React.memo(() => {
       setLoading(true);
       source = axios.CancelToken.source();
       dispatch(removeCamera(id, source.token, history));
-
       if (success) {
         handlePopup(
           FACE_R_APP_TITLE,

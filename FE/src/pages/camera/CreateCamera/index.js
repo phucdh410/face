@@ -40,6 +40,7 @@ const CreateCamera = React.memo(() => {
     }),
     shallowEqual
   );
+
   const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
@@ -56,13 +57,13 @@ const CreateCamera = React.memo(() => {
     }, expired * 1.5);
     clearTimeout();
   };
+
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
         handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
       }
     }
-
     return () => {
       if (source) source.cancel();
     };
@@ -75,6 +76,7 @@ const CreateCamera = React.memo(() => {
     },
     [history]
   );
+
   const onSubmit = useCallback(
     async (values) => {
       source = axios.CancelToken.source();
@@ -85,7 +87,7 @@ const CreateCamera = React.memo(() => {
 
       setLoading(true);
       await dispatch(addCamera(params, source.token, history));
-
+      console.log("Success >>>>>", success);
       if (success) {
         handlePopup(
           FACE_R_APP_TITLE,
