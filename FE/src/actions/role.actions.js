@@ -18,9 +18,9 @@ import { ENCODE_EMPTY_STRING, FACE_R_APP_API_ENDPOINT } from "../config";
 // Get all roles
 export const getRolesList = (cancelToken, history) => async (dispatch) => {
   try {
-    const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/roles`, { cancelToken },
-    );
+    const res = await axios.get(`${FACE_R_APP_API_ENDPOINT}/roles`, {
+      cancelToken,
+    });
 
     const { payload } = res.data;
 
@@ -47,8 +47,10 @@ export const getRolesList = (cancelToken, history) => async (dispatch) => {
 export const getRoles = (params, cancelToken, history) => async (dispatch) => {
   try {
     const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/roles/${params.page}/${params.pages}/${params.input || ENCODE_EMPTY_STRING}`,
-      { cancelToken },
+      `${FACE_R_APP_API_ENDPOINT}/roles/${params.page}/${params.pages}/${
+        params.input || ENCODE_EMPTY_STRING
+      }`,
+      { cancelToken }
     );
 
     const { payload, pages, page } = res.data;
@@ -83,9 +85,9 @@ export const getRole = (id, cancelToken, history) => async (dispatch) => {
   });
 
   try {
-    const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/roles/${id}`, { cancelToken },
-    );
+    const res = await axios.get(`${FACE_R_APP_API_ENDPOINT}/roles/${id}`, {
+      cancelToken,
+    });
 
     const { payload } = res.data;
 
@@ -110,9 +112,9 @@ export const getRole = (id, cancelToken, history) => async (dispatch) => {
 
 export const addRole = (params, cancelToken, history) => async (dispatch) => {
   try {
-    const res = await axios.post(
-      `${FACE_R_APP_API_ENDPOINT}/roles`, params, { cancelToken },
-    );
+    const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/roles`, params, {
+      cancelToken,
+    });
 
     if (!res.data.status) {
       dispatch({
@@ -148,7 +150,9 @@ export const editRole = (params, cancelToken, history) => async (dispatch) => {
 
   try {
     const res = await axios.put(
-      `${FACE_R_APP_API_ENDPOINT}/roles/${params.id}`, params, { cancelToken },
+      `${FACE_R_APP_API_ENDPOINT}/roles/${params.id}`,
+      params,
+      { cancelToken }
     );
 
     if (!res.data.status) {
@@ -179,10 +183,10 @@ export const editRole = (params, cancelToken, history) => async (dispatch) => {
 
 export const removeRole = (id, cancelToken, history) => async (dispatch) => {
   try {
-    const res = await axios.delete(
-      `${FACE_R_APP_API_ENDPOINT}/roles/delete/${id}`, { cancelToken },
-    );
-
+    const res = await axios.delete(`${FACE_R_APP_API_ENDPOINT}/roles/${id}`, {
+      cancelToken,
+    });
+    console.log("RESPONSE >>>>", res);
     if (!res.data.status) {
       dispatch({
         type: GET_ERRORS,

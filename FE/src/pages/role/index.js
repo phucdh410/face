@@ -79,6 +79,7 @@ const Role = React.memo(() => {
       if (source) source.cancel();
     };
   }, [handleRequest, page, pages]);
+
   const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
@@ -95,6 +96,7 @@ const Role = React.memo(() => {
     }, expired * 1.5);
     clearTimeout();
   };
+
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
@@ -119,11 +121,10 @@ const Role = React.memo(() => {
 
   const onDelete = useCallback(
     async (id) => {
-      // window.start_preloader();
       setLoading(true);
       source = axios.CancelToken.source();
       await dispatch(removeRole(id, source.token, history));
-
+      console.log("Success >>>>", success);
       if (success) {
         handlePopup(
           FACE_R_APP_TITLE,
@@ -135,7 +136,6 @@ const Role = React.memo(() => {
             setLoading(false);
           }
         );
-        // } else window.stop_preloader();
       } else setLoading(false);
     },
     [dispatch, handleRequest, history, success]

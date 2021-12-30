@@ -20,8 +20,6 @@ const validationSchema = yup.object({
 });
 
 const Body = React.memo(({ role, goBack, onSubmit }) => {
-  console.log("Role: ", role);
-
   const formik = useFormik({
     initialValues: {
       ...role,

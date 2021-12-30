@@ -18,8 +18,10 @@ import { ENCODE_EMPTY_STRING, FACE_R_APP_API_ENDPOINT } from "../config";
 export const getUsers = (params, cancelToken, history) => async (dispatch) => {
   try {
     const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/users/${params.page}/${params.pages}/${params.input || ENCODE_EMPTY_STRING}`,
-      { cancelToken },
+      `${FACE_R_APP_API_ENDPOINT}/users/${params.page}/${params.pages}/${
+        params.input || ENCODE_EMPTY_STRING
+      }`,
+      { cancelToken }
     );
 
     const { payload, pages, page } = res.data;
@@ -54,9 +56,9 @@ export const getUser = (id, cancelToken, history) => async (dispatch) => {
   });
 
   try {
-    const res = await axios.get(
-      `${FACE_R_APP_API_ENDPOINT}/users/${id}`, { cancelToken },
-    );
+    const res = await axios.get(`${FACE_R_APP_API_ENDPOINT}/users/${id}`, {
+      cancelToken,
+    });
 
     const { payload } = res.data;
 
@@ -81,10 +83,10 @@ export const getUser = (id, cancelToken, history) => async (dispatch) => {
 
 export const addUser = (params, cancelToken, history) => async (dispatch) => {
   try {
-    const res = await axios.post(
-      `${FACE_R_APP_API_ENDPOINT}/users`, params, { cancelToken },
-    );
-
+    const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/users`, params, {
+      cancelToken,
+    });
+    console.log("Response>>>>", res);
     if (!res.data.status) {
       dispatch({
         type: GET_ERRORS,
@@ -114,7 +116,9 @@ export const addUser = (params, cancelToken, history) => async (dispatch) => {
 export const editUser = (params, cancelToken, history) => async (dispatch) => {
   try {
     const res = await axios.put(
-      `${FACE_R_APP_API_ENDPOINT}/users/${params.id}`, params, { cancelToken },
+      `${FACE_R_APP_API_ENDPOINT}/users/${params.id}`,
+      params,
+      { cancelToken }
     );
 
     if (!res.data.status) {
@@ -146,7 +150,8 @@ export const editUser = (params, cancelToken, history) => async (dispatch) => {
 export const removeUser = (id, cancelToken, history) => async (dispatch) => {
   try {
     const res = await axios.delete(
-      `${FACE_R_APP_API_ENDPOINT}/users/delete/${id}`, { cancelToken },
+      `${FACE_R_APP_API_ENDPOINT}/users/delete/${id}`,
+      { cancelToken }
     );
 
     if (!res.data.status) {

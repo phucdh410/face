@@ -40,6 +40,7 @@ const CreateUser = React.memo(() => {
     }),
     shallowEqual
   );
+
   const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
@@ -56,6 +57,7 @@ const CreateUser = React.memo(() => {
     }, expired * 1.5);
     clearTimeout();
   };
+
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
@@ -84,6 +86,7 @@ const CreateUser = React.memo(() => {
         fullname: values.fullname.toUpperCase(),
       };
 
+      console.log("PARAMS >>>>", params);
       // window.start_preloader();
       setLoading(true);
       await dispatch(addUser(params, source.token, history));

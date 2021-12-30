@@ -103,12 +103,11 @@ const EditRole = React.memo(() => {
       source = axios.CancelToken.source();
       const params = {
         ...values,
-        cancel_token: source.token,
       };
 
       // window.start_preloader();
       setLoading(true);
-      await dispatch(editRole(params, history));
+      await dispatch(editRole(params, source.token, history));
 
       if (success) {
         handlePopup(
@@ -131,7 +130,7 @@ const EditRole = React.memo(() => {
     <Suspense fallback={<SuspenseLoading />}>
       <Breadcrum />
 
-      {role && (
+      {role && role === state.role && (
         <Box className="row">
           <Box className="col-md-12">
             <Box className="panel panel-bd lobidrag">

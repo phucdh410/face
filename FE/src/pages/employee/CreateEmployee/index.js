@@ -55,6 +55,7 @@ const CreateEmployee = React.memo(() => {
 
   const [photos, setPhotos] = useState([]);
   const [faces, setFaces] = useState([]);
+
   const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
@@ -71,6 +72,7 @@ const CreateEmployee = React.memo(() => {
     }, expired * 1.5);
     clearTimeout();
   };
+
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
@@ -127,6 +129,10 @@ const CreateEmployee = React.memo(() => {
         params.append("mobile", values.mobile);
         params.append("avatar", values.avatar);
         params.append("active", values.active);
+
+        params.forEach((value, key) => {
+          console.log("key %s: value %s", key, value);
+        });
 
         // window.start_preloader();
         setLoading(true);
