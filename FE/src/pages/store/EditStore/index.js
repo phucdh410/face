@@ -88,7 +88,7 @@ const EditStore = React.memo(() => {
   }, [errors]);
 
   useEffect(() => {
-    if (state.store && state.store.id.toString() !== id) setStore(state.store);
+    if (state.store && state.store.id.toString() === id) setStore(state.store);
   }, [state.store]);
 
   const goBack = useCallback(
