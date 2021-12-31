@@ -256,8 +256,7 @@ const User = React.memo(() => {
                 headers={[
                   "No.",
                   "Tên người dùng",
-                  "Doanh nghiệp",
-                  "Cửa hàng",
+                  "Giới tính",
                   "Số điện thoại",
                   "Email",
                   "Nhóm người dùng",

@@ -87,7 +87,7 @@ const CreateCamera = React.memo(() => {
 
       setLoading(true);
       await dispatch(addCamera(params, source.token, history));
-      console.log("Success >>>>>", success);
+
       if (success) {
         handlePopup(
           FACE_R_APP_TITLE,

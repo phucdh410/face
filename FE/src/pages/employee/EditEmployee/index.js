@@ -58,7 +58,7 @@ const EditEmployee = React.memo(() => {
   } = state;
 
   const [employee, setEmployee] = useState(null);
-
+  console.log("Thông tin employee hiện tại >>>>", employee);
   const [faces, setFaces] = useState([]);
   const [photos, setPhotos] = useState([]);
 
@@ -85,6 +85,7 @@ const EditEmployee = React.memo(() => {
     window.loading();
     handleRequest(id);
   }, [handleRequest, id]);
+
   const handlePopup = (title, message, expired, type, func) => {
     setInfo({
       title,
@@ -101,6 +102,7 @@ const EditEmployee = React.memo(() => {
     }, expired * 1.5);
     clearTimeout();
   };
+
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       if (errors.message) {
@@ -178,6 +180,9 @@ const EditEmployee = React.memo(() => {
         params.append("active", values.active);
         params.append("changed", values.changed ? 1 : 0);
 
+        params.forEach((value, key) => {
+          console.log("key %s: value %s", key, value);
+        });
         // window.start_preloader();
         setLoading(true);
         await dispatch(editEmployee(id, params, source.token, history));

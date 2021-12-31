@@ -107,9 +107,11 @@ const EditRole = React.memo(() => {
 
       // window.start_preloader();
       setLoading(true);
-      await dispatch(editRole(params, source.token, history));
+      const newSuccess = await dispatch(
+        editRole(params, source.token, history)
+      );
 
-      if (success) {
+      if (newSuccess) {
         handlePopup(
           FACE_R_APP_TITLE,
           "Lưu thông tin vai trò thành công!",

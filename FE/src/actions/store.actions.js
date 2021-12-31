@@ -115,7 +115,6 @@ export const addStore = (params, cancelToken, history) => async (dispatch) => {
     const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/stores`, params, {
       cancelToken,
     });
-    console.log("RESPONSE >>>", res);
     if (!res.data.status) {
       dispatch({
         type: GET_ERRORS,

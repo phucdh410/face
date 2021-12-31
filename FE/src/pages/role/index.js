@@ -124,7 +124,6 @@ const Role = React.memo(() => {
       setLoading(true);
       source = axios.CancelToken.source();
       await dispatch(removeRole(id, source.token, history));
-      console.log("Success >>>>", success);
       if (success) {
         handlePopup(
           FACE_R_APP_TITLE,

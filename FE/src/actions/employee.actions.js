@@ -90,7 +90,6 @@ export const getEmployee = (id, cancelToken, history) => async (dispatch) => {
 
 export const addEmployee =
   (params, cancelToken, history) => async (dispatch) => {
-    console.log("Code chạy vào action addEmployee");
     dispatch({
       type: UPLOAD_FILE_ERRORS,
       payload: [],
@@ -102,9 +101,6 @@ export const addEmployee =
         params,
         { cancelToken }
       );
-
-      console.log("Response >>>>", res);
-      // console.log("payload: ", res.data);
 
       const { errors } = res.data;
 
@@ -152,8 +148,7 @@ export const editEmployee =
         params,
         { cancelToken }
       );
-
-      // console.log("payload: ", res.data);
+      console.log("Response >>>>", res);
 
       const { errors, faces } = res.data;
 

@@ -143,6 +143,7 @@ export const addRole = (params, cancelToken, history) => async (dispatch) => {
 };
 
 export const editRole = (params, cancelToken, history) => async (dispatch) => {
+  let newSuccess = false;
   dispatch({
     type: EDIT_ROLE,
     payload: null,
@@ -154,6 +155,7 @@ export const editRole = (params, cancelToken, history) => async (dispatch) => {
       params,
       { cancelToken }
     );
+    newSuccess = res.data.status;
 
     if (!res.data.status) {
       dispatch({
@@ -178,6 +180,7 @@ export const editRole = (params, cancelToken, history) => async (dispatch) => {
       type: GET_ERRORS,
       payload: {},
     });
+    return newSuccess;
   }
 };
 
@@ -186,7 +189,6 @@ export const removeRole = (id, cancelToken, history) => async (dispatch) => {
     const res = await axios.delete(`${FACE_R_APP_API_ENDPOINT}/roles/${id}`, {
       cancelToken,
     });
-    console.log("RESPONSE >>>>", res);
     if (!res.data.status) {
       dispatch({
         type: GET_ERRORS,

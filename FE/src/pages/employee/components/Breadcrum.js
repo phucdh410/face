@@ -12,11 +12,8 @@ const Breadcrum = React.memo(() => {
         <i className="pe-7s-box1" />
       </Box>
       <Box className="header-title">
-        <Typography
-          variant="h1"
-          color={theme.palette.text.secondary}
-        >
-          Thiết bị
+        <Typography variant="h1" color={theme.palette.text.secondary}>
+          Nhân viên
         </Typography>
 
         <Typography
@@ -24,14 +21,14 @@ const Breadcrum = React.memo(() => {
           color={theme.palette.text.primary}
           component="small"
         >
-          Hiển thị thông tin chi tiết thiết bị.
+          Hiển thị thông tin chi tiết nhân viên.
         </Typography>
 
         <ol className="breadcrumb">
           <li>
             <Link to="/cameras">
               <i className="pe-7s-home" />
-              Thông tin thiết bị
+              Thông tin nhân viên
             </Link>
           </li>
           <li className="active">Chi tiết</li>

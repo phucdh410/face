@@ -1,17 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import { useFormik } from "formik";
-
 import * as yup from "yup";
+import PropTypes from "prop-types";
+import React from "react";
 
 import { ACTIVES } from "../../../../utils/constants";
 import { renderSelect } from "../../../../utils/handler";
-
+import Footer from "./Footer";
 import Input from "../../../../components/label/Input";
 import List from "../../../../components/label/List";
-
-import Footer from "./Footer";
 
 const validationSchema = yup.object({
   name: yup
@@ -27,8 +24,10 @@ const validationSchema = yup.object({
   email: yup
     .string("Bạn vui lòng nhập địa chỉ email.")
     .required("Bạn vui lòng nhập địa chỉ email.")
-    .matches(/^[a-z0-9]+@[a-z]{3,}[.]{1}[a-z]{3}[.]?[a-z]{0,2}$/,
-      "Định dạng địa chỉ email không hợp lệ"),
+    .matches(
+      /^[a-z0-9]+@[a-z]{3,}[.]{1}[a-z]{3}[.]?[a-z]{0,2}$/,
+      "Định dạng địa chỉ email không hợp lệ"
+    ),
 });
 
 const Body = React.memo(({ goBack, onSubmit }) => {

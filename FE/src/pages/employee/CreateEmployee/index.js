@@ -130,10 +130,6 @@ const CreateEmployee = React.memo(() => {
         params.append("avatar", values.avatar);
         params.append("active", values.active);
 
-        params.forEach((value, key) => {
-          console.log("key %s: value %s", key, value);
-        });
-
         // window.start_preloader();
         setLoading(true);
         await dispatch(addEmployee(params, source.token, history));

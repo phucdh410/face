@@ -88,7 +88,6 @@ const CreateStore = React.memo(() => {
       // window.start_preloader();
       setLoading(true);
       await dispatch(addStore(params, source.token, history));
-
       if (success) {
         handlePopup(
           FACE_R_APP_TITLE,
