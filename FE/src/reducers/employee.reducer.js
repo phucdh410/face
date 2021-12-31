@@ -40,10 +40,8 @@ export default function employeeReducer(state = initialState, action) {
       };
     case EDIT_EMPLOYEE:
       const { faces, payload } = action;
-
       const { employee } = state;
       employee.faces = faces;
-
       return {
         ...state,
         employee,

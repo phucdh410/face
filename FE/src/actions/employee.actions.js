@@ -18,6 +18,8 @@ import { ENCODE_EMPTY_STRING, FACE_R_APP_API_ENDPOINT } from "../config";
 // Get list of employee
 export const getEmployees =
   (params, cancelToken, history) => async (dispatch) => {
+    console.log("Code chạy vào getEmployees");
+
     try {
       const res = await axios.get(
         `${FACE_R_APP_API_ENDPOINT}/employees/${params.page}/${params.pages}/${
@@ -27,7 +29,8 @@ export const getEmployees =
       );
 
       const { payload, pages, page } = res.data;
-
+      console.log("Response>>>", res);
+      console.log("Employee>>>", payload);
       dispatch({
         type: GET_EMPLOYEES,
         payload,
@@ -101,9 +104,7 @@ export const addEmployee =
         params,
         { cancelToken }
       );
-
       const { errors } = res.data;
-
       if (res.data.status) {
         dispatch({
           type: ADD_EMPLOYEE,
@@ -148,10 +149,7 @@ export const editEmployee =
         params,
         { cancelToken }
       );
-      console.log("Response >>>>", res);
-
       const { errors, faces } = res.data;
-
       if (!res.data.status) {
         dispatch({
           type: GET_ERRORS,

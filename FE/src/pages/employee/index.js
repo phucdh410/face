@@ -55,19 +55,19 @@ const Employee = React.memo(() => {
   );
 
   const { employees, pages, page, success, errors, stores } = state;
-
-  const [searchStore, setSearchStoreId] = useState(state.searchStore);
+  const [searchStore, setSearchStore] = useState(state.searchStore);
   const [searchInput, setSearcInput] = useState(state.searchInput);
 
   const handleRequest = useCallback(
     (pages, page) => {
       source = axios.CancelToken.source();
       const params = {
-        store_id: parseInt(searchStore),
+        store_id: searchStore,
         input: searchInput,
         pages,
         page,
       };
+      console.log("Code chạy lấy ds nvien");
 
       dispatch(getEmployees(params, source.token, history));
     },
@@ -150,10 +150,10 @@ const Employee = React.memo(() => {
   const onChange = useCallback(
     (e) => {
       e.preventDefault();
-
       switch (e.target.name) {
         case "search_store_id":
-          setSearchStoreId(e.target.value);
+          console.log("searchStore đổi thành", e.target.value);
+          setSearchStore(e.target.value);
           break;
         case "search_input":
           setSearcInput(e.target.value);

@@ -21,6 +21,8 @@ import { FACE_R_APP_API_ENDPOINT } from "../config";
 // Get list of camera by store
 export const getCamerasByStore =
   (params, cancelToken, history) => async (dispatch) => {
+    console.log("Code chạy vào getEmployees by store");
+
     try {
       const res = await axios.get(
         `${FACE_R_APP_API_ENDPOINT}/cameras/${params.store_id}`,
@@ -51,12 +53,15 @@ export const getCamerasByStore =
 // Get list of camera
 export const getCameras =
   (params, cancelToken, history) => async (dispatch) => {
+    console.log("Code chạy vào getCameras");
     try {
       const res = await axios.get(
         `${FACE_R_APP_API_ENDPOINT}/cameras/${params.page}/${params.pages}/${params.store_id}`,
         { cancelToken }
       );
       const { payload, pages, page } = res.data;
+      console.log("Camera>>>", payload);
+
       dispatch({
         type: GET_CAMERAS,
         payload,

@@ -56,6 +56,7 @@ const Camera = React.memo(() => {
   );
 
   const { cameras, pages, page, success, errors, stores } = state;
+
   const [searchStore, setSearchStore] = useState(state.searchStore);
 
   const getInitialProps = useCallback(() => {
@@ -73,6 +74,7 @@ const Camera = React.memo(() => {
         pages,
         page,
       };
+      console.log("Code chạy lấy ds camera");
       dispatch(getCameras(params, source.token, history));
     },
     [dispatch, history, searchStore]
@@ -153,8 +155,9 @@ const Camera = React.memo(() => {
     (e) => {
       e.preventDefault();
 
+      console.log("searchStore đổi thành", e.target.value);
       setSearchStore(e.target.value);
-      // handleRequest(0, 0);
+      handleRequest(0, 0);
     },
     [handleRequest]
   );
