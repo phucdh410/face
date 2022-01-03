@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 const useMain = (props) => {
   const dispatch = useDispatch();
-
+  props.dispatch = dispatch;
   const getInitialProps = useCallback(() => {
     props.source = axios.CancelToken.source();
 
