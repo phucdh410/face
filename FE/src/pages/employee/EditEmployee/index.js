@@ -48,7 +48,6 @@ const EditEmployee = React.memo(() => {
     }),
     shallowEqual
   );
-
   const {
     stores,
     uploadErrors,
@@ -160,7 +159,6 @@ const EditEmployee = React.memo(() => {
 
   const onSubmit = useCallback(
     async (values) => {
-      console.log("Thông tin nv khi submit>>>", values);
       const date = convertStringToDate(values.date);
 
       if (isValidDate(date)) {
@@ -213,8 +211,6 @@ const EditEmployee = React.memo(() => {
     },
     [dispatch, employeeResponseStatus, history, id, photos]
   );
-
-  console.log("Thông tin nv hiện tại>>>", employee);
 
   return (
     <Suspense fallback={<SuspenseLoading />}>

@@ -100,7 +100,6 @@ export const addEmployee =
       );
 
       res.data.status ? cb(true) : cb(false);
-      console.log(res.data);
 
       const { errors } = res.data;
       if (res.data.status) {
@@ -136,9 +135,6 @@ export const addEmployee =
 
 export const editEmployee =
   (id, params, cancelToken, history, cb) => async (dispatch) => {
-    for (var pair of params) {
-      console.log(`${pair[0]} : ${pair[1]}`);
-    }
     dispatch({
       type: UPLOAD_FILE_ERRORS,
       payload: [],
@@ -149,9 +145,11 @@ export const editEmployee =
         params,
         { cancelToken }
       );
-      console.log("RES DATA", res.data);
+
       res.data.status ? cb(true) : cb(false);
+
       const { errors, faces } = res.data;
+
       if (!res.data.status) {
         dispatch({
           type: GET_ERRORS,

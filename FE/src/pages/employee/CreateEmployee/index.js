@@ -44,7 +44,6 @@ const CreateEmployee = React.memo(() => {
     }),
     shallowEqual
   );
-
   const {
     stores,
     uploadErrors,
