@@ -74,7 +74,6 @@ const Camera = React.memo(() => {
         pages,
         page,
       };
-      console.log("Code chạy lấy ds camera");
       dispatch(getCameras(params, source.token, history));
     },
     [dispatch, history, searchStore]
