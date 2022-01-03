@@ -110,107 +110,114 @@ export const getRole = (id, cancelToken, history) => async (dispatch) => {
   }
 };
 
-export const addRole = (params, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/roles`, params, {
-      cancelToken,
-    });
-
-    if (!res.data.status) {
-      dispatch({
-        type: GET_ERRORS,
-        payload: { message: "Lưu thông tin vai trò thất bại!" },
+export const addRole =
+  (params, cancelToken, history, cb) => async (dispatch) => {
+    try {
+      const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/roles`, params, {
+        cancelToken,
       });
-    }
 
-    dispatch({
-      type: ADD_ROLE,
-      payload: res.data.status,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
+      res.data.status ? cb(true) : cb(false);
+
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin vai trò thất bại!" },
+        });
       }
-    }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
 
-export const editRole = (params, cancelToken, history) => async (dispatch) => {
-  let newSuccess = false;
-  dispatch({
-    type: EDIT_ROLE,
-    payload: null,
-  });
-
-  try {
-    const res = await axios.put(
-      `${FACE_R_APP_API_ENDPOINT}/roles/${params.id}`,
-      params,
-      { cancelToken }
-    );
-    newSuccess = res.data.status;
-
-    if (!res.data.status) {
+      dispatch({
+        type: ADD_ROLE,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
       dispatch({
         type: GET_ERRORS,
-        payload: { message: "Lưu thông tin vai trò thất bại!" },
+        payload: {},
       });
     }
+  };
 
+export const editRole =
+  (params, cancelToken, history, cb) => async (dispatch) => {
     dispatch({
       type: EDIT_ROLE,
-      payload: res.data.status,
+      payload: null,
     });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
-      }
-    }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-    return newSuccess;
-  }
-};
 
-export const removeRole = (id, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.delete(`${FACE_R_APP_API_ENDPOINT}/roles/${id}`, {
-      cancelToken,
-    });
-    if (!res.data.status) {
+    try {
+      const res = await axios.put(
+        `${FACE_R_APP_API_ENDPOINT}/roles/${params.id}`,
+        params,
+        { cancelToken }
+      );
+
+      res.data.status ? cb(true) : cb(false);
+
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin vai trò thất bại!" },
+        });
+      }
+
+      dispatch({
+        type: EDIT_ROLE,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
       dispatch({
         type: GET_ERRORS,
-        payload: { message: "Lưu thông tin vai trò thất bại!" },
+        payload: {},
       });
     }
+  };
 
-    dispatch({
-      type: DELETE_ROLE,
-      payload: res.data.status,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
+export const removeRole =
+  (id, cancelToken, history, cb) => async (dispatch) => {
+    try {
+      const res = await axios.delete(`${FACE_R_APP_API_ENDPOINT}/roles/${id}`, {
+        cancelToken,
+      });
+
+      res.data.status ? cb(true) : cb(false);
+
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin vai trò thất bại!" },
+        });
       }
+
+      dispatch({
+        type: DELETE_ROLE,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      });
     }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
+  };

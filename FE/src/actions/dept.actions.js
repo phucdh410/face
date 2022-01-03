@@ -81,104 +81,109 @@ export const getDept = (id, cancelToken, history) => async (dispatch) => {
   }
 };
 
-export const addDept = (params, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/depts`, params, {
-      cancelToken,
-    });
+export const addDept =
+  (params, cancelToken, history, cb) => async (dispatch) => {
+    try {
+      const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/depts`, params, {
+        cancelToken,
+      });
 
-    if (!res.data.status) {
+      res.data.status ? cb(true) : cb(false);
+
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin phòng ban thất bại!" },
+        });
+      }
+
+      dispatch({
+        type: ADD_DEPT,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
       dispatch({
         type: GET_ERRORS,
-        payload: { message: "Lưu thông tin phòng ban thất bại!" },
+        payload: {},
       });
     }
+  };
 
-    dispatch({
-      type: ADD_DEPT,
-      payload: res.data.status,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
+export const editDept =
+  (params, cancelToken, history, cb) => async (dispatch) => {
+    try {
+      const res = await axios.put(
+        `${FACE_R_APP_API_ENDPOINT}/depts/${params.id}`,
+        params,
+        { cancelToken }
+      );
+
+      res.data.status ? cb(true) : cb(false);
+
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin phòng ban thất bại!" },
+        });
       }
-    }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
 
-export const editDept = (params, cancelToken, history) => async (dispatch) => {
-  let newSuccess = false;
-  try {
-    const res = await axios.put(
-      `${FACE_R_APP_API_ENDPOINT}/depts/${params.id}`,
-      params,
-      { cancelToken }
-    );
-    newSuccess = res.data.status;
-    console.log(newSuccess);
-
-    if (!res.data.status) {
+      dispatch({
+        type: EDIT_DEPT,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
       dispatch({
         type: GET_ERRORS,
-        payload: { message: "Lưu thông tin phòng ban thất bại!" },
+        payload: {},
       });
     }
+  };
 
-    dispatch({
-      type: EDIT_DEPT,
-      payload: res.data.status,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
+export const removeDept =
+  (id, cancelToken, history, cb) => async (dispatch) => {
+    try {
+      const res = await axios.delete(`${FACE_R_APP_API_ENDPOINT}/depts/${id}`, {
+        cancelToken,
+      });
+
+      res.data.status ? cb(true) : cb(false);
+
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin phòng ban thất bại!" },
+        });
       }
-    }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-    return newSuccess;
-  }
-};
 
-export const removeDept = (id, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.delete(`${FACE_R_APP_API_ENDPOINT}/depts/${id}`, {
-      cancelToken,
-    });
-
-    if (!res.data.status) {
+      dispatch({
+        type: DELETE_DEPT,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
       dispatch({
         type: GET_ERRORS,
-        payload: { message: "Lưu thông tin phòng ban thất bại!" },
+        payload: {},
       });
     }
-
-    dispatch({
-      type: DELETE_DEPT,
-      payload: res.data.status,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
-      }
-    }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
+  };

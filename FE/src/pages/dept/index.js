@@ -121,24 +121,26 @@ const Dept = React.memo(() => {
       // window.start_preloader();
       setLoading(true);
       source = axios.CancelToken.source();
-      await dispatch(removeDept(id, source.token, history));
+      await dispatch(
+        removeDept(id, source.token, history, (_success) => {
+          if (_success) {
+            handlePopup(
+              FACE_R_APP_TITLE,
+              "Xoá thông tin phòng ban thành công!",
+              2000,
+              "success",
+              () => {
+                handleRequest(pages, page);
+                setLoading(false);
+              }
+            );
 
-      if (success) {
-        handlePopup(
-          FACE_R_APP_TITLE,
-          "Xoá thông tin phòng ban thành công!",
-          2000,
-          "success",
-          () => {
-            handleRequest(pages, page);
-            setLoading(false);
-          }
-        );
-
-        // } else window.stop_preloader();
-      } else setLoading(false);
+            // } else window.stop_preloader();
+          } else setLoading(false);
+        })
+      );
     },
-    [dispatch, handleRequest, history, success]
+    [dispatch, handleRequest, history]
   );
 
   const onChange = useCallback(

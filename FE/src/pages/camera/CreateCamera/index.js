@@ -86,22 +86,24 @@ const CreateCamera = React.memo(() => {
       };
 
       setLoading(true);
-      await dispatch(addCamera(params, source.token, history));
-
-      if (success) {
-        handlePopup(
-          FACE_R_APP_TITLE,
-          "Lưu thông tin camera thành công!",
-          2000,
-          "success",
-          () => {
-            history.goBack();
-            setLoading(false);
-          }
-        );
-      } else setLoading(false);
+      await dispatch(
+        addCamera(params, source.token, history, (_success) => {
+          if (_success) {
+            handlePopup(
+              FACE_R_APP_TITLE,
+              "Lưu thông tin camera thành công!",
+              2000,
+              "success",
+              () => {
+                history.goBack();
+                setLoading(false);
+              }
+            );
+          } else setLoading(false);
+        })
+      );
     },
-    [dispatch, history, success]
+    [dispatch, history]
   );
 
   return (

@@ -18,8 +18,6 @@ import { ENCODE_EMPTY_STRING, FACE_R_APP_API_ENDPOINT } from "../config";
 // Get list of employee
 export const getEmployees =
   (params, cancelToken, history) => async (dispatch) => {
-    console.log("Code chạy vào getEmployees");
-
     try {
       const res = await axios.get(
         `${FACE_R_APP_API_ENDPOINT}/employees/${params.page}/${params.pages}/${
@@ -29,8 +27,6 @@ export const getEmployees =
       );
 
       const { payload, pages, page } = res.data;
-      console.log("Response>>>", res);
-      console.log("Employee>>>", payload);
       dispatch({
         type: GET_EMPLOYEES,
         payload,
@@ -70,8 +66,6 @@ export const getEmployee = (id, cancelToken, history) => async (dispatch) => {
     const { employee, faces } = payload;
     employee.faces = faces;
 
-    // console.log("payload: ", res.data);
-
     dispatch({
       type: GET_EMPLOYEE,
       payload: employee,
@@ -92,7 +86,7 @@ export const getEmployee = (id, cancelToken, history) => async (dispatch) => {
 };
 
 export const addEmployee =
-  (params, cancelToken, history) => async (dispatch) => {
+  (params, cancelToken, history, cb) => async (dispatch) => {
     dispatch({
       type: UPLOAD_FILE_ERRORS,
       payload: [],
@@ -104,6 +98,10 @@ export const addEmployee =
         params,
         { cancelToken }
       );
+
+      res.data.status ? cb(true) : cb(false);
+      console.log(res.data);
+
       const { errors } = res.data;
       if (res.data.status) {
         dispatch({
@@ -137,18 +135,22 @@ export const addEmployee =
   };
 
 export const editEmployee =
-  (id, params, cancelToken, history) => async (dispatch) => {
+  (id, params, cancelToken, history, cb) => async (dispatch) => {
+    for (var pair of params) {
+      console.log(`${pair[0]} : ${pair[1]}`);
+    }
     dispatch({
       type: UPLOAD_FILE_ERRORS,
       payload: [],
     });
-
     try {
       const res = await axios.put(
         `${FACE_R_APP_API_ENDPOINT}/employees/${id}`,
         params,
         { cancelToken }
       );
+      console.log("RES DATA", res.data);
+      res.data.status ? cb(true) : cb(false);
       const { errors, faces } = res.data;
       if (!res.data.status) {
         dispatch({
@@ -183,12 +185,14 @@ export const editEmployee =
   };
 
 export const removeEmployee =
-  (id, cancelToken, history) => async (dispatch) => {
+  (id, cancelToken, history, cb) => async (dispatch) => {
     try {
       const res = await axios.delete(
         `${FACE_R_APP_API_ENDPOINT}/employees/${id}`,
         { cancelToken }
       );
+
+      res.data.status ? cb(true) : cb(false);
 
       if (!res.data.status) {
         dispatch({

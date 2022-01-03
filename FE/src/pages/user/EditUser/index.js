@@ -114,21 +114,23 @@ const EditUser = React.memo(() => {
 
       // window.start_preloader();
       setLoading(true);
-      await dispatch(editUser(params, source.token, history));
-
-      if (success) {
-        handlePopup(
-          FACE_R_APP_TITLE,
-          "Lưu thông tin người dùng thành công!",
-          2000,
-          "success",
-          () => {
-            history.goBack();
-            setLoading(false);
-          }
-        );
-        // } else window.stop_preloader();
-      } else setLoading(false);
+      await dispatch(
+        editUser(params, source.token, history, (_success) => {
+          if (_success) {
+            handlePopup(
+              FACE_R_APP_TITLE,
+              "Lưu thông tin người dùng thành công!",
+              2000,
+              "success",
+              () => {
+                history.goBack();
+                setLoading(false);
+              }
+            );
+            // } else window.stop_preloader();
+          } else setLoading(false);
+        })
+      );
     },
     [dispatch, history, success]
   );

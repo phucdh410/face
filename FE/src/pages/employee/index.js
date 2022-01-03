@@ -67,7 +67,6 @@ const Employee = React.memo(() => {
         pages,
         page,
       };
-      console.log("Code chạy lấy ds nvien");
 
       dispatch(getEmployees(params, source.token, history));
     },
@@ -128,21 +127,23 @@ const Employee = React.memo(() => {
       // window.start_preloader();
       setLoading(true);
       source = axios.CancelToken.source();
-      await dispatch(removeEmployee(id, source.token, history));
-
-      if (success) {
-        handlePopup(
-          FACE_R_APP_TITLE,
-          "Xoá thông tin nhân viên thành công!",
-          2000,
-          "success",
-          () => {
-            handleRequest(0, 0);
-            setLoading(false);
-          }
-        );
-        // } else window.stop_preloader();
-      } else setLoading(false);
+      await dispatch(
+        removeEmployee(id, source.token, history, (_success) => {
+          if (_success) {
+            handlePopup(
+              FACE_R_APP_TITLE,
+              "Xoá thông tin nhân viên thành công!",
+              2000,
+              "success",
+              () => {
+                handleRequest(0, 0);
+                setLoading(false);
+              }
+            );
+            // } else window.stop_preloader();
+          } else setLoading(false);
+        })
+      );
     },
     [dispatch, handleRequest, history, success]
   );

@@ -110,25 +110,25 @@ const EditDept = React.memo(() => {
 
       // window.start_preloader();
       setLoading(true);
-      const newSuccess = await dispatch(
-        editDept(params, source.token, history)
+      await dispatch(
+        editDept(params, source.token, history, (_success) => {
+          if (_success) {
+            handlePopup(
+              FACE_R_APP_TITLE,
+              "Lưu thông tin phòng ban thành công!",
+              2000,
+              "success",
+              () => {
+                history.goBack();
+                setLoading(false);
+              }
+            );
+            // } else window.stop_preloader();
+          } else setLoading(false);
+        })
       );
-      console.log(newSuccess);
-      if (newSuccess) {
-        handlePopup(
-          FACE_R_APP_TITLE,
-          "Lưu thông tin phòng ban thành công!",
-          2000,
-          "success",
-          () => {
-            history.goBack();
-            setLoading(false);
-          }
-        );
-        // } else window.stop_preloader();
-      } else setLoading(false);
     },
-    [dispatch, history, dept, success]
+    [dispatch, history, dept]
   );
 
   return (

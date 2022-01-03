@@ -110,101 +110,116 @@ export const getStore = (id, cancelToken, history) => async (dispatch) => {
   }
 };
 
-export const addStore = (params, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/stores`, params, {
-      cancelToken,
-    });
-    if (!res.data.status) {
+export const addStore =
+  (params, cancelToken, history, cb) => async (dispatch) => {
+    try {
+      const res = await axios.post(
+        `${FACE_R_APP_API_ENDPOINT}/stores`,
+        params,
+        {
+          cancelToken,
+        }
+      );
+
+      res.data.status ? cb(true) : cb(false);
+
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin cửa hàng thất bại!" },
+        });
+      }
+
+      dispatch({
+        type: ADD_STORE,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
       dispatch({
         type: GET_ERRORS,
-        payload: { message: "Lưu thông tin cửa hàng thất bại!" },
+        payload: {},
       });
     }
+  };
 
-    dispatch({
-      type: ADD_STORE,
-      payload: res.data.status,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
+export const editStore =
+  (params, cancelToken, history, cb) => async (dispatch) => {
+    try {
+      const res = await axios.put(
+        `${FACE_R_APP_API_ENDPOINT}/stores/${params.id}`,
+        params,
+        { cancelToken }
+      );
+
+      res.data.status ? cb(true) : cb(false);
+
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin cửa hàng thất bại!" },
+        });
       }
-    }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
 
-export const editStore = (params, cancelToken, history) => async (dispatch) => {
-  let newSuccess = false;
-  try {
-    const res = await axios.put(
-      `${FACE_R_APP_API_ENDPOINT}/stores/${params.id}`,
-      params,
-      { cancelToken }
-    );
-    newSuccess = res.data.status;
-    if (!res.data.status) {
+      dispatch({
+        type: EDIT_STORE,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
       dispatch({
         type: GET_ERRORS,
-        payload: { message: "Lưu thông tin cửa hàng thất bại!" },
+        payload: {},
       });
     }
+  };
 
-    dispatch({
-      type: EDIT_STORE,
-      payload: res.data.status,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
+export const removeStore =
+  (id, cancelToken, history, cb) => async (dispatch) => {
+    try {
+      const res = await axios.delete(
+        `${FACE_R_APP_API_ENDPOINT}/stores/${id}`,
+        {
+          cancelToken,
+        }
+      );
+
+      res.data.status ? cb(true) : cb(false);
+
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin cửa hàng thất bại!" },
+        });
       }
-    }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-    return newSuccess;
-  }
-};
 
-export const removeStore = (id, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.delete(`${FACE_R_APP_API_ENDPOINT}/stores/${id}`, {
-      cancelToken,
-    });
-
-    if (!res.data.status) {
+      dispatch({
+        type: DELETE_STORE,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
       dispatch({
         type: GET_ERRORS,
-        payload: { message: "Lưu thông tin cửa hàng thất bại!" },
+        payload: {},
       });
     }
-
-    dispatch({
-      type: DELETE_STORE,
-      payload: res.data.status,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
-      }
-    }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
+  };

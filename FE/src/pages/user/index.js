@@ -121,21 +121,23 @@ const User = React.memo(() => {
       // window.start_preloader();
       setLoading(true);
       source = axios.CancelToken.source();
-      await dispatch(removeUser(id, source.token, history));
-
-      if (success) {
-        handlePopup(
-          FACE_R_APP_TITLE,
-          "Xoá thông tin người dùng thành công!",
-          2000,
-          "success",
-          () => {
-            handleRequest(0, 0);
-            setLoading(false);
-          }
-        );
-        // } else window.stop_preloader();
-      } else setLoading(false);
+      await dispatch(
+        removeUser(id, source.token, history, (_success) => {
+          if (_success) {
+            handlePopup(
+              FACE_R_APP_TITLE,
+              "Xoá thông tin người dùng thành công!",
+              2000,
+              "success",
+              () => {
+                handleRequest(0, 0);
+                setLoading(false);
+              }
+            );
+            // } else window.stop_preloader();
+          } else setLoading(false);
+        })
+      );
     },
     [dispatch, handleRequest, history, success]
   );

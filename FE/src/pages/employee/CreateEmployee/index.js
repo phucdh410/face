@@ -113,7 +113,6 @@ const CreateEmployee = React.memo(() => {
   const onSubmit = useCallback(
     async (values) => {
       const date = convertStringToDate(values.date);
-
       if (isValidDate(date)) {
         source = axios.CancelToken.source();
         const params = new FormData();
@@ -130,24 +129,24 @@ const CreateEmployee = React.memo(() => {
         params.append("avatar", values.avatar);
         params.append("active", values.active);
 
-        // window.start_preloader();
         setLoading(true);
-        await dispatch(addEmployee(params, source.token, history));
+        await dispatch(
+          addEmployee(params, source.token, history, (_success) => {
+            if (_success) {
+              let message = "Lưu thông tin nhân viên thành công!";
+              const errors = uploadErrors || [];
 
-        if (employeeResponseStatus) {
-          let message = "Lưu thông tin nhân viên thành công!";
-          const errors = uploadErrors || [];
+              if (errors.length > 0) {
+                message += "\r\n Upload files xảy ra sự cố, vui lòng thử lại.";
+              }
 
-          if (errors.length > 0) {
-            message += "\r\n Upload files xảy ra sự cố, vui lòng thử lại.";
-          }
-
-          handlePopup(FACE_R_APP_TITLE, message, 2000, "success", () => {
-            history.replace("/employees");
-            setLoading(false);
-          });
-          // } else window.stop_preloader();
-        } else setLoading(false);
+              handlePopup(FACE_R_APP_TITLE, message, 2000, "success", () => {
+                history.replace("/employees");
+                setLoading(false);
+              });
+            } else setLoading(false);
+          })
+        );
       } else {
         handlePopup(
           FACE_R_APP_TITLE,

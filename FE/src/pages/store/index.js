@@ -121,21 +121,23 @@ const Store = React.memo(() => {
       // window.start_preloader();
       setLoading(true);
       source = axios.CancelToken.source();
-      await dispatch(removeStore(id, source.token, history));
-
-      if (success) {
-        handlePopup(
-          FACE_R_APP_TITLE,
-          "Xoá thông tin cửa hàng thành công!",
-          2000,
-          "success",
-          () => {
-            handleRequest(pages, page);
-            setLoading(false);
-          }
-        );
-        // } else window.stop_preloader();
-      } else setLoading(false);
+      await dispatch(
+        removeStore(id, source.token, history, (_success) => {
+          if (_success) {
+            handlePopup(
+              FACE_R_APP_TITLE,
+              "Xoá thông tin cửa hàng thành công!",
+              2000,
+              "success",
+              () => {
+                handleRequest(pages, page);
+                setLoading(false);
+              }
+            );
+            // } else window.stop_preloader();
+          } else setLoading(false);
+        })
+      );
     },
     [dispatch, handleRequest, history, success]
   );

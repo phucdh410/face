@@ -123,19 +123,22 @@ const Role = React.memo(() => {
     async (id) => {
       setLoading(true);
       source = axios.CancelToken.source();
-      await dispatch(removeRole(id, source.token, history));
-      if (success) {
-        handlePopup(
-          FACE_R_APP_TITLE,
-          "Xoá thông tin vai trò thành công!",
-          2000,
-          "success",
-          () => {
-            handleRequest(0, 0);
-            setLoading(false);
-          }
-        );
-      } else setLoading(false);
+      await dispatch(
+        removeRole(id, source.token, history, (_success) => {
+          if (_success) {
+            handlePopup(
+              FACE_R_APP_TITLE,
+              "Xoá thông tin vai trò thành công!",
+              2000,
+              "success",
+              () => {
+                handleRequest(0, 0);
+                setLoading(false);
+              }
+            );
+          } else setLoading(false);
+        })
+      );
     },
     [dispatch, handleRequest, history, success]
   );

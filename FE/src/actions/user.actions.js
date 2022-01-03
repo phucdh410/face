@@ -81,101 +81,110 @@ export const getUser = (id, cancelToken, history) => async (dispatch) => {
   }
 };
 
-export const addUser = (params, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/users`, params, {
-      cancelToken,
-    });
-    console.log("Response>>>>", res);
-    if (!res.data.status) {
+export const addUser =
+  (params, cancelToken, history, cb) => async (dispatch) => {
+    try {
+      const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/users`, params, {
+        cancelToken,
+      });
+
+      res.data.status ? cb(true) : cb(false);
+
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin người dùng thất bại!" },
+        });
+      }
+
+      dispatch({
+        type: ADD_USER,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
       dispatch({
         type: GET_ERRORS,
-        payload: { message: "Lưu thông tin người dùng thất bại!" },
+        payload: {},
       });
     }
+  };
 
-    dispatch({
-      type: ADD_USER,
-      payload: res.data.status,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
+export const editUser =
+  (params, cancelToken, history, cb) => async (dispatch) => {
+    try {
+      const res = await axios.put(
+        `${FACE_R_APP_API_ENDPOINT}/users/${params.id}`,
+        params,
+        { cancelToken }
+      );
+
+      res.data.status ? cb(true) : cb(false);
+
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin người dùng thất bại!" },
+        });
       }
-    }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
 
-export const editUser = (params, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.put(
-      `${FACE_R_APP_API_ENDPOINT}/users/${params.id}`,
-      params,
-      { cancelToken }
-    );
-
-    if (!res.data.status) {
+      dispatch({
+        type: EDIT_USER,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
       dispatch({
         type: GET_ERRORS,
-        payload: { message: "Lưu thông tin người dùng thất bại!" },
+        payload: {},
       });
     }
+  };
 
-    dispatch({
-      type: EDIT_USER,
-      payload: res.data.status,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
+export const removeUser =
+  (id, cancelToken, history, cb) => async (dispatch) => {
+    try {
+      const res = await axios.delete(
+        `${FACE_R_APP_API_ENDPOINT}/users/delete/${id}`,
+        { cancelToken }
+      );
+
+      res.data.status ? cb(true) : cb(false);
+
+      if (!res.data.status) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: { message: "Lưu thông tin người dùng thất bại!" },
+        });
       }
-    }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
 
-export const removeUser = (id, cancelToken, history) => async (dispatch) => {
-  try {
-    const res = await axios.delete(
-      `${FACE_R_APP_API_ENDPOINT}/users/delete/${id}`,
-      { cancelToken }
-    );
-
-    if (!res.data.status) {
+      dispatch({
+        type: DELETE_USER,
+        payload: res.data.status,
+      });
+    } catch (err) {
+      const errorResponse = handleError(err, dispatch, GET_ERRORS);
+      if (errorResponse) {
+        if (err.response.status === 401) {
+          dispatch(logoutUser(history));
+        }
+      }
+    } finally {
       dispatch({
         type: GET_ERRORS,
-        payload: { message: "Lưu thông tin người dùng thất bại!" },
+        payload: {},
       });
     }
-
-    dispatch({
-      type: DELETE_USER,
-      payload: res.data.status,
-    });
-  } catch (err) {
-    const errorResponse = handleError(err, dispatch, GET_ERRORS);
-    if (errorResponse) {
-      if (err.response.status === 401) {
-        dispatch(logoutUser(history));
-      }
-    }
-  } finally {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {},
-    });
-  }
-};
+  };

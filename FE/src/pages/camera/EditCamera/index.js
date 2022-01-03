@@ -131,9 +131,6 @@ const EditCamera = React.memo(() => {
     },
     [dispatch, history, camera]
   );
-
-  console.log("Thông tin STATE CAMERA>>>>", state.camera);
-  console.log("Thông tin CAMERA>>>>", camera);
   return (
     <Suspense fallback={<SuspenseLoading />}>
       <Breadcrum />

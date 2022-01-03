@@ -134,21 +134,24 @@ const Camera = React.memo(() => {
     async (id) => {
       setLoading(true);
       source = axios.CancelToken.source();
-      dispatch(removeCamera(id, source.token, history));
-      if (success) {
-        handlePopup(
-          FACE_R_APP_TITLE,
-          "Xoá thông tin camera thành công!",
-          2000,
-          "success",
-          async () => {
-            handleRequest(pages, page);
-            setLoading(false);
-          }
-        );
-      } else setLoading(false);
+      await dispatch(
+        removeCamera(id, source.token, history, (_success) => {
+          if (_success) {
+            handlePopup(
+              FACE_R_APP_TITLE,
+              "Xoá thông tin camera thành công!",
+              2000,
+              "success",
+              async () => {
+                handleRequest(pages, page);
+                setLoading(false);
+              }
+            );
+          } else setLoading(false);
+        })
+      );
     },
-    [dispatch, handleRequest, history, success]
+    [dispatch, handleRequest, history]
   );
 
   const onChange = useCallback(

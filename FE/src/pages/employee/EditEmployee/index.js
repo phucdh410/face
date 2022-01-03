@@ -160,10 +160,12 @@ const EditEmployee = React.memo(() => {
 
   const onSubmit = useCallback(
     async (values) => {
+      console.log("Thông tin nv khi submit>>>", values);
       const date = convertStringToDate(values.date);
 
       if (isValidDate(date)) {
         source = axios.CancelToken.source();
+
         const params = new FormData();
 
         for (let index = 0; index < photos.length; index++) {
@@ -179,25 +181,24 @@ const EditEmployee = React.memo(() => {
         params.append("active", values.active);
         params.append("changed", values.changed ? 1 : 0);
 
-        // window.start_preloader();
         setLoading(true);
-        await dispatch(editEmployee(id, params, source.token, history));
-
-        if (employeeResponseStatus) {
-          setPhotos([]);
-
-          handlePopup(
-            FACE_R_APP_TITLE,
-            "Lưu thông tin nhân viên thành công!",
-            2000,
-            "success",
-            () => {
-              history.replace("/employees");
-              setLoading(false);
-            }
-          );
-          // } else window.stop_preloader();
-        } else setLoading(false);
+        await dispatch(
+          editEmployee(id, params, source.token, history, (_success) => {
+            if (_success) {
+              setPhotos([]);
+              handlePopup(
+                FACE_R_APP_TITLE,
+                "Lưu thông tin nhân viên thành công!",
+                2000,
+                "success",
+                () => {
+                  history.replace("/employees");
+                  setLoading(false);
+                }
+              );
+            } else setLoading(false);
+          })
+        );
       } else {
         handlePopup(
           FACE_R_APP_TITLE,
@@ -212,6 +213,8 @@ const EditEmployee = React.memo(() => {
     },
     [dispatch, employeeResponseStatus, history, id, photos]
   );
+
+  console.log("Thông tin nv hiện tại>>>", employee);
 
   return (
     <Suspense fallback={<SuspenseLoading />}>
