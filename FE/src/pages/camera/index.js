@@ -28,6 +28,7 @@ import { getStoresList } from "../../actions/store.actions";
 import { LoadingContext } from "../../context/LoadingContext";
 import { PopupContext } from "../../context/PopupContext";
 import SuspenseLoading from "../../components/SuspenseLoading";
+import useMain from "../../utils/useMain";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -59,12 +60,7 @@ const Camera = React.memo(() => {
 
   const [searchStore, setSearchStore] = useState(state.searchStore);
 
-  const getInitialProps = useCallback(() => {
-    source = axios.CancelToken.source();
-
-    dispatch(getStoresList(source.token, history));
-    dispatch(getRolesList(source.token, history));
-  }, [dispatch, history]);
+  const tmp = useMain(source, dispatch, history);
 
   const handleRequest = useCallback(
     (pages, page) => {
@@ -99,12 +95,13 @@ const Camera = React.memo(() => {
   useEffect(() => {
     // app.min.js
     window.loading();
-    getInitialProps();
+    // getInitialProps();
+    tmp();
     handleRequest(pages, page);
     return () => {
       if (source) source.cancel();
     };
-  }, [getInitialProps, handleRequest, page, pages]);
+  }, [tmp, handleRequest, page, pages]);
 
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
