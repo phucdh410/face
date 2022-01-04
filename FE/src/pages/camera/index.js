@@ -29,6 +29,7 @@ import { LoadingContext } from "../../context/LoadingContext";
 import { PopupContext } from "../../context/PopupContext";
 import SuspenseLoading from "../../components/SuspenseLoading";
 import useInitialProps from "../../utils/useInitialProps";
+import useHandleRequest from "../../utils/useHandleRequest";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
