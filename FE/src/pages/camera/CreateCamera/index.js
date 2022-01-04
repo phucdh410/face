@@ -58,17 +58,6 @@ const CreateCamera = React.memo(() => {
     clearTimeout();
   };
 
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
-    return () => {
-      if (source) source.cancel();
-    };
-  }, [errors]);
-
   const goBack = useCallback(
     (e) => {
       e.preventDefault();
@@ -87,7 +76,7 @@ const CreateCamera = React.memo(() => {
 
       setLoading(true);
       await dispatch(
-        addCamera(params, source.token, history, (_success) => {
+        addCamera(params, source.token, history, errors, (_success) => {
           if (_success) {
             handlePopup(
               FACE_R_APP_TITLE,
@@ -99,7 +88,10 @@ const CreateCamera = React.memo(() => {
                 setLoading(false);
               }
             );
-          } else setLoading(false);
+          } else
+            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
+              setLoading(false);
+            });
         })
       );
     },

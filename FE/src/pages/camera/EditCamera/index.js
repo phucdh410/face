@@ -75,18 +75,10 @@ const EditCamera = React.memo(() => {
     // app.min.js
     window.loading();
     handleRequest(id);
-  }, [handleRequest, id]);
-
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
     return () => {
       if (source) source.cancel();
     };
-  }, [errors]);
+  }, [handleRequest, id]);
 
   useEffect(() => {
     if (state.camera && state.camera.id.toString() === id)
@@ -112,7 +104,7 @@ const EditCamera = React.memo(() => {
         };
         setLoading(true);
         await dispatch(
-          editCamera(params, source.token, history, (_success) => {
+          editCamera(params, source.token, history, errors, (_success) => {
             if (_success) {
               handlePopup(
                 FACE_R_APP_TITLE,
@@ -124,7 +116,16 @@ const EditCamera = React.memo(() => {
                   setLoading(false);
                 }
               );
-            } else setLoading(false);
+            } else
+              handlePopup(
+                FACE_R_APP_TITLE,
+                errors.message,
+                2000,
+                "error",
+                () => {
+                  setLoading(false);
+                }
+              );
           })
         );
       }

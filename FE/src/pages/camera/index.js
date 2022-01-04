@@ -28,7 +28,7 @@ import { getStoresList } from "../../actions/store.actions";
 import { LoadingContext } from "../../context/LoadingContext";
 import { PopupContext } from "../../context/PopupContext";
 import SuspenseLoading from "../../components/SuspenseLoading";
-import useMain from "../../utils/useMain";
+import useInitialProps from "../../utils/useInitialProps";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -41,6 +41,7 @@ const Camera = React.memo(() => {
   const { setShowPopup, setInfo } = useContext(PopupContext);
   const dispatch = useDispatch();
   const history = useHistory();
+  const getInitialProps = useInitialProps(source, dispatch, history);
   const theme = useTheme();
 
   const state = useSelector(
@@ -57,10 +58,7 @@ const Camera = React.memo(() => {
   );
 
   const { cameras, pages, page, success, errors, stores } = state;
-
   const [searchStore, setSearchStore] = useState(state.searchStore);
-
-  const tmp = useMain(source, dispatch, history);
 
   const handleRequest = useCallback(
     (pages, page) => {
@@ -95,27 +93,17 @@ const Camera = React.memo(() => {
   useEffect(() => {
     // app.min.js
     window.loading();
-    // getInitialProps();
-    tmp();
+    getInitialProps();
     handleRequest(pages, page);
     return () => {
       if (source) source.cancel();
     };
-  }, [tmp, handleRequest, page, pages]);
-
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
-  }, [errors]);
+  }, [getInitialProps, handleRequest, page, pages]);
 
   const prev = useCallback(
     (e) => {
       prevHandler(e, pages, page, handleRequest);
     },
-
     [handleRequest, page, pages]
   );
 
@@ -131,7 +119,7 @@ const Camera = React.memo(() => {
       setLoading(true);
       source = axios.CancelToken.source();
       await dispatch(
-        removeCamera(id, source.token, history, (_success) => {
+        removeCamera(id, source.token, history, errors, (_success) => {
           if (_success) {
             handlePopup(
               FACE_R_APP_TITLE,
@@ -143,7 +131,11 @@ const Camera = React.memo(() => {
                 setLoading(false);
               }
             );
-          } else setLoading(false);
+          } else {
+            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
+              setLoading(false);
+            });
+          }
         })
       );
     },
@@ -154,7 +146,6 @@ const Camera = React.memo(() => {
     (e) => {
       e.preventDefault();
 
-      console.log("searchStore đổi thành", e.target.value);
       setSearchStore(e.target.value);
       handleRequest(0, 0);
     },

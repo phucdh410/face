@@ -105,7 +105,6 @@ export const handleError = (err, dispatch, type) => {
       type,
       payload: err.response.data,
     });
-
     return true;
   }
   dispatch({
