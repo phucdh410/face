@@ -30,6 +30,8 @@ import { PopupContext } from "../../context/PopupContext";
 import SuspenseLoading from "../../components/SuspenseLoading";
 import useInitialProps from "../../utils/useInitialProps";
 import useHandleRequest from "../../utils/useHandleRequest";
+import usePrev from "../../utils/usePrev";
+import useNext from "../../utils/useNext";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -60,19 +62,6 @@ const Camera = React.memo(() => {
 
   const { cameras, pages, page, success, errors, stores } = state;
   const [searchStore, setSearchStore] = useState(state.searchStore);
-
-  // const handleRequest = useCallback(
-  //   (pages, page) => {
-  //     source = axios.CancelToken.source();
-  //     const params = {
-  //       store_id: searchStore,
-  //       pages,
-  //       page,
-  //     };
-  //     dispatch(getCameras(params, source.token, history));
-  //   },
-  //   [dispatch, history, searchStore]
-  // );
 
   const handleRequest = useHandleRequest(
     source,
@@ -108,19 +97,8 @@ const Camera = React.memo(() => {
     };
   }, [getInitialProps, handleRequest, page, pages]);
 
-  const prev = useCallback(
-    (e) => {
-      prevHandler(e, pages, page, handleRequest);
-    },
-    [handleRequest, page, pages]
-  );
-
-  const next = useCallback(
-    (e) => {
-      nextHandler(e, pages, page, handleRequest);
-    },
-    [handleRequest, page, pages]
-  );
+  const prev = usePrev(pages, page, handleRequest);
+  const next = useNext(pages, page, handleRequest);
 
   const onDelete = useCallback(
     async (id) => {
