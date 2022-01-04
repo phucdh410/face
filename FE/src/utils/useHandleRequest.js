@@ -1,15 +1,9 @@
 import React from "react";
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
 import { getCameras } from "../actions/camera.actions";
 import axios from "axios";
 
-const useHandleRequest = (props) => {
-  console.log(props.a);
-  let { source, searchStore, history } = props;
-
-  const dispatch = useDispatch();
-
+const useHandleRequest = (source, dispatch, searchStore, history) => {
   const handleRequest = useCallback(
     (pages, page) => {
       source = axios.CancelToken.source();

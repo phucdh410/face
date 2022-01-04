@@ -61,17 +61,24 @@ const Camera = React.memo(() => {
   const { cameras, pages, page, success, errors, stores } = state;
   const [searchStore, setSearchStore] = useState(state.searchStore);
 
-  const handleRequest = useCallback(
-    (pages, page) => {
-      source = axios.CancelToken.source();
-      const params = {
-        store_id: searchStore,
-        pages,
-        page,
-      };
-      dispatch(getCameras(params, source.token, history));
-    },
-    [dispatch, history, searchStore]
+  // const handleRequest = useCallback(
+  //   (pages, page) => {
+  //     source = axios.CancelToken.source();
+  //     const params = {
+  //       store_id: searchStore,
+  //       pages,
+  //       page,
+  //     };
+  //     dispatch(getCameras(params, source.token, history));
+  //   },
+  //   [dispatch, history, searchStore]
+  // );
+
+  const handleRequest = useHandleRequest(
+    source,
+    dispatch,
+    searchStore,
+    history
   );
 
   const handlePopup = (title, message, expired, type, func) => {
