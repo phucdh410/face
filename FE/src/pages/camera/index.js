@@ -32,6 +32,7 @@ import useInitialProps from "../../utils/useInitialProps";
 import useHandleRequest from "../../utils/useHandleRequest";
 import usePrev from "../../utils/usePrev";
 import useNext from "../../utils/useNext";
+import usePopup from "../../utils/usePopup";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -70,22 +71,23 @@ const Camera = React.memo(() => {
     history
   );
 
-  const handlePopup = (title, message, expired, type, func) => {
-    setInfo({
-      title,
-      message,
-      expired,
-      type,
-    });
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-      if (typeof func === "function") {
-        func();
-      }
-    }, expired * 1.5);
-    clearTimeout();
-  };
+  const handlePopup = usePopup(setShowPopup, setInfo);
+  // const handlePopup = (title, message, expired, type, func) => {
+  //   setInfo({
+  //     title,
+  //     message,
+  //     expired,
+  //     type,
+  //   });
+  //   setShowPopup(true);
+  //   setTimeout(() => {
+  //     setShowPopup(false);
+  //     if (typeof func === "function") {
+  //       func();
+  //     }
+  //   }, expired * 1.5);
+  //   clearTimeout();
+  // };
 
   useEffect(() => {
     // app.min.js

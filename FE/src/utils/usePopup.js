@@ -1,23 +1,19 @@
-import React from "react";
-import { useContext } from "react";
-import { PopupContext } from "../context/PopupContext";
+import React, { useEffect } from "react";
 
-const usePopup = (title, message, expired, type, func) => {
-  const { setShowPopup, setInfo } = useContext(PopupContext);
-  setInfo({
-    title,
-    message,
-    expired,
-    type,
+const usePopup = (setShowPopup, setInfo) => {
+  useEffect((title, message, expired, type, func) => {
+    setInfo({ title, message, expired, type });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+      if (typeof func === "function") {
+        func();
+      }
+    }, expired * 1.5);
+    return () => {
+      clearTimeout();
+    };
   });
-  setShowPopup(true);
-  setTimeout(() => {
-    setShowPopup(false);
-    if (typeof func === "function") {
-      func();
-    }
-  }, expired * 1.5);
-  clearTimeout();
 
   return usePopup;
 };
