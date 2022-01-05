@@ -1,13 +1,10 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 
-const useChange = (setSearchStore, handleRequest) => {
-  console.log("Tạo lại hàm 1");
-  const onChange = (e) => {
-    console.log("Tạo lại hàm 2");
+const useChange = (setSearchStore) => {
+  const onChange = useCallback((e) => {
     e.preventDefault();
     setSearchStore(e.target.value);
-    handleRequest(0, 0);
-  };
+  }, []);
 
   return onChange;
 };

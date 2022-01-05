@@ -28,6 +28,10 @@ import { getStoresList } from "../../actions/store.actions";
 import { LoadingContext } from "../../context/LoadingContext";
 import { PopupContext } from "../../context/PopupContext";
 import SuspenseLoading from "../../components/SuspenseLoading";
+import useHandleRequest from "../../utils/useHandleRequest";
+import usePrev from "../../utils/usePrev";
+import useNext from "../../utils/useNext";
+import useChange from "../../utils/useChange";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -65,18 +69,26 @@ const Camera = React.memo(() => {
     dispatch(getRolesList(source.token, history));
   }, [dispatch, history]);
 
-  const handleRequest = useCallback(
-    (pages, page) => {
-      source = axios.CancelToken.source();
-      const params = {
-        store_id: searchStore,
-        pages,
-        page,
-      };
-      dispatch(getCameras(params, source.token, history));
-    },
-    [dispatch, history, searchStore]
+  const handleRequest = useHandleRequest(
+    source,
+    dispatch,
+    searchStore,
+    history
   );
+
+  // const handleRequest = useCallback(
+  //   (pages, page) => {
+  //     console.log("Hàm request");
+  //     source = axios.CancelToken.source();
+  //     const params = {
+  //       store_id: searchStore,
+  //       pages,
+  //       page,
+  //     };
+  //     dispatch(getCameras(params, source.token, history));
+  //   },
+  //   [dispatch, history, searchStore]
+  // );
 
   const handlePopup = (title, message, expired, type, func) => {
     setInfo({
@@ -105,19 +117,10 @@ const Camera = React.memo(() => {
     };
   }, [getInitialProps, page, pages]);
 
-  const prev = useCallback(
-    (e) => {
-      prevHandler(e, pages, page, handleRequest);
-    },
-    [handleRequest, page, pages]
-  );
+  const prev = usePrev(pages, page, handleRequest);
 
-  const next = useCallback(
-    (e) => {
-      nextHandler(e, pages, page, handleRequest);
-    },
-    [handleRequest, page, pages]
-  );
+  const next = useNext(pages, page, handleRequest);
+
   const onDelete = useCallback(
     async (id) => {
       setLoading(true);
@@ -146,13 +149,12 @@ const Camera = React.memo(() => {
     [dispatch, handleRequest, history]
   );
 
-  const onChange = useCallback(
-    (e) => {
-      e.preventDefault();
-      setSearchStore(e.target.value);
-    },
-    [handleRequest]
-  );
+  const onChange = useChange(setSearchStore);
+
+  // const onChange = useCallback((e) => {
+  //   e.preventDefault();
+  //   setSearchStore(e.target.value);
+  // }, []);
   useEffect(() => {
     handleRequest(0, 0);
     return () => {
