@@ -33,6 +33,8 @@ import usePrev from "../../utils/usePrev";
 import useNext from "../../utils/useNext";
 import useChange from "../../utils/useChange";
 import usePopup from "../../utils/usePopup";
+import useInitialProps from "../../utils/useInitialProps";
+import useRenderData from "../../utils/useRenderData";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -63,23 +65,18 @@ const Camera = React.memo(() => {
   const { cameras, pages, page, success, errors, stores } = state;
   const [searchStore, setSearchStore] = useState(state.searchStore);
 
-  const getInitialProps = useCallback(() => {
-    source = axios.CancelToken.source();
+  const getInitialProps = useInitialProps();
+  // const getInitialProps = useCallback(() => {
+  //   source = axios.CancelToken.source();
 
-    dispatch(getStoresList(source.token, history));
-    dispatch(getRolesList(source.token, history));
-  }, [dispatch, history]);
+  //   dispatch(getStoresList(source.token, history));
+  //   dispatch(getRolesList(source.token, history));
+  // }, [dispatch, history]);
 
-  const handleRequest = useHandleRequest(
-    source,
-    dispatch,
-    searchStore,
-    history
-  );
+  const handleRequest = useHandleRequest(searchStore);
 
   // const handleRequest = useCallback(
   //   (pages, page) => {
-  //     console.log("Hàm request");
   //     source = axios.CancelToken.source();
   //     const params = {
   //       store_id: searchStore,
@@ -90,7 +87,9 @@ const Camera = React.memo(() => {
   //   },
   //   [dispatch, history, searchStore]
   // );
+
   const handlePopup = usePopup();
+
   // const handlePopup = (title, message, expired, type, func) => {
   //   setInfo({
   //     title,
@@ -122,33 +121,40 @@ const Camera = React.memo(() => {
 
   const next = useNext(pages, page, handleRequest);
 
-  const onDelete = useCallback(
-    async (id) => {
-      setLoading(true);
-      source = axios.CancelToken.source();
-      await dispatch(
-        removeCamera(id, source.token, history, errors, (_success) => {
-          if (_success) {
-            handlePopup(
-              FACE_R_APP_TITLE,
-              "Xoá thông tin camera thành công!",
-              2000,
-              "success",
-              async () => {
-                handleRequest(pages, page);
-                setLoading(false);
-              }
-            );
-          } else {
-            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
-              setLoading(false);
-            });
-          }
-        })
-      );
-    },
-    [dispatch, handleRequest, history]
+  const { renderData, onDelete } = useRenderData(
+    cameras,
+    handleRequest,
+    errors,
+    pages,
+    page
   );
+  // const onDelete = useCallback(
+  //   async (id) => {
+  //     setLoading(true);
+  //     source = axios.CancelToken.source();
+  //     await dispatch(
+  //       removeCamera(id, source.token, history, errors, (_success) => {
+  //         if (_success) {
+  //           handlePopup(
+  //             FACE_R_APP_TITLE,
+  //             "Xoá thông tin camera thành công!",
+  //             2000,
+  //             "success",
+  //             async () => {
+  //               handleRequest(pages, page);
+  //               setLoading(false);
+  //             }
+  //           );
+  //         } else {
+  //           handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
+  //             setLoading(false);
+  //           });
+  //         }
+  //       })
+  //     );
+  //   },
+  //   [dispatch, handleRequest, history]
+  // );
 
   const onChange = useChange(setSearchStore);
 
@@ -163,134 +169,134 @@ const Camera = React.memo(() => {
     };
   }, [searchStore]);
 
-  const renderData = useCallback(() => {
-    if (cameras && cameras.length > 0) {
-      return cameras.map((camera, index) => (
-        <TableRow key={index} data-id={camera.id}>
-          <TableCell style={{ minWidth: 30, textAlign: "center" }}>
-            <Link to={`/cameras/edit/${camera.id}`}>
-              <Typography variant="h5" color={theme.palette.success.main}>
-                {index + 1}
-              </Typography>
-            </Link>
-          </TableCell>
+  // const renderData = useCallback(() => {
+  //   if (cameras && cameras.length > 0) {
+  //     return cameras.map((camera, index) => (
+  //       <TableRow key={index} data-id={camera.id}>
+  //         <TableCell style={{ minWidth: 30, textAlign: "center" }}>
+  //           <Link to={`/cameras/edit/${camera.id}`}>
+  //             <Typography variant="h5" color={theme.palette.success.main}>
+  //               {index + 1}
+  //             </Typography>
+  //           </Link>
+  //         </TableCell>
 
-          <TableCell style={{ minWidth: 150 }}>
-            <Link to={`/cameras/edit/${camera.id}`}>
-              <Typography variant="h5" color={theme.palette.success.main}>
-                {camera.host}
-              </Typography>
-            </Link>
-          </TableCell>
+  //         <TableCell style={{ minWidth: 150 }}>
+  //           <Link to={`/cameras/edit/${camera.id}`}>
+  //             <Typography variant="h5" color={theme.palette.success.main}>
+  //               {camera.host}
+  //             </Typography>
+  //           </Link>
+  //         </TableCell>
 
-          <TableCell
-            style={{
-              width: 150,
-              wordBreak: "break-word",
-              whiteSpace: "normal",
-              textAlign: "center",
-            }}
-          >
-            <Link to={`/cameras/edit/${camera.id}`}>
-              <Typography variant="h5" color={theme.palette.success.main}>
-                {camera.port}
-              </Typography>
-            </Link>
-          </TableCell>
+  //         <TableCell
+  //           style={{
+  //             width: 150,
+  //             wordBreak: "break-word",
+  //             whiteSpace: "normal",
+  //             textAlign: "center",
+  //           }}
+  //         >
+  //           <Link to={`/cameras/edit/${camera.id}`}>
+  //             <Typography variant="h5" color={theme.palette.success.main}>
+  //               {camera.port}
+  //             </Typography>
+  //           </Link>
+  //         </TableCell>
 
-          <TableCell
-            style={{
-              minWidth: 300,
-              wordBreak: "break-word",
-              whiteSpace: "normal",
-            }}
-          >
-            <Typography variant="h5" color={theme.palette.text.primary}>
-              {camera.store_name}
-            </Typography>
-          </TableCell>
+  //         <TableCell
+  //           style={{
+  //             minWidth: 300,
+  //             wordBreak: "break-word",
+  //             whiteSpace: "normal",
+  //           }}
+  //         >
+  //           <Typography variant="h5" color={theme.palette.text.primary}>
+  //             {camera.store_name}
+  //           </Typography>
+  //         </TableCell>
 
-          <TableCell style={{ minWidth: 200 }}>
-            <Typography
-              variant="h5"
-              color={theme.palette.text.primary}
-              component="span"
-            >
-              {camera.path}
-            </Typography>
-          </TableCell>
+  //         <TableCell style={{ minWidth: 200 }}>
+  //           <Typography
+  //             variant="h5"
+  //             color={theme.palette.text.primary}
+  //             component="span"
+  //           >
+  //             {camera.path}
+  //           </Typography>
+  //         </TableCell>
 
-          <TableCell style={{ minWidth: 150 }}>
-            <Typography
-              variant="h5"
-              color={theme.palette.text.primary}
-              component="span"
-            >
-              {camera.description}
-            </Typography>
-          </TableCell>
+  //         <TableCell style={{ minWidth: 150 }}>
+  //           <Typography
+  //             variant="h5"
+  //             color={theme.palette.text.primary}
+  //             component="span"
+  //           >
+  //             {camera.description}
+  //           </Typography>
+  //         </TableCell>
 
-          <TableCell style={{ textAlign: "center" }}>
-            {camera.status ? (
-              <Typography
-                variant="h5"
-                color={theme.palette.text.secondary}
-                component="span"
-                className="label label-pill label-success"
-              >
-                Online
-              </Typography>
-            ) : (
-              <Typography
-                variant="h6"
-                color={theme.palette.text.secondary}
-                component="span"
-                className="label label-pill label-danger"
-              >
-                Offline
-              </Typography>
-            )}
-          </TableCell>
+  //         <TableCell style={{ textAlign: "center" }}>
+  //           {camera.status ? (
+  //             <Typography
+  //               variant="h5"
+  //               color={theme.palette.text.secondary}
+  //               component="span"
+  //               className="label label-pill label-success"
+  //             >
+  //               Online
+  //             </Typography>
+  //           ) : (
+  //             <Typography
+  //               variant="h6"
+  //               color={theme.palette.text.secondary}
+  //               component="span"
+  //               className="label label-pill label-danger"
+  //             >
+  //               Offline
+  //             </Typography>
+  //           )}
+  //         </TableCell>
 
-          <TableCell style={{ textAlign: "center" }}>
-            {camera.active ? (
-              <Typography
-                variant="h5"
-                color={theme.palette.text.secondary}
-                component="span"
-                className="label label-pill label-success"
-              >
-                Active
-              </Typography>
-            ) : (
-              <Typography
-                variant="h6"
-                color={theme.palette.text.secondary}
-                component="span"
-                className="label label-pill label-danger"
-              >
-                Disabled
-              </Typography>
-            )}
-          </TableCell>
+  //         <TableCell style={{ textAlign: "center" }}>
+  //           {camera.active ? (
+  //             <Typography
+  //               variant="h5"
+  //               color={theme.palette.text.secondary}
+  //               component="span"
+  //               className="label label-pill label-success"
+  //             >
+  //               Active
+  //             </Typography>
+  //           ) : (
+  //             <Typography
+  //               variant="h6"
+  //               color={theme.palette.text.secondary}
+  //               component="span"
+  //               className="label label-pill label-danger"
+  //             >
+  //               Disabled
+  //             </Typography>
+  //           )}
+  //         </TableCell>
 
-          <TableCell style={{ textAlign: "center" }}>
-            <a href="#/" onClick={() => onDelete(camera.id)}>
-              <Typography
-                variant="h5"
-                color={theme.palette.success.main}
-                component="i"
-                fontFamily="Glyphicons Halflings"
-                className="glyphicon glyphicon-erase"
-              />
-            </a>
-          </TableCell>
-        </TableRow>
-      ));
-    }
+  //         <TableCell style={{ textAlign: "center" }}>
+  //           <a href="#/" onClick={() => onDelete(camera.id)}>
+  //             <Typography
+  //               variant="h5"
+  //               color={theme.palette.success.main}
+  //               component="i"
+  //               fontFamily="Glyphicons Halflings"
+  //               className="glyphicon glyphicon-erase"
+  //             />
+  //           </a>
+  //         </TableCell>
+  //       </TableRow>
+  //     ));
+  //   }
 
-    return null;
-  }, [cameras, onDelete]);
+  //   return null;
+  // }, [cameras, onDelete]);
 
   return (
     <Suspense fallback={<SuspenseLoading />}>

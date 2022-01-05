@@ -1,13 +1,15 @@
-import React from "react";
 import { useCallback } from "react";
 import { getCameras } from "../actions/camera.actions";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-const useHandleRequest = (source, dispatch, searchStore, history) => {
-  console.log("Tạo hàm");
+let source = axios.CancelToken.source();
+const useHandleRequest = (searchStore) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const handleRequest = useCallback(
     (pages, page) => {
-      console.log("Hàm request");
       source = axios.CancelToken.source();
       const params = {
         store_id: searchStore,
