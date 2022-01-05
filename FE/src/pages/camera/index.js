@@ -32,6 +32,7 @@ import useHandleRequest from "../../utils/useHandleRequest";
 import usePrev from "../../utils/usePrev";
 import useNext from "../../utils/useNext";
 import useChange from "../../utils/useChange";
+import usePopup from "../../utils/usePopup";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -41,7 +42,7 @@ let source = axios.CancelToken.source();
 
 const Camera = React.memo(() => {
   const { setLoading } = useContext(LoadingContext);
-  const { setShowPopup, setInfo } = useContext(PopupContext);
+  // const { setShowPopup, setInfo } = useContext(PopupContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
@@ -89,23 +90,23 @@ const Camera = React.memo(() => {
   //   },
   //   [dispatch, history, searchStore]
   // );
-
-  const handlePopup = (title, message, expired, type, func) => {
-    setInfo({
-      title,
-      message,
-      expired,
-      type,
-    });
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-      if (typeof func === "function") {
-        func();
-      }
-    }, expired * 1.5);
-    clearTimeout();
-  };
+  const handlePopup = usePopup();
+  // const handlePopup = (title, message, expired, type, func) => {
+  //   setInfo({
+  //     title,
+  //     message,
+  //     expired,
+  //     type,
+  //   });
+  //   setShowPopup(true);
+  //   setTimeout(() => {
+  //     setShowPopup(false);
+  //     if (typeof func === "function") {
+  //       func();
+  //     }
+  //   }, expired * 1.5);
+  //   clearTimeout();
+  // };
 
   useEffect(() => {
     // app.min.js
