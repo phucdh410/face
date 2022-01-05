@@ -57,7 +57,6 @@ const Camera = React.memo(() => {
 
   const { cameras, pages, page, success, errors, stores } = state;
   const [searchStore, setSearchStore] = useState(state.searchStore);
-  console.log("searchStore", searchStore);
 
   const getInitialProps = useCallback(() => {
     source = axios.CancelToken.source();
@@ -68,7 +67,6 @@ const Camera = React.memo(() => {
 
   const handleRequest = useCallback(
     (pages, page) => {
-      console.log("ID của cửa hàng hiện tại", searchStore);
       source = axios.CancelToken.source();
       const params = {
         store_id: searchStore,
@@ -151,8 +149,6 @@ const Camera = React.memo(() => {
   const onChange = useCallback(
     (e) => {
       e.preventDefault();
-      console.log("ID của cửa hàng đã đổi thành", e.target.value);
-
       setSearchStore(e.target.value);
     },
     [handleRequest]
