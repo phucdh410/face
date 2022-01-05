@@ -28,11 +28,6 @@ import { getStoresList } from "../../actions/store.actions";
 import { LoadingContext } from "../../context/LoadingContext";
 import { PopupContext } from "../../context/PopupContext";
 import SuspenseLoading from "../../components/SuspenseLoading";
-import useInitialProps from "../../utils/useInitialProps";
-import useHandleRequest from "../../utils/useHandleRequest";
-import usePrev from "../../utils/usePrev";
-import useNext from "../../utils/useNext";
-import usePopup from "../../utils/usePopup";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -45,7 +40,6 @@ const Camera = React.memo(() => {
   const { setShowPopup, setInfo } = useContext(PopupContext);
   const dispatch = useDispatch();
   const history = useHistory();
-  const getInitialProps = useInitialProps(source, dispatch, history);
   const theme = useTheme();
 
   const state = useSelector(
@@ -63,31 +57,45 @@ const Camera = React.memo(() => {
 
   const { cameras, pages, page, success, errors, stores } = state;
   const [searchStore, setSearchStore] = useState(state.searchStore);
+  console.log("searchStore", searchStore);
 
-  const handleRequest = useHandleRequest(
-    source,
-    dispatch,
-    searchStore,
-    history
+  const getInitialProps = useCallback(() => {
+    source = axios.CancelToken.source();
+
+    dispatch(getStoresList(source.token, history));
+    dispatch(getRolesList(source.token, history));
+  }, [dispatch, history]);
+
+  const handleRequest = useCallback(
+    (pages, page) => {
+      console.log("ID của cửa hàng hiện tại", searchStore);
+      source = axios.CancelToken.source();
+      const params = {
+        store_id: searchStore,
+        pages,
+        page,
+      };
+      dispatch(getCameras(params, source.token, history));
+    },
+    [dispatch, history, searchStore]
   );
 
-  const handlePopup = usePopup(setShowPopup, setInfo);
-  // const handlePopup = (title, message, expired, type, func) => {
-  //   setInfo({
-  //     title,
-  //     message,
-  //     expired,
-  //     type,
-  //   });
-  //   setShowPopup(true);
-  //   setTimeout(() => {
-  //     setShowPopup(false);
-  //     if (typeof func === "function") {
-  //       func();
-  //     }
-  //   }, expired * 1.5);
-  //   clearTimeout();
-  // };
+  const handlePopup = (title, message, expired, type, func) => {
+    setInfo({
+      title,
+      message,
+      expired,
+      type,
+    });
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+      if (typeof func === "function") {
+        func();
+      }
+    }, expired * 1.5);
+    clearTimeout();
+  };
 
   useEffect(() => {
     // app.min.js
@@ -97,11 +105,21 @@ const Camera = React.memo(() => {
     return () => {
       if (source) source.cancel();
     };
-  }, [getInitialProps, handleRequest, page, pages]);
+  }, [getInitialProps, page, pages]);
 
-  const prev = usePrev(pages, page, handleRequest);
-  const next = useNext(pages, page, handleRequest);
+  const prev = useCallback(
+    (e) => {
+      prevHandler(e, pages, page, handleRequest);
+    },
+    [handleRequest, page, pages]
+  );
 
+  const next = useCallback(
+    (e) => {
+      nextHandler(e, pages, page, handleRequest);
+    },
+    [handleRequest, page, pages]
+  );
   const onDelete = useCallback(
     async (id) => {
       setLoading(true);
@@ -133,12 +151,18 @@ const Camera = React.memo(() => {
   const onChange = useCallback(
     (e) => {
       e.preventDefault();
+      console.log("ID của cửa hàng đã đổi thành", e.target.value);
 
       setSearchStore(e.target.value);
-      handleRequest(0, 0);
     },
     [handleRequest]
   );
+  useEffect(() => {
+    handleRequest(0, 0);
+    return () => {
+      if (source) source.cancel();
+    };
+  }, [searchStore]);
 
   const renderData = useCallback(() => {
     if (cameras && cameras.length > 0) {

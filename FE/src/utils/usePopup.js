@@ -1,21 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useCallback } from "react";
 
 const usePopup = (setShowPopup, setInfo) => {
-  useEffect((title, message, expired, type, func) => {
-    setInfo({ title, message, expired, type });
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-      if (typeof func === "function") {
-        func();
-      }
-    }, expired * 1.5);
-    return () => {
-      clearTimeout();
-    };
-  });
+  const handlePopup = useCallback(
+    (title, message, expired, type, func) => {
+      setInfo({ title, message, expired, type });
+      setShowPopup(true);
+      setTimeout(() => {
+        setShowPopup(false);
+        if (typeof func === "function") {
+          func();
+        }
+      }, expired * 1.5);
+      return () => {
+        clearTimeout();
+      };
+    },
+    [message]
+  );
 
-  return usePopup;
+  return handlePopup;
 };
 
 export default usePopup;
