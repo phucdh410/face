@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 
-const useChange = (setSearchStore) => {
+const useChange = (setSearch) => {
   const onChange = useCallback((e) => {
     e.preventDefault();
-    setSearchStore(e.target.value);
+    setSearch(e.target.value);
   }, []);
 
   return onChange;

@@ -1,9 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Typography,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 const Input = lazy(() => import("../../../components/no_label/Input"));
@@ -18,11 +15,8 @@ const FilterPanel = React.memo(({ searchInput, onChange }) => {
           <Box className="panel panel-bd lobidrag">
             <Box className="panel-heading">
               <Box className="panel-title">
-                <Typography
-                  variant="h4"
-                  color={theme.palette.text.secondary}
-                >
-                  Quản lý camera
+                <Typography variant="h4" color={theme.palette.text.secondary}>
+                  Quản lý cửa hàng
                 </Typography>
               </Box>
             </Box>

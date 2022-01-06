@@ -1,111 +1,64 @@
 import React, { useCallback } from "react";
-import { TableCell, TableRow, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { TableRow, TableCell, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { removeCamera } from "../../../actions/camera.actions";
 import useOnDelete from "../../../utils/Hooks/useOnDelete";
+import { removeRole } from "../../../actions/role.actions";
 
-const useRenderData = (cameras, handleRequest, errors, pages, page) => {
+const useRenderData = (roles, handleRequest, errors, pages, page) => {
   const theme = useTheme();
   const onDelete = useOnDelete(
-    removeCamera,
-    "thiết bị",
+    removeRole,
+    "vai trò",
     handleRequest,
     errors,
     pages,
     page
   );
   const renderData = useCallback(() => {
-    if (cameras && cameras.length > 0) {
-      return cameras.map((camera, index) => (
-        <TableRow key={index} data-id={camera.id}>
+    if (roles && roles.length > 0) {
+      return roles.map((role, index) => (
+        <TableRow key={index}>
           <TableCell style={{ minWidth: 30, textAlign: "center" }}>
-            <Link to={`/cameras/edit/${camera.id}`}>
+            <Link to={`/roles/edit/${role.id}`}>
               <Typography variant="h5" color={theme.palette.success.main}>
                 {index + 1}
               </Typography>
             </Link>
           </TableCell>
 
-          <TableCell style={{ minWidth: 150 }}>
-            <Link to={`/cameras/edit/${camera.id}`}>
-              <Typography variant="h5" color={theme.palette.success.main}>
-                {camera.host}
-              </Typography>
-            </Link>
-          </TableCell>
-
-          <TableCell
-            style={{
-              width: 150,
-              wordBreak: "break-word",
-              whiteSpace: "normal",
-              textAlign: "center",
-            }}
-          >
-            <Link to={`/cameras/edit/${camera.id}`}>
-              <Typography variant="h5" color={theme.palette.success.main}>
-                {camera.port}
-              </Typography>
-            </Link>
-          </TableCell>
-
-          <TableCell
-            style={{
-              minWidth: 300,
-              wordBreak: "break-word",
-              whiteSpace: "normal",
-            }}
-          >
-            <Typography variant="h5" color={theme.palette.text.primary}>
-              {camera.store_name}
-            </Typography>
-          </TableCell>
-
           <TableCell style={{ minWidth: 200 }}>
-            <Typography
-              variant="h5"
-              color={theme.palette.text.primary}
-              component="span"
-            >
-              {camera.path}
-            </Typography>
-          </TableCell>
-
-          <TableCell style={{ minWidth: 150 }}>
-            <Typography
-              variant="h5"
-              color={theme.palette.text.primary}
-              component="span"
-            >
-              {camera.description}
-            </Typography>
+            <Link to={`/roles/edit/${role.id}`}>
+              <Typography variant="h5" color={theme.palette.success.main}>
+                {role.name}
+              </Typography>
+            </Link>
           </TableCell>
 
           <TableCell style={{ textAlign: "center" }}>
-            {camera.status ? (
+            {role.admin ? (
               <Typography
                 variant="h5"
                 color={theme.palette.text.secondary}
                 component="span"
                 className="label label-pill label-success"
               >
-                Online
+                Administrator
               </Typography>
             ) : (
               <Typography
-                variant="h6"
+                variant="h5"
                 color={theme.palette.text.secondary}
                 component="span"
                 className="label label-pill label-danger"
               >
-                Offline
+                Guests
               </Typography>
             )}
           </TableCell>
 
           <TableCell style={{ textAlign: "center" }}>
-            {camera.active ? (
+            {role.active ? (
               <Typography
                 variant="h5"
                 color={theme.palette.text.secondary}
@@ -116,7 +69,7 @@ const useRenderData = (cameras, handleRequest, errors, pages, page) => {
               </Typography>
             ) : (
               <Typography
-                variant="h6"
+                variant="h5"
                 color={theme.palette.text.secondary}
                 component="span"
                 className="label label-pill label-danger"
@@ -127,7 +80,7 @@ const useRenderData = (cameras, handleRequest, errors, pages, page) => {
           </TableCell>
 
           <TableCell style={{ textAlign: "center" }}>
-            <a href="#/" onClick={() => onDelete(camera.id)}>
+            <a href="#/" onClick={() => onDelete(role.id)}>
               <Typography
                 variant="h5"
                 color={theme.palette.success.main}
@@ -140,10 +93,9 @@ const useRenderData = (cameras, handleRequest, errors, pages, page) => {
         </TableRow>
       ));
     }
-    return null;
-  }, [cameras, onDelete]);
 
+    return null;
+  }, [roles, onDelete]);
   return renderData;
 };
-
 export default useRenderData;

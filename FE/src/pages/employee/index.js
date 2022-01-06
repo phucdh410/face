@@ -26,6 +26,8 @@ import { getEmployees, removeEmployee } from "../../actions/employee.actions";
 import { LoadingContext } from "../../context/LoadingContext";
 import SuspenseLoading from "../../components/SuspenseLoading";
 import { PopupContext } from "../../context/PopupContext";
+import usePrev from "../../utils/Hooks/usePrev";
+import useNext from "../../utils/Hooks/useNext";
 const DataTable = lazy(() => import("../../components/DataTable"));
 
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -100,19 +102,9 @@ const Employee = React.memo(() => {
     clearTimeout();
   };
 
-  const prev = useCallback(
-    (e) => {
-      prevHandler(e, pages, page, handleRequest);
-    },
-    [handleRequest, page, pages]
-  );
+  const prev = usePrev(pages, page, handleRequest);
 
-  const next = useCallback(
-    (e) => {
-      nextHandler(e, pages, page, handleRequest);
-    },
-    [handleRequest, page, pages]
-  );
+  const next = useNext(pages, page, handleRequest);
 
   const onDelete = useCallback(
     async (id) => {
@@ -148,10 +140,11 @@ const Employee = React.memo(() => {
       e.preventDefault();
       switch (e.target.name) {
         case "search_store_id":
-          console.log("searchStore đổi thành", e.target.value);
+          console.log("Đổi cửa hàng");
           setSearchStore(e.target.value);
           break;
         case "search_input":
+          console.log("Đổi thông tin nhập");
           setSearcInput(e.target.value);
           break;
         default:

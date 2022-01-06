@@ -183,7 +183,7 @@ export const editEmployee =
   };
 
 export const removeEmployee =
-  (id, cancelToken, history, cb) => async (dispatch) => {
+  (id, cancelToken, history, errors, cb) => async (dispatch) => {
     try {
       const res = await axios.delete(
         `${FACE_R_APP_API_ENDPOINT}/employees/${id}`,
@@ -193,6 +193,7 @@ export const removeEmployee =
       res.data.status ? cb(true) : cb(false);
 
       if (!res.data.status) {
+        errors.message = "Lưu thông tin nhân viên thất bại!";
         dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin nhân viên thất bại!" },
@@ -204,6 +205,8 @@ export const removeEmployee =
         payload: res.data.status,
       });
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {
