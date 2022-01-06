@@ -1,9 +1,9 @@
 import { useCallback } from "react";
-import { getStoresList } from "../actions/store.actions";
-import { getRolesList } from "../actions/role.actions";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+import { getRolesList } from "../../../actions/role.actions";
+import { getStoresList } from "../../../actions/store.actions";
 
 let source = axios.CancelToken.source();
 function useInitialProps() {

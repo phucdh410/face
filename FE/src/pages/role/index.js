@@ -54,7 +54,7 @@ const Role = React.memo(() => {
 
   const { roles, pages, page, success, errors } = state;
 
-  const [searchInput, setSearcInput] = useState(state.searchInput);
+  const [searchInput, setSearchInput] = useState(state.searchInput);
 
   const handleRequest = useCallback(
     (pages, page) => {
@@ -96,14 +96,6 @@ const Role = React.memo(() => {
     }, expired * 1.5);
     clearTimeout();
   };
-
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
-  }, [errors]);
 
   const prev = useCallback(
     (e) => {
@@ -147,7 +139,7 @@ const Role = React.memo(() => {
     (e) => {
       e.preventDefault();
 
-      setSearcInput(e.target.value);
+      setSearchInput(e.target.value);
       handleRequest(0, 0);
     },
     [handleRequest]

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { nextHandler } from "./handler";
+import { nextHandler } from "../handler";
 
 const useNext = (pages, page, handleRequest) => {
   const next = useCallback(

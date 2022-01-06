@@ -1,52 +1,20 @@
 import React, { useCallback } from "react";
-import { useContext } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { removeCamera } from "../actions/camera.actions";
-import { LoadingContext } from "../context/LoadingContext";
-import { Link, withRouter } from "react-router-dom";
-import { FACE_R_APP_TITLE } from "../config";
-import usePopup from "./usePopup";
-import axios from "axios";
-import { Box, TableCell, TableRow, Typography } from "@mui/material";
+import { TableCell, TableRow, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
+import { removeCamera } from "../../../actions/camera.actions";
+import useOnDelete from "../../../utils/Hooks/useOnDelete";
 
-let source = axios.CancelToken.source();
 const useRenderData = (cameras, handleRequest, errors, pages, page) => {
-  const dispatch = useDispatch();
   const theme = useTheme();
-  const history = useHistory();
-  const handlePopup = usePopup();
-  const { setLoading } = useContext(LoadingContext);
-
-  const onDelete = useCallback(
-    async (id) => {
-      setLoading(true);
-      source = axios.CancelToken.source();
-      await dispatch(
-        removeCamera(id, source.token, history, errors, (_success) => {
-          if (_success) {
-            handlePopup(
-              FACE_R_APP_TITLE,
-              "Xoá thông tin camera thành công!",
-              2000,
-              "success",
-              async () => {
-                handleRequest(pages, page);
-                setLoading(false);
-              }
-            );
-          } else {
-            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
-              setLoading(false);
-            });
-          }
-        })
-      );
-    },
-    [dispatch, handleRequest, history]
+  const onDelete = useOnDelete(
+    removeCamera,
+    "thiết bị",
+    handleRequest,
+    errors,
+    pages,
+    page
   );
-
   const renderData = useCallback(() => {
     if (cameras && cameras.length > 0) {
       return cameras.map((camera, index) => (
@@ -175,7 +143,7 @@ const useRenderData = (cameras, handleRequest, errors, pages, page) => {
     return null;
   });
 
-  return { renderData, onDelete };
+  return renderData;
 };
 
 export default useRenderData;

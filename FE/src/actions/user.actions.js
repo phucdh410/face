@@ -154,7 +154,7 @@ export const editUser =
   };
 
 export const removeUser =
-  (id, cancelToken, history, cb) => async (dispatch) => {
+  (id, cancelToken, history, errors, cb) => async (dispatch) => {
     try {
       const res = await axios.delete(
         `${FACE_R_APP_API_ENDPOINT}/users/delete/${id}`,
@@ -164,6 +164,7 @@ export const removeUser =
       res.data.status ? cb(true) : cb(false);
 
       if (!res.data.status) {
+        errors.message = "Lưu thông tin người dùng thất bại!";
         dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin người dùng thất bại!" },
@@ -175,6 +176,8 @@ export const removeUser =
         payload: res.data.status,
       });
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {

@@ -51,7 +51,7 @@ const Dept = React.memo(() => {
   );
 
   const { depts, pages, page, success, errors } = state;
-  const [searchInput, setSearcInput] = useState(state.searchInput);
+  const [searchInput, setSearchInput] = useState(state.searchInput);
 
   const handleRequest = useCallback(
     (pages, page) => {
@@ -94,14 +94,6 @@ const Dept = React.memo(() => {
     clearTimeout();
   };
 
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
-  }, [errors]);
-
   const prev = useCallback(
     (e) => {
       prevHandler(e, pages, page, handleRequest);
@@ -122,7 +114,7 @@ const Dept = React.memo(() => {
       setLoading(true);
       source = axios.CancelToken.source();
       await dispatch(
-        removeDept(id, source.token, history, (_success) => {
+        removeDept(id, source.token, history, errors, (_success) => {
           if (_success) {
             handlePopup(
               FACE_R_APP_TITLE,
@@ -134,9 +126,11 @@ const Dept = React.memo(() => {
                 setLoading(false);
               }
             );
-
-            // } else window.stop_preloader();
-          } else setLoading(false);
+          } else {
+            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
+              setLoading(false);
+            });
+          }
         })
       );
     },
@@ -147,7 +141,7 @@ const Dept = React.memo(() => {
     (e) => {
       e.preventDefault();
 
-      setSearcInput(e.target.value);
+      setSearchInput(e.target.value);
       handleRequest(0, 0);
     },
     [handleRequest]

@@ -100,14 +100,6 @@ const Employee = React.memo(() => {
     clearTimeout();
   };
 
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
-  }, [errors]);
-
   const prev = useCallback(
     (e) => {
       prevHandler(e, pages, page, handleRequest);
@@ -128,7 +120,7 @@ const Employee = React.memo(() => {
       setLoading(true);
       source = axios.CancelToken.source();
       await dispatch(
-        removeEmployee(id, source.token, history, (_success) => {
+        removeEmployee(id, source.token, history, errors, (_success) => {
           if (_success) {
             handlePopup(
               FACE_R_APP_TITLE,
@@ -140,8 +132,11 @@ const Employee = React.memo(() => {
                 setLoading(false);
               }
             );
-            // } else window.stop_preloader();
-          } else setLoading(false);
+          } else {
+            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
+              setLoading(false);
+            });
+          }
         })
       );
     },

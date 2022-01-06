@@ -188,7 +188,7 @@ export const editRole =
   };
 
 export const removeRole =
-  (id, cancelToken, history, cb) => async (dispatch) => {
+  (id, cancelToken, history, errors, cb) => async (dispatch) => {
     try {
       const res = await axios.delete(`${FACE_R_APP_API_ENDPOINT}/roles/${id}`, {
         cancelToken,
@@ -197,6 +197,7 @@ export const removeRole =
       res.data.status ? cb(true) : cb(false);
 
       if (!res.data.status) {
+        errors.message = "Lưu thông tin vai trò thất bại!";
         dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin vai trò thất bại!" },
@@ -208,6 +209,8 @@ export const removeRole =
         payload: res.data.status,
       });
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {

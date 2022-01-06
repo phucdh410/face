@@ -1,5 +1,5 @@
-import React, { useContext, useCallback } from "react";
-import { PopupContext } from "../context/PopupContext";
+import { useContext, useCallback } from "react";
+import { PopupContext } from "../../context/PopupContext";
 
 const usePopup = () => {
   const { setShowPopup, setInfo } = useContext(PopupContext);

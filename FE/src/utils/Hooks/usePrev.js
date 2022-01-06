@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { prevHandler } from "./handler";
+import { prevHandler } from "../handler";
 
 const usePrev = (pages, page, handleRequest) => {
   const prev = useCallback(
