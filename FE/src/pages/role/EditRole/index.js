@@ -19,6 +19,7 @@ import { getRole, editRole } from "../../../actions/role.actions";
 import { LoadingContext } from "../../../context/LoadingContext";
 import SuspenseLoading from "../../../components/SuspenseLoading";
 import { PopupContext } from "../../../context/PopupContext";
+import useGoBack from "../../../utils/Hooks/useGoBack";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -79,13 +80,7 @@ const EditRole = React.memo(() => {
     if (state.role && state.role.id.toString() === id) setRole(state.role);
   }, [state.role]);
 
-  const goBack = useCallback(
-    (e) => {
-      e.preventDefault();
-      history.goBack();
-    },
-    [history]
-  );
+  const goBack = useGoBack();
 
   const onSubmit = useCallback(
     async (values) => {

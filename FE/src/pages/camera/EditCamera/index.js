@@ -19,6 +19,7 @@ import { getCamera, editCamera } from "../../../actions/camera.actions";
 import { LoadingContext } from "../../../context/LoadingContext";
 import { PopupContext } from "../../../context/PopupContext";
 import SuspenseLoading from "../../../components/SuspenseLoading";
+import useGoBack from "../../../utils/Hooks/useGoBack";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -85,13 +86,7 @@ const EditCamera = React.memo(() => {
       setCamera(state.camera);
   }, [state.camera]);
 
-  const goBack = useCallback(
-    (e) => {
-      e.preventDefault();
-      history.goBack();
-    },
-    [history]
-  );
+  const goBack = useGoBack();
 
   const onSubmit = useCallback(
     async (values) => {

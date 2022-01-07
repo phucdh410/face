@@ -21,6 +21,7 @@ import { LoadingContext } from "../../../context/LoadingContext";
 import removeFace from "../../../actions/face.actions";
 import SuspenseLoading from "../../../components/SuspenseLoading";
 import { PopupContext } from "../../../context/PopupContext";
+import useGoBack from "../../../utils/Hooks/useGoBack";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -72,13 +73,7 @@ const CreateEmployee = React.memo(() => {
     clearTimeout();
   };
 
-  const goBack = useCallback(
-    (e) => {
-      e.preventDefault();
-      history.goBack();
-    },
-    [history]
-  );
+  const goBack = useGoBack();
 
   const onDeleteFace = useCallback(
     async (_id) => {

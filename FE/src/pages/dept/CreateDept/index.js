@@ -18,6 +18,7 @@ import { FACE_R_APP_TITLE } from "../../../config";
 import { LoadingContext } from "../../../context/LoadingContext";
 import { PopupContext } from "../../../context/PopupContext";
 import SuspenseLoading from "../../../components/SuspenseLoading";
+import useGoBack from "../../../utils/Hooks/useGoBack";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -56,13 +57,7 @@ const CreateDept = React.memo(() => {
     clearTimeout();
   };
 
-  const goBack = useCallback(
-    (e) => {
-      e.preventDefault();
-      history.goBack();
-    },
-    [history]
-  );
+  const goBack = useGoBack();
 
   const onSubmit = useCallback(
     async (values) => {
