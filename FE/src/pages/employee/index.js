@@ -83,11 +83,9 @@ const Employee = React.memo(() => {
       e.preventDefault();
       switch (e.target.name) {
         case "search_store_id":
-          console.log("Đổi cửa hàng");
           setSearchStore(e.target.value);
           break;
         case "search_input":
-          console.log("Đổi thông tin nhập");
           setSearcInput(e.target.value);
           break;
         default:

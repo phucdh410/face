@@ -21,7 +21,6 @@ const useHandleRequest = (searchInput, action) => {
     [dispatch, history, searchInput]
   );
   useEffect(() => {
-    console.log(source);
     source && source.cancel();
   });
   return handleRequest;
