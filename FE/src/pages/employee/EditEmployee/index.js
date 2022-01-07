@@ -102,18 +102,6 @@ const EditEmployee = React.memo(() => {
   };
 
   useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
-
-    return () => {
-      if (source) source.cancel();
-    };
-  }, [errors]);
-
-  useEffect(() => {
     if (state.employee && state.employee.id.toString() === id) {
       setEmployee({
         ...state.employee,
@@ -181,21 +169,38 @@ const EditEmployee = React.memo(() => {
 
         setLoading(true);
         await dispatch(
-          editEmployee(id, params, source.token, history, (_success) => {
-            if (_success) {
-              setPhotos([]);
-              handlePopup(
-                FACE_R_APP_TITLE,
-                "Lưu thông tin nhân viên thành công!",
-                2000,
-                "success",
-                () => {
-                  history.replace("/employees");
-                  setLoading(false);
-                }
-              );
-            } else setLoading(false);
-          })
+          editEmployee(
+            id,
+            params,
+            source.token,
+            history,
+            errors,
+            (_success) => {
+              if (_success) {
+                setPhotos([]);
+                handlePopup(
+                  FACE_R_APP_TITLE,
+                  "Lưu thông tin nhân viên thành công!",
+                  2000,
+                  "success",
+                  () => {
+                    history.replace("/employees");
+                    setLoading(false);
+                  }
+                );
+              } else {
+                handlePopup(
+                  FACE_R_APP_TITLE,
+                  errors.message,
+                  2000,
+                  "error",
+                  () => {
+                    setLoading(false);
+                  }
+                );
+              }
+            }
+          )
         );
       } else {
         handlePopup(

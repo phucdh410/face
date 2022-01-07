@@ -75,17 +75,6 @@ const EditStore = React.memo(() => {
     }, expired * 1.5);
     clearTimeout();
   };
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
-
-    return () => {
-      if (source) source.cancel();
-    };
-  }, [errors]);
 
   useEffect(() => {
     if (state.store && state.store.id.toString() === id) setStore(state.store);
@@ -109,10 +98,9 @@ const EditStore = React.memo(() => {
         address: values.address ? values.address.toUpperCase() : "",
       };
 
-      // window.start_preloader();
       setLoading(true);
       await dispatch(
-        editStore(params, source.token, history, (_success) => {
+        editStore(params, source.token, history, errors, (_success) => {
           if (_success) {
             handlePopup(
               FACE_R_APP_TITLE,
@@ -124,8 +112,11 @@ const EditStore = React.memo(() => {
                 setLoading(false);
               }
             );
-            // } else window.stop_preloader();
-          } else setLoading(false);
+          } else {
+            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
+              setLoading(false);
+            });
+          }
         })
       );
     },

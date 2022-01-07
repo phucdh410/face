@@ -111,7 +111,7 @@ export const getRole = (id, cancelToken, history) => async (dispatch) => {
 };
 
 export const addRole =
-  (params, cancelToken, history, cb) => async (dispatch) => {
+  (params, cancelToken, history, errors, cb) => async (dispatch) => {
     try {
       const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/roles`, params, {
         cancelToken,
@@ -120,6 +120,7 @@ export const addRole =
       res.data.status ? cb(true) : cb(false);
 
       if (!res.data.status) {
+        errors.message = "Lưu thông tin vai trò thất bại!";
         dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin vai trò thất bại!" },
@@ -131,6 +132,8 @@ export const addRole =
         payload: res.data.status,
       });
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {
@@ -146,7 +149,7 @@ export const addRole =
   };
 
 export const editRole =
-  (params, cancelToken, history, cb) => async (dispatch) => {
+  (params, cancelToken, history, errors, cb) => async (dispatch) => {
     dispatch({
       type: EDIT_ROLE,
       payload: null,
@@ -162,6 +165,7 @@ export const editRole =
       res.data.status ? cb(true) : cb(false);
 
       if (!res.data.status) {
+        errors.message = "Lưu thông tin vai trò thất bại!";
         dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin vai trò thất bại!" },
@@ -173,6 +177,8 @@ export const editRole =
         payload: res.data.status,
       });
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {

@@ -72,18 +72,6 @@ const CreateEmployee = React.memo(() => {
     clearTimeout();
   };
 
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
-
-    return () => {
-      if (source) source.cancel();
-    };
-  }, [errors]);
-
   const goBack = useCallback(
     (e) => {
       e.preventDefault();
@@ -130,7 +118,7 @@ const CreateEmployee = React.memo(() => {
 
         setLoading(true);
         await dispatch(
-          addEmployee(params, source.token, history, (_success) => {
+          addEmployee(params, source.token, history, errors, (_success) => {
             if (_success) {
               let message = "Lưu thông tin nhân viên thành công!";
               const errors = uploadErrors || [];
@@ -143,7 +131,17 @@ const CreateEmployee = React.memo(() => {
                 history.replace("/employees");
                 setLoading(false);
               });
-            } else setLoading(false);
+            } else {
+              handlePopup(
+                FACE_R_APP_TITLE,
+                errors.message,
+                2000,
+                "error",
+                () => {
+                  setLoading(false);
+                }
+              );
+            }
           })
         );
       } else {

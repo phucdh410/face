@@ -86,7 +86,7 @@ export const getEmployee = (id, cancelToken, history) => async (dispatch) => {
 };
 
 export const addEmployee =
-  (params, cancelToken, history, cb) => async (dispatch) => {
+  (params, cancelToken, history, errors, cb) => async (dispatch) => {
     dispatch({
       type: UPLOAD_FILE_ERRORS,
       payload: [],
@@ -114,6 +114,8 @@ export const addEmployee =
         });
       }
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {
@@ -134,7 +136,7 @@ export const addEmployee =
   };
 
 export const editEmployee =
-  (id, params, cancelToken, history, cb) => async (dispatch) => {
+  (id, params, cancelToken, history, errors, cb) => async (dispatch) => {
     dispatch({
       type: UPLOAD_FILE_ERRORS,
       payload: [],
@@ -151,6 +153,7 @@ export const editEmployee =
       const { errors, faces } = res.data;
 
       if (!res.data.status) {
+        errors.message = "Lưu thông tin nhân viên thất bại!";
         dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin nhân viên thất bại!" },
@@ -168,6 +171,8 @@ export const editEmployee =
         });
       }
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {

@@ -111,7 +111,7 @@ export const getStore = (id, cancelToken, history) => async (dispatch) => {
 };
 
 export const addStore =
-  (params, cancelToken, history, cb) => async (dispatch) => {
+  (params, cancelToken, history, errors, cb) => async (dispatch) => {
     try {
       const res = await axios.post(
         `${FACE_R_APP_API_ENDPOINT}/stores`,
@@ -124,6 +124,7 @@ export const addStore =
       res.data.status ? cb(true) : cb(false);
 
       if (!res.data.status) {
+        errors.message = "Lưu thông tin cửa hàng thất bại!";
         dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin cửa hàng thất bại!" },
@@ -135,6 +136,8 @@ export const addStore =
         payload: res.data.status,
       });
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {
@@ -150,7 +153,7 @@ export const addStore =
   };
 
 export const editStore =
-  (params, cancelToken, history, cb) => async (dispatch) => {
+  (params, cancelToken, history, errors, cb) => async (dispatch) => {
     try {
       const res = await axios.put(
         `${FACE_R_APP_API_ENDPOINT}/stores/${params.id}`,
@@ -161,6 +164,7 @@ export const editStore =
       res.data.status ? cb(true) : cb(false);
 
       if (!res.data.status) {
+        errors.message = "Lưu thông tin cửa hàng thất bại!";
         dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin cửa hàng thất bại!" },
@@ -172,6 +176,8 @@ export const editStore =
         payload: res.data.status,
       });
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {

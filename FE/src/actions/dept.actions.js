@@ -82,7 +82,7 @@ export const getDept = (id, cancelToken, history) => async (dispatch) => {
 };
 
 export const addDept =
-  (params, cancelToken, history, cb) => async (dispatch) => {
+  (params, cancelToken, history, errors, cb) => async (dispatch) => {
     try {
       const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/depts`, params, {
         cancelToken,
@@ -91,6 +91,7 @@ export const addDept =
       res.data.status ? cb(true) : cb(false);
 
       if (!res.data.status) {
+        errors.message = "Lưu thông tin phòng ban thất bại!";
         dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin phòng ban thất bại!" },
@@ -102,6 +103,8 @@ export const addDept =
         payload: res.data.status,
       });
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {
@@ -117,7 +120,7 @@ export const addDept =
   };
 
 export const editDept =
-  (params, cancelToken, history, cb) => async (dispatch) => {
+  (params, cancelToken, history, errors, cb) => async (dispatch) => {
     try {
       const res = await axios.put(
         `${FACE_R_APP_API_ENDPOINT}/depts/${params.id}`,
@@ -128,6 +131,7 @@ export const editDept =
       res.data.status ? cb(true) : cb(false);
 
       if (!res.data.status) {
+        errors.message = "Lưu thông tin phòng ban thất bại!";
         dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin phòng ban thất bại!" },
@@ -139,6 +143,8 @@ export const editDept =
         payload: res.data.status,
       });
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {

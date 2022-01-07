@@ -77,18 +77,6 @@ const EditDept = React.memo(() => {
   };
 
   useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
-
-    return () => {
-      if (source) source.cancel();
-    };
-  }, [errors]);
-
-  useEffect(() => {
     if (state.dept !== dept) setDept(state.dept);
   }, [state.dept]);
 
@@ -108,10 +96,9 @@ const EditDept = React.memo(() => {
         name: values.name.toUpperCase(),
       };
 
-      // window.start_preloader();
       setLoading(true);
       await dispatch(
-        editDept(params, source.token, history, (_success) => {
+        editDept(params, source.token, history, errors, (_success) => {
           if (_success) {
             handlePopup(
               FACE_R_APP_TITLE,
@@ -123,8 +110,11 @@ const EditDept = React.memo(() => {
                 setLoading(false);
               }
             );
-            // } else window.stop_preloader();
-          } else setLoading(false);
+          } else {
+            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
+              setLoading(false);
+            });
+          }
         })
       );
     },

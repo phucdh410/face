@@ -8,26 +8,18 @@ import React, {
   useContext,
 } from "react";
 
-import { Box, TableCell, TableRow, Typography } from "@mui/material";
-import { Link, withRouter } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
+import { withRouter } from "react-router-dom";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
-import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 
-import {
-  nextHandler,
-  prevHandler,
-  renderPagination,
-  renderSelect,
-} from "../../utils/handler";
-import { FACE_R_APP_TITLE } from "../../config";
-import { getEmployees, removeEmployee } from "../../actions/employee.actions";
-import { LoadingContext } from "../../context/LoadingContext";
+import { renderPagination, renderSelect } from "../../utils/handler";
+import { getEmployees } from "../../actions/employee.actions";
 import SuspenseLoading from "../../components/SuspenseLoading";
-import { PopupContext } from "../../context/PopupContext";
 import usePrev from "../../utils/Hooks/usePrev";
 import useNext from "../../utils/Hooks/useNext";
+import useRenderData from "./hooks/useRenderData";
 const DataTable = lazy(() => import("../../components/DataTable"));
 
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -36,11 +28,8 @@ const FilterPanel = lazy(() => import("./components/FilterPanel"));
 let source = axios.CancelToken.source();
 
 const Employee = React.memo(() => {
-  const { setLoading } = useContext(LoadingContext);
-  const { setShowPopup, setInfo } = useContext(PopupContext);
   const dispatch = useDispatch();
   const history = useHistory();
-  const theme = useTheme();
 
   const state = useSelector(
     (state) => ({
@@ -81,59 +70,13 @@ const Employee = React.memo(() => {
     handleRequest(pages, page);
 
     return () => {
-      if (source) source.cancel();
+      if (source) source.cancel("Đã cancel");
     };
   }, [handleRequest, page, pages]);
-
-  const handlePopup = (title, message, expired, type, func) => {
-    setInfo({
-      title,
-      message,
-      expired,
-      type,
-    });
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-      if (typeof func === "function") {
-        func();
-      }
-    }, expired * 1.5);
-    clearTimeout();
-  };
 
   const prev = usePrev(pages, page, handleRequest);
 
   const next = useNext(pages, page, handleRequest);
-
-  const onDelete = useCallback(
-    async (id) => {
-      // window.start_preloader();
-      setLoading(true);
-      source = axios.CancelToken.source();
-      await dispatch(
-        removeEmployee(id, source.token, history, errors, (_success) => {
-          if (_success) {
-            handlePopup(
-              FACE_R_APP_TITLE,
-              "Xoá thông tin nhân viên thành công!",
-              2000,
-              "success",
-              () => {
-                handleRequest(0, 0);
-                setLoading(false);
-              }
-            );
-          } else {
-            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
-              setLoading(false);
-            });
-          }
-        })
-      );
-    },
-    [dispatch, handleRequest, history, success]
-  );
 
   const onChange = useCallback(
     (e) => {
@@ -156,82 +99,13 @@ const Employee = React.memo(() => {
     [handleRequest]
   );
 
-  const renderData = useCallback(() => {
-    if (employees && employees.length > 0) {
-      return employees.map((employee, index) => (
-        <TableRow key={index}>
-          <TableCell style={{ minWidth: 30, textAlign: "center" }}>
-            <Link to={`/employees/edit/${employee.id}`}>
-              <Typography variant="h5" color={theme.palette.success.main}>
-                {index + 1}
-              </Typography>
-            </Link>
-          </TableCell>
-
-          <TableCell style={{ minWidth: 200 }}>
-            <Link to={`/employees/edit/${employee.id}`}>
-              <Typography variant="h5" color={theme.palette.success.main}>
-                {employee.fullname}
-              </Typography>
-            </Link>
-          </TableCell>
-
-          <TableCell style={{ textAlign: "center" }}>
-            <Typography variant="h5" color={theme.palette.text.primary}>
-              {employee.gender ? "Male" : "Female"}
-            </Typography>
-          </TableCell>
-
-          <TableCell style={{ minWidth: 200 }}>
-            <Typography variant="h5" color={theme.palette.text.primary}>
-              {employee.mobile}
-            </Typography>
-          </TableCell>
-
-          <TableCell style={{ minWidth: 200 }}>
-            <Typography variant="h5" color={theme.palette.text.primary}>
-              {employee.store_name}
-            </Typography>
-          </TableCell>
-
-          <TableCell style={{ textAlign: "center" }}>
-            {employee.active ? (
-              <Typography
-                variant="h5"
-                color={theme.palette.text.secondary}
-                component="span"
-                className="label label-pill label-success"
-              >
-                Active
-              </Typography>
-            ) : (
-              <Typography
-                variant="h5"
-                color={theme.palette.text.secondary}
-                component="span"
-                className="label label-pill label-danger"
-              >
-                Disabled
-              </Typography>
-            )}
-          </TableCell>
-
-          <TableCell style={{ textAlign: "center" }}>
-            <a href="#/" onClick={() => onDelete(employee.id)}>
-              <Typography
-                variant="h5"
-                color={theme.palette.success.main}
-                component="i"
-                fontFamily="Glyphicons Halflings"
-                className="glyphicon glyphicon-erase"
-              />
-            </a>
-          </TableCell>
-        </TableRow>
-      ));
-    }
-    return null;
-  }, [employees, onDelete]);
+  const renderData = useRenderData(
+    employees,
+    handleRequest,
+    errors,
+    pages,
+    page
+  );
 
   return (
     <Suspense fallback={<SuspenseLoading />}>

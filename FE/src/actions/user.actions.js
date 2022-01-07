@@ -82,7 +82,7 @@ export const getUser = (id, cancelToken, history) => async (dispatch) => {
 };
 
 export const addUser =
-  (params, cancelToken, history, cb) => async (dispatch) => {
+  (params, cancelToken, history, errors, cb) => async (dispatch) => {
     try {
       const res = await axios.post(`${FACE_R_APP_API_ENDPOINT}/users`, params, {
         cancelToken,
@@ -91,6 +91,7 @@ export const addUser =
       res.data.status ? cb(true) : cb(false);
 
       if (!res.data.status) {
+        errors.message = "Lưu thông tin người dùng thất bại!";
         dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin người dùng thất bại!" },
@@ -102,6 +103,8 @@ export const addUser =
         payload: res.data.status,
       });
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {
@@ -117,7 +120,7 @@ export const addUser =
   };
 
 export const editUser =
-  (params, cancelToken, history, cb) => async (dispatch) => {
+  (params, cancelToken, history, errors, cb) => async (dispatch) => {
     try {
       const res = await axios.put(
         `${FACE_R_APP_API_ENDPOINT}/users/${params.id}`,
@@ -128,6 +131,7 @@ export const editUser =
       res.data.status ? cb(true) : cb(false);
 
       if (!res.data.status) {
+        errors.message = "Lưu thông tin người dùng thất bại!";
         dispatch({
           type: GET_ERRORS,
           payload: { message: "Lưu thông tin người dùng thất bại!" },
@@ -139,6 +143,8 @@ export const editUser =
         payload: res.data.status,
       });
     } catch (err) {
+      cb(false);
+      errors.message = err.message;
       const errorResponse = handleError(err, dispatch, GET_ERRORS);
       if (errorResponse) {
         if (err.response.status === 401) {

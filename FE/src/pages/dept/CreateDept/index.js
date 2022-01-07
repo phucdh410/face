@@ -55,17 +55,6 @@ const CreateDept = React.memo(() => {
     }, expired * 1.5);
     clearTimeout();
   };
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
-
-    return () => {
-      if (source) source.cancel();
-    };
-  }, [errors]);
 
   const goBack = useCallback(
     (e) => {
@@ -83,10 +72,9 @@ const CreateDept = React.memo(() => {
         name: values.name.toUpperCase(),
       };
 
-      // window.start_preloader();
       setLoading(true);
       await dispatch(
-        addDept(params, source.token, history, (_success) => {
+        addDept(params, source.token, history, errors, (_success) => {
           if (_success) {
             handlePopup(
               FACE_R_APP_TITLE,
@@ -98,8 +86,11 @@ const CreateDept = React.memo(() => {
                 setLoading(false);
               }
             );
-            // } else window.stop_preloader();
-          } else setLoading(false);
+          } else {
+            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
+              setLoading(false);
+            });
+          }
         })
       );
     },

@@ -58,18 +58,6 @@ const CreateUser = React.memo(() => {
     clearTimeout();
   };
 
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
-
-    return () => {
-      if (source) source.cancel();
-    };
-  }, [errors]);
-
   const goBack = useCallback(
     (e) => {
       e.preventDefault();
@@ -86,10 +74,9 @@ const CreateUser = React.memo(() => {
         fullname: values.fullname.toUpperCase(),
       };
 
-      // window.start_preloader();
       setLoading(true);
       await dispatch(
-        addUser(params, source.token, history, (_success) => {
+        addUser(params, source.token, history, errors, (_success) => {
           if (_success) {
             handlePopup(
               FACE_R_APP_TITLE,
@@ -101,8 +88,11 @@ const CreateUser = React.memo(() => {
                 setLoading(false);
               }
             );
-            // } else window.stop_preloader();
-          } else setLoading(false);
+          } else {
+            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
+              setLoading(false);
+            });
+          }
         })
       );
     },
