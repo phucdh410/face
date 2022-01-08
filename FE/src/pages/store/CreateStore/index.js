@@ -20,10 +20,11 @@ import { LoadingContext } from "../../../context/LoadingContext";
 import SuspenseLoading from "../../../components/SuspenseLoading";
 import { PopupContext } from "../../../context/PopupContext";
 import useGoBack from "../../../utils/Hooks/useGoBack";
+import usePopup from "../../../utils/Hooks/usePopup";
+import useOnSubmitAdd from "../../../utils/Hooks/useOnSubmitAdd";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
-
 const Body = lazy(() => import("./components/Body"));
 
 let source = axios.CancelToken.source();
@@ -58,16 +59,17 @@ const CreateStore = React.memo(() => {
   };
 
   const goBack = useGoBack();
-
+  const handleLoading = useOnSubmitAdd(source);
   const onSubmit = useCallback(
     async (values) => {
-      source = axios.CancelToken.source();
+      console.log(values);
       const params = {
         ...values,
         name: values.name.toUpperCase(),
         agent: values.agent.toUpperCase(),
         address: values.address ? values.address.toUpperCase() : "",
       };
+      source = axios.CancelToken.source();
       setLoading(true);
       await dispatch(
         addStore(params, source.token, history, errors, (_success) => {
