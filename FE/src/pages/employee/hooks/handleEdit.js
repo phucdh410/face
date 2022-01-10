@@ -1,7 +1,8 @@
 import axios from "axios";
-import { FACE_R_APP_TITLE } from "../config";
+import { FACE_R_APP_TITLE } from "../../../config";
 
-const handleTogglePopup = (
+const handleEdit = (
+  id,
   source,
   action,
   params,
@@ -15,7 +16,7 @@ const handleTogglePopup = (
   setLoading(true);
   source = axios.CancelToken.source();
   dispatch(
-    action(params, source.token, history, errors, (_success) => {
+    action(id, params, source.token, history, errors, (_success) => {
       if (_success) {
         handlePopup(
           FACE_R_APP_TITLE,
@@ -36,4 +37,4 @@ const handleTogglePopup = (
   );
 };
 
-export default handleTogglePopup;
+export default handleEdit;

@@ -20,6 +20,7 @@ import { LoadingContext } from "../../../context/LoadingContext";
 import { PopupContext } from "../../../context/PopupContext";
 import SuspenseLoading from "../../../components/SuspenseLoading";
 import useGoBack from "../../../utils/Hooks/useGoBack";
+import useOnSubmit from "../hooks/useOnSubmit";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -55,23 +56,6 @@ const EditCamera = React.memo(() => {
     [dispatch, history]
   );
 
-  const handlePopup = (title, message, expired, type, func) => {
-    setInfo({
-      title,
-      message,
-      expired,
-      type,
-    });
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-      if (typeof func === "function") {
-        func();
-      }
-    }, expired * 1.5);
-    clearTimeout();
-  };
-
   useEffect(() => {
     // app.min.js
     window.loading();
@@ -88,45 +72,8 @@ const EditCamera = React.memo(() => {
 
   const goBack = useGoBack();
 
-  const onSubmit = useCallback(
-    async (values) => {
-      const isValid = window.isValidated("#edit-device");
-      if (isValid) {
-        source = axios.CancelToken.source();
-        const params = {
-          ...values,
-          store_id: parseInt(values.store_id),
-        };
-        setLoading(true);
-        await dispatch(
-          editCamera(params, source.token, history, errors, (_success) => {
-            if (_success) {
-              handlePopup(
-                FACE_R_APP_TITLE,
-                "Lưu thông tin camera thành công!",
-                2000,
-                "success",
-                () => {
-                  history.goBack();
-                  setLoading(false);
-                }
-              );
-            } else
-              handlePopup(
-                FACE_R_APP_TITLE,
-                errors.message,
-                2000,
-                "error",
-                () => {
-                  setLoading(false);
-                }
-              );
-          })
-        );
-      }
-    },
-    [dispatch, history, camera]
-  );
+  const onSubmit = useOnSubmit(source, editCamera, errors);
+
   return (
     <Suspense fallback={<SuspenseLoading />}>
       <Breadcrum />

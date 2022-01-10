@@ -22,6 +22,7 @@ import removeFace from "../../../actions/face.actions";
 import SuspenseLoading from "../../../components/SuspenseLoading";
 import { PopupContext } from "../../../context/PopupContext";
 import useGoBack from "../../../utils/Hooks/useGoBack";
+import useHandleAdd from "../hooks/useHandleAdd";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -56,23 +57,6 @@ const CreateEmployee = React.memo(() => {
   const [photos, setPhotos] = useState([]);
   const [faces, setFaces] = useState([]);
 
-  const handlePopup = (title, message, expired, type, func) => {
-    setInfo({
-      title,
-      message,
-      expired,
-      type,
-    });
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-      if (typeof func === "function") {
-        func();
-      }
-    }, expired * 1.5);
-    clearTimeout();
-  };
-
   const goBack = useGoBack();
 
   const onDeleteFace = useCallback(
@@ -92,67 +76,7 @@ const CreateEmployee = React.memo(() => {
     [dispatch, faceResponseStatus, history]
   );
 
-  const onSubmit = useCallback(
-    async (values) => {
-      const date = convertStringToDate(values.date);
-      if (isValidDate(date)) {
-        source = axios.CancelToken.source();
-        const params = new FormData();
-
-        for (let index = 0; index < photos.length; index++) {
-          params.append("file", photos[index]);
-        }
-
-        params.append("store_id", parseInt(values.store_id));
-        params.append("fullname", values.fullname.toUpperCase());
-        params.append("date", date);
-        params.append("gender", parseInt(values.gender));
-        params.append("mobile", values.mobile);
-        params.append("avatar", values.avatar);
-        params.append("active", values.active);
-
-        setLoading(true);
-        await dispatch(
-          addEmployee(params, source.token, history, errors, (_success) => {
-            if (_success) {
-              let message = "Lưu thông tin nhân viên thành công!";
-              const errors = uploadErrors || [];
-
-              if (errors.length > 0) {
-                message += "\r\n Upload files xảy ra sự cố, vui lòng thử lại.";
-              }
-
-              handlePopup(FACE_R_APP_TITLE, message, 2000, "success", () => {
-                history.replace("/employees");
-                setLoading(false);
-              });
-            } else {
-              handlePopup(
-                FACE_R_APP_TITLE,
-                errors.message,
-                2000,
-                "error",
-                () => {
-                  setLoading(false);
-                }
-              );
-            }
-          })
-        );
-      } else {
-        handlePopup(
-          FACE_R_APP_TITLE,
-          "Định dạng ngày sinh không hợp lệ!",
-          4000,
-          "warning",
-          () => {
-            setLoading(false);
-          }
-        );
-      }
-    },
-    [dispatch, employeeResponseStatus, history, photos, uploadErrors]
-  );
+  const onSubmit = useHandleAdd(source, errors, photos);
 
   return (
     <Suspense fallback={<SuspenseLoading />}>

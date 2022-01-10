@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
@@ -20,9 +20,6 @@ const useHandleRequest = (searchInput, action) => {
     },
     [dispatch, history, searchInput]
   );
-  // useEffect(() => {
-  //   source && source.cancel();
-  // });
   return handleRequest;
 };
 export default useHandleRequest;

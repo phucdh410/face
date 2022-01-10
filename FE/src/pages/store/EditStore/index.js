@@ -1,12 +1,5 @@
 import "../styles/custom.css";
-import React, {
-  Suspense,
-  lazy,
-  useEffect,
-  useCallback,
-  useState,
-  useContext,
-} from "react";
+import React, { Suspense, lazy, useEffect, useCallback, useState } from "react";
 
 import { Box } from "@mui/material";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
@@ -14,24 +7,18 @@ import { useHistory, useParams } from "react-router";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 
-import { FACE_R_APP_TITLE } from "../../../config";
 import { getStore, editStore } from "../../../actions/store.actions";
-import { LoadingContext } from "../../../context/LoadingContext";
 import SuspenseLoading from "../../../components/SuspenseLoading";
-import { PopupContext } from "../../../context/PopupContext";
 import useGoBack from "../../../utils/Hooks/useGoBack";
+import useOnSubmit from "../hooks/useOnSubmit";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
-
 const Body = lazy(() => import("./components/Body"));
 
 let source = axios.CancelToken.source();
 
 const EditStore = React.memo(() => {
-  const { setLoading } = useContext(LoadingContext);
-  const { setShowPopup, setInfo } = useContext(PopupContext);
-
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -60,22 +47,6 @@ const EditStore = React.memo(() => {
     window.loading();
     handleRequest(id);
   }, [handleRequest, id]);
-  const handlePopup = (title, message, expired, type, func) => {
-    setInfo({
-      title,
-      message,
-      expired,
-      type,
-    });
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-      if (typeof func === "function") {
-        func();
-      }
-    }, expired * 1.5);
-    clearTimeout();
-  };
 
   useEffect(() => {
     if (state.store && state.store.id.toString() === id) setStore(state.store);
@@ -83,40 +54,7 @@ const EditStore = React.memo(() => {
 
   const goBack = useGoBack();
 
-  const onSubmit = useCallback(
-    async (values) => {
-      source = axios.CancelToken.source();
-      const params = {
-        ...values,
-        name: values.name.toUpperCase(),
-        agent: values.agent.toUpperCase(),
-        address: values.address ? values.address.toUpperCase() : "",
-      };
-
-      setLoading(true);
-      await dispatch(
-        editStore(params, source.token, history, errors, (_success) => {
-          if (_success) {
-            handlePopup(
-              FACE_R_APP_TITLE,
-              "Lưu thông tin cửa hàng thành công!",
-              2000,
-              "success",
-              () => {
-                history.goBack();
-                setLoading(false);
-              }
-            );
-          } else {
-            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
-              setLoading(false);
-            });
-          }
-        })
-      );
-    },
-    [dispatch, history, success]
-  );
+  const onSubmit = useOnSubmit(source, editStore, errors);
 
   return (
     <Suspense fallback={<SuspenseLoading />}>

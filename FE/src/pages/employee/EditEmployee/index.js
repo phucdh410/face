@@ -24,6 +24,7 @@ import SuspenseLoading from "../../../components/SuspenseLoading";
 import usePrevious from "../../../utils/hooks";
 import { PopupContext } from "../../../context/PopupContext";
 import useGoBack from "../../../utils/Hooks/useGoBack";
+import useHandleEdit from "../hooks/useHandleEdit";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -85,23 +86,6 @@ const EditEmployee = React.memo(() => {
     handleRequest(id);
   }, [handleRequest, id]);
 
-  const handlePopup = (title, message, expired, type, func) => {
-    setInfo({
-      title,
-      message,
-      expired,
-      type,
-    });
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-      if (typeof func === "function") {
-        func();
-      }
-    }, expired * 1.5);
-    clearTimeout();
-  };
-
   useEffect(() => {
     if (state.employee && state.employee.id.toString() === id) {
       setEmployee({
@@ -140,77 +124,7 @@ const EditEmployee = React.memo(() => {
     [dispatch, employee, faceResponseStatus, history]
   );
 
-  const onSubmit = useCallback(
-    async (values) => {
-      const date = convertStringToDate(values.date);
-
-      if (isValidDate(date)) {
-        source = axios.CancelToken.source();
-
-        const params = new FormData();
-
-        for (let index = 0; index < photos.length; index++) {
-          params.append("file", photos[index]);
-        }
-
-        params.append("store_id", parseInt(values.store_id));
-        params.append("fullname", values.fullname.toUpperCase());
-        params.append("date", date);
-        params.append("gender", parseInt(values.gender));
-        params.append("mobile", values.mobile);
-        params.append("avatar", values.avatar);
-        params.append("active", values.active);
-        params.append("changed", values.changed ? 1 : 0);
-
-        setLoading(true);
-        await dispatch(
-          editEmployee(
-            id,
-            params,
-            source.token,
-            history,
-            errors,
-            (_success) => {
-              if (_success) {
-                setPhotos([]);
-                handlePopup(
-                  FACE_R_APP_TITLE,
-                  "Lưu thông tin nhân viên thành công!",
-                  2000,
-                  "success",
-                  () => {
-                    history.replace("/employees");
-                    setLoading(false);
-                  }
-                );
-              } else {
-                handlePopup(
-                  FACE_R_APP_TITLE,
-                  errors.message,
-                  2000,
-                  "error",
-                  () => {
-                    setLoading(false);
-                  }
-                );
-              }
-            }
-          )
-        );
-      } else {
-        handlePopup(
-          FACE_R_APP_TITLE,
-          "Định dạng ngày sinh không hợp lệ!",
-          4000,
-          "warning",
-          () => {
-            setLoading(false);
-          }
-        );
-      }
-    },
-    [dispatch, employeeResponseStatus, history, id, photos]
-  );
+  const onSubmit = useHandleEdit(source, errors, photos, id);
 
   return (
     <Suspense fallback={<SuspenseLoading />}>

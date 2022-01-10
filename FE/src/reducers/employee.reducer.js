@@ -39,8 +39,6 @@ export default function employeeReducer(state = initialState, action) {
         success: action.payload,
       };
     case EDIT_EMPLOYEE:
-      console.log("State hiện tại>>>", state);
-      console.log("Action hiện tại>>>", action);
       const { faces, payload } = action;
       const { employee } = state;
       employee.faces = faces;
