@@ -3,12 +3,11 @@ import React, { useCallback } from "react";
 import { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { FACE_R_APP_TITLE } from "../../config";
-import { LoadingContext } from "../../context/LoadingContext";
-import handleTogglePopup from "../handleTogglePopup";
-import usePopup from "./usePopup";
+import { LoadingContext } from "../../../context/LoadingContext";
+import handleTogglePopup from "../../../utils/handleTogglePopup";
+import usePopup from "../../../utils/Hooks/usePopup";
 
-const useOnSubmitAdd = (source, action, errors, pageName) => {
+const useOnSubmit = (source, action, errors) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { setLoading } = useContext(LoadingContext);
@@ -26,7 +25,7 @@ const useOnSubmitAdd = (source, action, errors, pageName) => {
         action,
         params,
         errors,
-        pageName,
+        "cửa hàng",
         dispatch,
         history,
         setLoading,
@@ -39,4 +38,4 @@ const useOnSubmitAdd = (source, action, errors, pageName) => {
   return onSubmitAdd;
 };
 
-export default useOnSubmitAdd;
+export default useOnSubmit;

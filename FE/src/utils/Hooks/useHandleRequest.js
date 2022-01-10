@@ -20,9 +20,9 @@ const useHandleRequest = (searchInput, action) => {
     },
     [dispatch, history, searchInput]
   );
-  useEffect(() => {
-    source && source.cancel();
-  });
+  // useEffect(() => {
+  //   source && source.cancel();
+  // });
   return handleRequest;
 };
 export default useHandleRequest;

@@ -21,7 +21,7 @@ import SuspenseLoading from "../../../components/SuspenseLoading";
 import { PopupContext } from "../../../context/PopupContext";
 import useGoBack from "../../../utils/Hooks/useGoBack";
 import usePopup from "../../../utils/Hooks/usePopup";
-import useOnSubmitAdd from "../../../utils/Hooks/useOnSubmitAdd";
+import useOnSubmit from "../hooks/useOnSubmit";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -41,59 +41,26 @@ const CreateStore = React.memo(() => {
     }),
     shallowEqual
   );
-  const handlePopup = (title, message, expired, type, func) => {
-    setInfo({
-      title,
-      message,
-      expired,
-      type,
-    });
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-      if (typeof func === "function") {
-        func();
-      }
-    }, expired * 1.5);
-    clearTimeout();
-  };
+
+  // const handlePopup = (title, message, expired, type, func) => {
+  //   setInfo({
+  //     title,
+  //     message,
+  //     expired,
+  //     type,
+  //   });
+  //   setShowPopup(true);
+  //   setTimeout(() => {
+  //     setShowPopup(false);
+  //     if (typeof func === "function") {
+  //       func();
+  //     }
+  //   }, expired * 1.5);
+  //   clearTimeout();
+  // };
 
   const goBack = useGoBack();
-  const handleLoading = useOnSubmitAdd(source);
-  const onSubmit = useCallback(
-    async (values) => {
-      console.log(values);
-      const params = {
-        ...values,
-        name: values.name.toUpperCase(),
-        agent: values.agent.toUpperCase(),
-        address: values.address ? values.address.toUpperCase() : "",
-      };
-      source = axios.CancelToken.source();
-      setLoading(true);
-      await dispatch(
-        addStore(params, source.token, history, errors, (_success) => {
-          if (_success) {
-            handlePopup(
-              FACE_R_APP_TITLE,
-              "Lưu thông tin cửa hàng thành công!",
-              2000,
-              "success",
-              () => {
-                history.goBack();
-                setLoading(false);
-              }
-            );
-          } else {
-            handlePopup(FACE_R_APP_TITLE, errors.message, 2000, "error", () => {
-              setLoading(false);
-            });
-          }
-        })
-      );
-    },
-    [dispatch, history, success]
-  );
+  const onSubmit = useOnSubmit(source, addStore, errors);
 
   return (
     <Suspense fallback={<SuspenseLoading />}>
