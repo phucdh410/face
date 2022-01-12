@@ -57,7 +57,7 @@ const Camera = React.memo(() => {
 
   const renderData = useRenderData(cameras, handleRequest, errors, pages, page);
 
-  const onChange = useChange(setSearchStore);
+  const onChange = useChange(setSearchStore, handleRequest);
 
   return (
     <Suspense fallback={<SuspenseLoading />}>

@@ -47,7 +47,7 @@ const Role = React.memo(() => {
 
   const next = useNext(pages, page, handleRequest);
 
-  const onChange = useChange(setSearchInput);
+  const onChange = useChange(setSearchInput, handleRequest);
 
   const renderData = useRenderData(roles, handleRequest, errors, pages, page);
 

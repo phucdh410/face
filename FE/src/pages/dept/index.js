@@ -44,7 +44,7 @@ const Dept = React.memo(() => {
 
   const next = useNext(pages, page, handleRequest);
 
-  const onChange = useChange(setSearchInput);
+  const onChange = useChange(setSearchInput, handleRequest);
 
   const renderData = useRenderData(depts, handleRequest, errors, pages, page);
 

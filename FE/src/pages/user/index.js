@@ -69,7 +69,7 @@ const User = React.memo(() => {
 
   const next = useNext(pages, page, handleRequest);
 
-  const onChange = useChange(setSearcInput);
+  const onChange = useChange(setSearcInput, handleRequest);
 
   const renderData = useRenderData(users, handleRequest, errors, pages, page);
 
