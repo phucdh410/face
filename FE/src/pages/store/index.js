@@ -41,7 +41,7 @@ const Store = React.memo(() => {
 
   const { stores, pages, page, success, errors } = state;
 
-  const [searchInput, setSearcInput] = useState(state.searchInput);
+  const [searchInput, setSearchInput] = useState(state.searchInput);
 
   const handleRequest = useCallback(
     (pages, page) => {
@@ -51,7 +51,6 @@ const Store = React.memo(() => {
         pages,
         page,
       };
-      console.log(`Request với thông tin tìm kiếm là ${searchInput}`);
       dispatch(getStores(params, source.token, history));
     },
     [dispatch, history, searchInput]
@@ -63,7 +62,8 @@ const Store = React.memo(() => {
     return () => {
       source && source.cancel();
     };
-  }, [handleRequest, pages, page]);
+  }, [pages, page]);
+
   // const handleRequest = useHandleRequest(searchInput, getStores);
 
   // const Update = useRefresh(handleRequest, pages, page, searchInput);
@@ -73,15 +73,21 @@ const Store = React.memo(() => {
   const next = useNext(pages, page, handleRequest);
 
   const debounceChange = useCallback(
-    debounce(() => console.log(searchInput), 1500),
+    debounce((handleRequest, value) => {
+      console.log(value);
+      handleRequest(0, 0);
+    }, 1500),
     []
   );
 
-  const onChange = (e) => {
-    e.preventDefault();
-    setSearcInput(e.target.value);
-    debounceChange();
-  };
+  const onChange = useCallback(
+    (e) => {
+      e.preventDefault();
+      setSearchInput(e.target.value);
+      debounceChange(handleRequest, e.target.value);
+    },
+    [handleRequest]
+  );
   // const onChange = useChange(setSearcInput, handleRequest);
 
   const renderData = useRenderData(stores, handleRequest, errors, pages, page);
