@@ -1,41 +1,23 @@
 import "../styles/custom.css";
-import React, {
-  Suspense,
-  lazy,
-  useEffect,
-  useCallback,
-  useState,
-  useContext,
-} from "react";
+import React, { Suspense, lazy, useState } from "react";
 
 import { Box } from "@mui/material";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router";
+import { useSelector, shallowEqual } from "react-redux";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 
-import { addEmployee } from "../../../actions/employee.actions";
-import { convertStringToDate, isValidDate } from "../../../utils";
-import { FACE_R_APP_TITLE } from "../../../config";
-import { LoadingContext } from "../../../context/LoadingContext";
-import removeFace from "../../../actions/face.actions";
 import SuspenseLoading from "../../../components/SuspenseLoading";
-import { PopupContext } from "../../../context/PopupContext";
 import useGoBack from "../../../utils/Hooks/useGoBack";
 import useHandleAdd from "../hooks/useHandleAdd";
+import useOnDeleteFace from "../hooks/useOnDeleteFace";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
-
 const Body = lazy(() => import("./components/Body"));
 
 let source = axios.CancelToken.source();
 
 const CreateEmployee = React.memo(() => {
-  const { setLoading } = useContext(LoadingContext);
-  const { setShowPopup, setInfo } = useContext(PopupContext);
-  const dispatch = useDispatch();
-  const history = useHistory();
   const state = useSelector(
     (state) => ({
       stores: state.root.stores,
@@ -59,21 +41,11 @@ const CreateEmployee = React.memo(() => {
 
   const goBack = useGoBack();
 
-  const onDeleteFace = useCallback(
-    async (_id) => {
-      const index = faces.findIndex((face) => face.id === _id);
-      faces[index].loading = true;
-
-      setFaces(faces);
-
-      await dispatch(removeFace(_id, source.token, history));
-
-      if (faceResponseStatus) faces.splice(index, 1);
-      else faces[index].loading = false;
-
-      setFaces(faces);
-    },
-    [dispatch, faceResponseStatus, history]
+  const onDeleteFace = useOnDeleteFace(
+    faces,
+    setFaces,
+    source,
+    faceResponseStatus
   );
 
   const onSubmit = useHandleAdd(source, errors, photos);

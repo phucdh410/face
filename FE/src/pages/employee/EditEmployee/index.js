@@ -1,12 +1,5 @@
 import "../styles/custom.css";
-import React, {
-  Suspense,
-  lazy,
-  useEffect,
-  useCallback,
-  useState,
-  useContext,
-} from "react";
+import React, { Suspense, lazy, useEffect, useCallback, useState } from "react";
 
 import _ from "lodash";
 import { Box } from "@mui/material";
@@ -15,16 +8,13 @@ import { useHistory, useParams } from "react-router";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 
-import { convertStringToDate, isValidDate, makeDate } from "../../../utils";
-import { FACE_R_APP_TITLE } from "../../../config";
-import { getEmployee, editEmployee } from "../../../actions/employee.actions";
-import { LoadingContext } from "../../../context/LoadingContext";
-import removeFace from "../../../actions/face.actions";
+import { getEmployee } from "../../../actions/employee.actions";
+import { makeDate } from "../../../utils";
 import SuspenseLoading from "../../../components/SuspenseLoading";
-import usePrevious from "../../../utils/hooks";
-import { PopupContext } from "../../../context/PopupContext";
 import useGoBack from "../../../utils/Hooks/useGoBack";
 import useHandleEdit from "../hooks/useHandleEdit";
+import useOnDeleteFace from "../hooks/useOnDeleteFace";
+import usePrevious from "../../../utils/hooks";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -34,8 +24,6 @@ const Body = lazy(() => import("./components/Body"));
 let source = axios.CancelToken.source();
 
 const EditEmployee = React.memo(() => {
-  const { setLoading } = useContext(LoadingContext);
-  const { setShowPopup, setInfo } = useContext(PopupContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -107,21 +95,11 @@ const EditEmployee = React.memo(() => {
 
   const goBack = useGoBack();
 
-  const onDeleteFace = useCallback(
-    async (face) => {
-      const index = faces.findIndex((face) => face.id === face);
-      faces[index].loading = true;
-
-      setFaces(faces);
-
-      await dispatch(removeFace(face, source.token, history));
-
-      if (faceResponseStatus) faces.splice(index, 1);
-      else faces[index].loading = false;
-
-      setFaces(faces);
-    },
-    [dispatch, employee, faceResponseStatus, history]
+  const onDeleteFace = useOnDeleteFace(
+    faces,
+    setFaces,
+    source,
+    faceResponseStatus
   );
 
   const onSubmit = useHandleEdit(source, errors, photos, id);
