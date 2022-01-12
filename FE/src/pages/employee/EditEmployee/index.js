@@ -15,6 +15,7 @@ import useGoBack from "../../../utils/Hooks/useGoBack";
 import useHandleEdit from "../hooks/useHandleEdit";
 import useOnDeleteFace from "../hooks/useOnDeleteFace";
 import usePrevious from "../../../utils/hooks";
+import useRequestEdit from "../../../utils/Hooks/useRequestEdit";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -52,13 +53,7 @@ const EditEmployee = React.memo(() => {
 
   const prevPhotos = usePrevious(photos);
 
-  const handleRequest = useCallback(
-    async (id) => {
-      source = axios.CancelToken.source();
-      await dispatch(getEmployee(id, source.token, history));
-    },
-    [dispatch, history]
-  );
+  const handleRequest = useRequestEdit(source, getEmployee);
 
   useEffect(() => {
     if (!_.isEqual(photos, prevPhotos)) {

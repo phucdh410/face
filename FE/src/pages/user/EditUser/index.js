@@ -11,6 +11,7 @@ import { getUser, editUser } from "../../../actions/user.actions";
 import SuspenseLoading from "../../../components/SuspenseLoading";
 import useGoBack from "../../../utils/Hooks/useGoBack";
 import useOnSubmit from "../hooks/useOnSubmit";
+import useRequestEdit from "../../../utils/Hooks/useRequestEdit";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -35,13 +36,7 @@ const EditUser = React.memo(() => {
   const { roles, success, errors } = state;
   const [user, setUser] = useState(null);
 
-  const handleRequest = useCallback(
-    async (id) => {
-      source = axios.CancelToken.source();
-      await dispatch(getUser(id, source.token, history));
-    },
-    [dispatch, history]
-  );
+  const handleRequest = useRequestEdit(source, getUser);
 
   useEffect(() => {
     // app.min.js

@@ -21,6 +21,7 @@ import { PopupContext } from "../../../context/PopupContext";
 import SuspenseLoading from "../../../components/SuspenseLoading";
 import useGoBack from "../../../utils/Hooks/useGoBack";
 import useOnSubmit from "../hooks/useOnSubmit";
+import useRequestEdit from "../../../utils/Hooks/useRequestEdit";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -48,13 +49,7 @@ const EditCamera = React.memo(() => {
   const { stores, success, errors } = state;
   const [camera, setCamera] = useState(state.camera);
 
-  const handleRequest = useCallback(
-    (id) => {
-      source = axios.CancelToken.source();
-      dispatch(getCamera(id, source.token, history));
-    },
-    [dispatch, history]
-  );
+  const handleRequest = useRequestEdit(source, getCamera);
 
   useEffect(() => {
     // app.min.js

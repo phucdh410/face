@@ -11,6 +11,7 @@ import { getDept, editDept } from "../../../actions/dept.actions";
 import SuspenseLoading from "../../../components/SuspenseLoading";
 import useGoBack from "../../../utils/Hooks/useGoBack";
 import useOnSubmit from "../hooks/useOnSubmit";
+import useRequestEdit from "../../../utils/Hooks/useRequestEdit";
 
 const Breadcrum = lazy(() => import("../components/Breadcrum"));
 const PanelHeading = lazy(() => import("../components/PanelHeading"));
@@ -34,13 +35,7 @@ const EditDept = React.memo(() => {
   const { stores, success, errors } = state;
   const [dept, setDept] = useState(null);
 
-  const handleRequest = useCallback(
-    (id) => {
-      source = axios.CancelToken.source();
-      dispatch(getDept(id, source.token, history));
-    },
-    [dispatch, history]
-  );
+  const handleRequest = useRequestEdit(source, getDept);
 
   useEffect(() => {
     // app.min.js
