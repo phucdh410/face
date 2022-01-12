@@ -15,7 +15,6 @@ const useHandleRequest = (searchInput, action) => {
         pages,
         page,
       };
-
       dispatch(action(params, source.token, history));
     },
     [dispatch, history, searchInput]

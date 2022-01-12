@@ -16,6 +16,7 @@ import { FACE_R_APP_TITLE } from "../../../config";
 import { LoadingContext } from "../../../context/LoadingContext";
 import { PopupContext } from "../../../context/PopupContext";
 import SuspenseLoading from "../../../components/SuspenseLoading";
+import useGoBack from "../../../utils/Hooks/useGoBack";
 
 const Header = lazy(() => import("./components/Header"));
 const Body = lazy(() => import("./components/Body"));
@@ -59,13 +60,7 @@ const ChangePassword = React.memo(() => {
     };
   }, [errors]);
 
-  const goBack = useCallback(
-    (e) => {
-      e.preventDefault();
-      history.goBack();
-    },
-    [history]
-  );
+  const goBack = useGoBack();
 
   const logoutUser = useCallback(
     async (e) => {

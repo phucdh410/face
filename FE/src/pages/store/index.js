@@ -43,6 +43,7 @@ const Store = React.memo(() => {
 
   const [searchInput, setSearchInput] = useState(state.searchInput);
 
+  // const handleRequest = useHandleRequest(searchInput, getStores);
   const handleRequest = useCallback(
     (pages, page) => {
       source = axios.CancelToken.source();
@@ -64,31 +65,30 @@ const Store = React.memo(() => {
     };
   }, [pages, page]);
 
-  // const handleRequest = useHandleRequest(searchInput, getStores);
-
-  // const Update = useRefresh(handleRequest, pages, page, searchInput);
-
   const prev = usePrev(pages, page, handleRequest);
 
   const next = useNext(pages, page, handleRequest);
 
   const debounceChange = useCallback(
     debounce((handleRequest, value) => {
-      console.log(value);
+      console.log("value gửi request", value);
       handleRequest(0, 0);
-    }, 1500),
+    }, 500),
     []
   );
 
   const onChange = useCallback(
     (e) => {
       e.preventDefault();
-      setSearchInput(e.target.value);
       debounceChange(handleRequest, e.target.value);
+      setSearchInput(e.target.value);
+      console.log(searchInput);
+      // handleRequest(0, 0);
     },
     [handleRequest]
   );
-  // const onChange = useChange(setSearcInput, handleRequest);
+
+  // const onChange = useChange(setSearchInput, handleRequest);
 
   const renderData = useRenderData(stores, handleRequest, errors, pages, page);
 
