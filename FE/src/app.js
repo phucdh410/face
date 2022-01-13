@@ -45,19 +45,7 @@ const App = () => {
       if (socket) socket.disconnect();
     };
   }, []);
-  // const handle = () => {
-  //   window.toast("Face R System", "Xóa thiết bị thành công", 40000000, "error");
-  // };
   return (
-    // <>
-    //   <Popup
-    //     title={"Face R System"}
-    //     message={"Xóa thiết bị thành công"}
-    //     type={"success"}
-    //   />
-    //   <button onClick={handle}>Click</button>
-    // </>
-
     <CreatePopupProvider>
       <CreateLoadingProvider>
         <ThemeProvider theme={theme}>
