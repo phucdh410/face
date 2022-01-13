@@ -1,10 +1,17 @@
 import { useCallback, useEffect } from "react";
 import { debounce } from "lodash";
 
-const useChange = (setSearchStore, setSearchInput, handleRequest) => {
+const useChange = (
+  searchStore,
+  setSearchStore,
+  searchInput,
+  setSearchInput,
+  handleRequest
+) => {
+  //Cập nhật danh sách theo search input
   useEffect(() => {
     debounceChange(handleRequest);
-  }, [handleRequest]);
+  }, [searchInput]);
 
   const debounceChange = useCallback(
     debounce((handleRequest) => {
@@ -12,6 +19,11 @@ const useChange = (setSearchStore, setSearchInput, handleRequest) => {
     }, 500),
     []
   );
+
+  //Cập nhật danh sách theo search store
+  useEffect(() => {
+    handleRequest(0, 0);
+  }, [searchStore]);
 
   const onChange = useCallback((e) => {
     e.preventDefault();

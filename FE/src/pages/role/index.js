@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import { useHistory } from "react-router";
 import { useSelector, shallowEqual } from "react-redux";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
 
 import { getRoles } from "../../actions/role.actions";
 import { renderPagination } from "../../utils/handler";
@@ -17,6 +18,8 @@ import useRenderData from "./hooks/useRenderData";
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
 const FilterPanel = lazy(() => import("./components/FilterPanel"));
+
+let source = axios.CancelToken.source();
 
 const Role = React.memo(() => {
   const history = useHistory();
@@ -45,7 +48,7 @@ const Role = React.memo(() => {
     return () => {
       source && source.cancel();
     };
-  });
+  }, [pages, page]);
 
   const prev = usePrev(pages, page, handleRequest);
 

@@ -2,7 +2,7 @@ import "./styles/custom.css";
 import React, { Suspense, lazy, useEffect, useCallback, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { withRouter } from "react-router-dom";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
 import axios from "axios";
 
@@ -47,7 +47,6 @@ const Employee = React.memo(() => {
     // app.min.js
     window.loading();
     handleRequest(pages, page);
-
     return () => {
       if (source) source.cancel();
     };
@@ -57,25 +56,13 @@ const Employee = React.memo(() => {
 
   const next = useNext(pages, page, handleRequest);
 
-  const onChange = useChange(setSearchStore, setSearchInput, handleRequest);
-  // const onChange = useCallback(
-  //   (e) => {
-  //     e.preventDefault();
-  //     switch (e.target.name) {
-  //       case "search_store_id":
-  //         setSearchStore(e.target.value);
-  //         break;
-  //       case "search_input":
-  //         setSearchInput(e.target.value);
-  //         break;
-  //       default:
-  //         break;
-  //     }
-
-  //     handleRequest(0, 0);
-  //   },
-  //   [handleRequest]
-  // );
+  const onChange = useChange(
+    searchStore,
+    setSearchStore,
+    searchInput,
+    setSearchInput,
+    handleRequest
+  );
 
   const renderData = useRenderData(
     employees,
