@@ -4,8 +4,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { getCameras } from "../../../actions/camera.actions";
 
-let source = axios.CancelToken.source();
-const useHandleRequest = (searchStore) => {
+const useHandleRequest = (searchStore, source) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const handleRequest = useCallback(
@@ -18,7 +17,7 @@ const useHandleRequest = (searchStore) => {
       };
       dispatch(getCameras(params, source.token, history));
     },
-    [dispatch, history, searchStore]
+    [searchStore]
   );
   return handleRequest;
 };

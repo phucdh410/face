@@ -6,9 +6,17 @@ import { FACE_R_APP_TITLE } from "../../config";
 import { LoadingContext } from "../../context/LoadingContext";
 import usePopup from "./usePopup";
 
-let source = axios.CancelToken.source();
-const useOnDelete = (action, namePage, handleRequest, errors, pages, page) => {
+const useOnDelete = (
+  action,
+  namePage,
+  handleRequest,
+  errors,
+  pages,
+  page,
+  source
+) => {
   const { setLoading } = useContext(LoadingContext);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const handlePopup = usePopup();
@@ -37,7 +45,7 @@ const useOnDelete = (action, namePage, handleRequest, errors, pages, page) => {
         })
       );
     },
-    [dispatch, handleRequest, history]
+    [handleRequest, pages, page]
   );
   return onDelete;
 };

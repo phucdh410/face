@@ -3,8 +3,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 
-let source = axios.CancelToken.source();
-const useHandleRequest = (searchInput, action) => {
+const useHandleRequest = (searchInput, action, source) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const handleRequest = useCallback(
@@ -17,7 +16,7 @@ const useHandleRequest = (searchInput, action) => {
       };
       dispatch(action(params, source.token, history));
     },
-    [dispatch, history, searchInput]
+    [searchInput]
   );
   return handleRequest;
 };

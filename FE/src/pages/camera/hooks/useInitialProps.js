@@ -5,8 +5,7 @@ import axios from "axios";
 import { getRolesList } from "../../../actions/role.actions";
 import { getStoresList } from "../../../actions/store.actions";
 
-let source = axios.CancelToken.source();
-function useInitialProps() {
+function useInitialProps(source) {
   const dispatch = useDispatch();
   const history = useHistory();
   const getInitialProps = useCallback(() => {
@@ -14,7 +13,7 @@ function useInitialProps() {
 
     dispatch(getStoresList(source.token, history));
     dispatch(getRolesList(source.token, history));
-  }, [dispatch, history]);
+  }, []);
   return getInitialProps;
 }
 

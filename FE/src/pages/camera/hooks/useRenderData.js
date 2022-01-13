@@ -5,7 +5,7 @@ import { useTheme } from "@mui/material/styles";
 import { removeCamera } from "../../../actions/camera.actions";
 import useOnDelete from "../../../utils/Hooks/useOnDelete";
 
-const useRenderData = (cameras, handleRequest, errors, pages, page) => {
+const useRenderData = (cameras, handleRequest, errors, pages, page, source) => {
   const theme = useTheme();
   const onDelete = useOnDelete(
     removeCamera,
@@ -13,7 +13,8 @@ const useRenderData = (cameras, handleRequest, errors, pages, page) => {
     handleRequest,
     errors,
     pages,
-    page
+    page,
+    source
   );
   const renderData = useCallback(() => {
     if (cameras && cameras.length > 0) {

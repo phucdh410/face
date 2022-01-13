@@ -1,6 +1,5 @@
 import "./styles/custom.css";
-import React, { Suspense, lazy, useState } from "react";
-
+import React, { Suspense, lazy, useState, useEffect, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import { useHistory } from "react-router";
 import { useSelector, shallowEqual } from "react-redux";
@@ -14,11 +13,13 @@ import useInitialProps from "./hooks/useInitialProps";
 import useNext from "../../utils/Hooks/useNext";
 import usePrev from "../../utils/Hooks/usePrev";
 import useRenderData from "./hooks/useRenderData";
-import useUpdate from "./hooks/useUpdate";
+import axios from "axios";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
 const FilterPanel = lazy(() => import("./components/FilterPanel"));
+
+let source = axios.CancelToken.source();
 
 const Camera = React.memo(() => {
   const history = useHistory();
@@ -39,25 +40,43 @@ const Camera = React.memo(() => {
   const { cameras, pages, page, success, errors, stores } = state;
   const [searchStore, setSearchStore] = useState(state.searchStore);
 
-  const getInitialProps = useInitialProps();
+  const getInitialProps = useInitialProps(source);
 
-  const handleRequest = useHandleRequest(searchStore);
+  const handleRequest = useHandleRequest(searchStore, source);
 
-  const onUpdate = useUpdate(
-    getInitialProps,
-    handleRequest,
-    pages,
-    page,
-    searchStore
-  );
+  useEffect(() => {
+    window.loading();
+    getInitialProps();
+    handleRequest(pages, page);
+    return () => {
+      source && source.cancel();
+    };
+  }, [getInitialProps, pages, page]);
+
+  useEffect(() => {
+    handleRequest(0, 0);
+    return () => {
+      source && source.cancel();
+    };
+  }, [handleRequest]);
 
   const prev = usePrev(pages, page, handleRequest);
 
   const next = useNext(pages, page, handleRequest);
 
-  const renderData = useRenderData(cameras, handleRequest, errors, pages, page);
+  const renderData = useRenderData(
+    cameras,
+    handleRequest,
+    errors,
+    pages,
+    page,
+    source
+  );
 
-  const onChange = useChange(setSearchStore, handleRequest);
+  const onChange = useCallback((e) => {
+    e.preventDefault();
+    setSearchStore(e.target.value);
+  }, []);
 
   return (
     <Suspense fallback={<SuspenseLoading />}>

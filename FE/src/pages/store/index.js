@@ -1,8 +1,9 @@
-import React, { Suspense, lazy, useState, useCallback } from "react";
+import React, { Suspense, lazy, useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { useHistory } from "react-router";
 import { useSelector, shallowEqual } from "react-redux";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
 
 import { getStores } from "../../actions/store.actions";
 import { renderPagination } from "../../utils/handler";
@@ -11,12 +12,7 @@ import useChange from "../../utils/Hooks/useChange";
 import useHandleRequest from "../../utils/Hooks/useHandleRequest";
 import useNext from "../../utils/Hooks/useNext";
 import usePrev from "../../utils/Hooks/usePrev";
-import useRefresh from "../../utils/Hooks/useRefresh";
 import useRenderData from "./hooks/useRenderData";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import debounce from "lodash.debounce";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -26,7 +22,6 @@ let source = axios.CancelToken.source();
 
 const Store = React.memo(() => {
   const history = useHistory();
-  const dispatch = useDispatch();
   const state = useSelector(
     (state) => ({
       stores: state.store.stores,
@@ -43,19 +38,7 @@ const Store = React.memo(() => {
 
   const [searchInput, setSearchInput] = useState(state.searchInput);
 
-  // const handleRequest = useHandleRequest(searchInput, getStores);
-  const handleRequest = useCallback(
-    (pages, page) => {
-      source = axios.CancelToken.source();
-      const params = {
-        input: searchInput,
-        pages,
-        page,
-      };
-      dispatch(getStores(params, source.token, history));
-    },
-    [dispatch, history, searchInput]
-  );
+  const handleRequest = useHandleRequest(searchInput, getStores, source);
 
   useEffect(() => {
     window.loading();
@@ -69,26 +52,7 @@ const Store = React.memo(() => {
 
   const next = useNext(pages, page, handleRequest);
 
-  const debounceChange = useCallback(
-    debounce((handleRequest, value) => {
-      console.log("value gửi request", value);
-      handleRequest(0, 0);
-    }, 500),
-    []
-  );
-
-  const onChange = useCallback(
-    (e) => {
-      e.preventDefault();
-      debounceChange(handleRequest, e.target.value);
-      setSearchInput(e.target.value);
-      console.log(searchInput);
-      // handleRequest(0, 0);
-    },
-    [handleRequest]
-  );
-
-  // const onChange = useChange(setSearchInput, handleRequest);
+  const onChange = useChange(setSearchInput, handleRequest);
 
   const renderData = useRenderData(stores, handleRequest, errors, pages, page);
 
