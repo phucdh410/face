@@ -1,13 +1,5 @@
 import "./styles/custom.css";
-import React, {
-  Suspense,
-  lazy,
-  useEffect,
-  useCallback,
-  useState,
-  useContext,
-} from "react";
-
+import React, { Suspense, lazy, useCallback, useState } from "react";
 import { Box } from "@mui/material";
 import { useSelector, shallowEqual } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -15,22 +7,18 @@ import axios from "axios";
 import moment from "moment";
 
 import { convertMilisecondsToDate, convertDateToString } from "../../utils";
-import { FACE_R_APP_TITLE } from "../../config";
 import { renderSelect } from "../../utils/handler";
 import SuspenseLoading from "../../components/SuspenseLoading";
-import { PopupContext } from "../../context/PopupContext";
 
 const Breadcrum = lazy(() => import("./components/Breadcrum"));
 const FilterPanel = lazy(() => import("./components/FilterPanel"));
-
 const Recognize = lazy(() => import("./components/Recognize"));
 const Cameras = lazy(() => import("./components/Cameras"));
 const Live = lazy(() => import("./components/Live"));
 
-const source = axios.CancelToken.source();
+let source = axios.CancelToken.source();
 
 const Home = React.memo(({ socket }) => {
-  const { setShowPopup, setInfo } = useContext(PopupContext);
   const state = useSelector(
     (state) => ({
       searchStore: state.attendance.search_store_id,
@@ -67,30 +55,6 @@ const Home = React.memo(({ socket }) => {
   const onSelect = useCallback((e) => {
     setSearchStore(e.target.value);
   }, []);
-  const handlePopup = (title, message, expired, type) => {
-    setInfo({
-      title,
-      message,
-      expired,
-      type,
-    });
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-    }, expired * 1.5);
-    clearTimeout();
-  };
-  useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      if (errors.message) {
-        handlePopup(FACE_R_APP_TITLE, errors.message, 4000, "error");
-      }
-    }
-
-    return () => {
-      if (source) source.cancel();
-    };
-  }, [errors]);
 
   return (
     <Suspense fallback={<SuspenseLoading />}>

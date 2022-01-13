@@ -1,49 +1,28 @@
 import "./styles/custom.css";
-import React, {
-  Suspense,
-  lazy,
-  useEffect,
-  useCallback,
-  useState,
-  useContext,
-} from "react";
-
-import { Box, TableCell, TableRow, Typography } from "@mui/material";
-import { Link, withRouter } from "react-router-dom";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import React, { Suspense, lazy, useEffect, useState } from "react";
+import { Box, Typography } from "@mui/material";
 import { useHistory } from "react-router";
-import { useTheme } from "@mui/material/styles";
+import { useSelector, shallowEqual } from "react-redux";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 
-import {
-  nextHandler,
-  prevHandler,
-  renderPagination,
-} from "../../utils/handler";
-import { FACE_R_APP_TITLE } from "../../config";
-import { getUsers, removeUser } from "../../actions/user.actions";
-import { LoadingContext } from "../../context/LoadingContext";
+import { getUsers } from "../../actions/user.actions";
+import { renderPagination } from "../../utils/handler";
 import SuspenseLoading from "../../components/SuspenseLoading";
-import { PopupContext } from "../../context/PopupContext";
-import useHandleRequest from "../../utils/Hooks/useHandleRequest";
-import useRefresh from "../../utils/Hooks/useRefresh";
-import usePrev from "../../utils/Hooks/usePrev";
-import useNext from "../../utils/Hooks/useNext";
 import useChange from "../../utils/Hooks/useChange";
+import useHandleRequest from "../../utils/Hooks/useHandleRequest";
+import useNext from "../../utils/Hooks/useNext";
+import usePrev from "../../utils/Hooks/usePrev";
 import useRenderData from "./hooks/useRenderData";
-const DataTable = lazy(() => import("../../components/DataTable"));
 
+const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
 const FilterPanel = lazy(() => import("./components/FilterPanel"));
 
 let source = axios.CancelToken.source();
 
 const User = React.memo(() => {
-  const { setLoading } = useContext(LoadingContext);
-  const { setShowPopup, setInfo } = useContext(PopupContext);
-  const dispatch = useDispatch();
   const history = useHistory();
-  const theme = useTheme();
 
   const state = useSelector(
     (state) => ({
@@ -61,9 +40,15 @@ const User = React.memo(() => {
 
   const [searchInput, setSearcInput] = useState(state.searchInput);
 
-  const handleRequest = useHandleRequest(searchInput, getUsers);
+  const handleRequest = useHandleRequest(searchInput, getUsers, source);
 
-  const Update = useRefresh(handleRequest, pages, page);
+  useEffect(() => {
+    window.loading();
+    handleRequest(pages, page);
+    return () => {
+      source && source.cancel();
+    };
+  }, [pages, page]);
 
   const prev = usePrev(pages, page, handleRequest);
 
@@ -71,7 +56,14 @@ const User = React.memo(() => {
 
   const onChange = useChange(setSearcInput, handleRequest);
 
-  const renderData = useRenderData(users, handleRequest, errors, pages, page);
+  const renderData = useRenderData(
+    users,
+    handleRequest,
+    errors,
+    pages,
+    page,
+    source
+  );
 
   return (
     <Suspense fallback={<SuspenseLoading />}>

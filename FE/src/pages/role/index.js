@@ -1,6 +1,5 @@
 import "./styles/custom.css";
-import React, { Suspense, lazy, useState } from "react";
-
+import React, { Suspense, lazy, useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { useHistory } from "react-router";
 import { useSelector, shallowEqual } from "react-redux";
@@ -13,7 +12,6 @@ import useChange from "../../utils/Hooks/useChange";
 import useHandleRequest from "../../utils/Hooks/useHandleRequest";
 import useNext from "../../utils/Hooks/useNext";
 import usePrev from "../../utils/Hooks/usePrev";
-import useRefresh from "../../utils/Hooks/useRefresh";
 import useRenderData from "./hooks/useRenderData";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
@@ -39,9 +37,15 @@ const Role = React.memo(() => {
 
   const [searchInput, setSearchInput] = useState(state.searchInput);
 
-  const handleRequest = useHandleRequest(searchInput, getRoles);
+  const handleRequest = useHandleRequest(searchInput, getRoles, source);
 
-  const Update = useRefresh(handleRequest, pages, page, searchInput);
+  useEffect(() => {
+    window.loading();
+    handleRequest(pages, page);
+    return () => {
+      source && source.cancel();
+    };
+  });
 
   const prev = usePrev(pages, page, handleRequest);
 
@@ -49,7 +53,14 @@ const Role = React.memo(() => {
 
   const onChange = useChange(setSearchInput, handleRequest);
 
-  const renderData = useRenderData(roles, handleRequest, errors, pages, page);
+  const renderData = useRenderData(
+    roles,
+    handleRequest,
+    errors,
+    pages,
+    page,
+    source
+  );
 
   return (
     <Suspense fallback={<SuspenseLoading />}>

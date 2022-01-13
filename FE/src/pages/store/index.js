@@ -54,7 +54,14 @@ const Store = React.memo(() => {
 
   const onChange = useChange(setSearchInput, handleRequest);
 
-  const renderData = useRenderData(stores, handleRequest, errors, pages, page);
+  const renderData = useRenderData(
+    stores,
+    handleRequest,
+    errors,
+    pages,
+    page,
+    source
+  );
 
   return (
     <Suspense fallback={<SuspenseLoading />}>

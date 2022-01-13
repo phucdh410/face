@@ -5,7 +5,7 @@ import { useTheme } from "@mui/material/styles";
 import { removeStore } from "../../../actions/store.actions";
 import useOnDelete from "../../../utils/Hooks/useOnDelete";
 
-const useRenderData = (stores, handleRequest, errors, pages, page) => {
+const useRenderData = (stores, handleRequest, errors, pages, page, source) => {
   const theme = useTheme();
   const onDelete = useOnDelete(
     removeStore,
@@ -13,7 +13,8 @@ const useRenderData = (stores, handleRequest, errors, pages, page) => {
     handleRequest,
     errors,
     pages,
-    page
+    page,
+    source
   );
   const renderData = useCallback(() => {
     if (stores && stores.length > 0) {

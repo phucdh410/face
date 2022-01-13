@@ -4,8 +4,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { getEmployees } from "../../../actions/employee.actions";
 
-let source = axios.CancelToken.source();
-const useHandleRequest = (searchStore, searchInput) => {
+const useHandleRequest = (searchStore, searchInput, source) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const handleRequest = useCallback(
@@ -19,7 +18,7 @@ const useHandleRequest = (searchStore, searchInput) => {
       };
       dispatch(getEmployees(params, source.token, history));
     },
-    [dispatch, history, searchStore, searchInput]
+    [searchStore, searchInput]
   );
   return handleRequest;
 };

@@ -1,13 +1,5 @@
 import "./styles/custom.css";
-import React, {
-  Suspense,
-  lazy,
-  useEffect,
-  useCallback,
-  useState,
-  useContext,
-} from "react";
-
+import React, { Suspense, lazy, useEffect, useCallback, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { withRouter } from "react-router-dom";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
@@ -15,20 +7,20 @@ import { useHistory } from "react-router";
 import axios from "axios";
 
 import { renderPagination, renderSelect } from "../../utils/handler";
-import { getEmployees } from "../../actions/employee.actions";
 import SuspenseLoading from "../../components/SuspenseLoading";
 import usePrev from "../../utils/Hooks/usePrev";
 import useNext from "../../utils/Hooks/useNext";
 import useRenderData from "./hooks/useRenderData";
-const DataTable = lazy(() => import("../../components/DataTable"));
+import useHandleRequest from "./hooks/useHandleRequest";
+import useChange from "./hooks/useChange";
 
+const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
 const FilterPanel = lazy(() => import("./components/FilterPanel"));
 
 let source = axios.CancelToken.source();
 
 const Employee = React.memo(() => {
-  const dispatch = useDispatch();
   const history = useHistory();
 
   const state = useSelector(
@@ -47,22 +39,9 @@ const Employee = React.memo(() => {
 
   const { employees, pages, page, success, errors, stores } = state;
   const [searchStore, setSearchStore] = useState(state.searchStore);
-  const [searchInput, setSearcInput] = useState(state.searchInput);
+  const [searchInput, setSearchInput] = useState(state.searchInput);
 
-  const handleRequest = useCallback(
-    (pages, page) => {
-      source = axios.CancelToken.source();
-      const params = {
-        store_id: searchStore,
-        input: searchInput,
-        pages,
-        page,
-      };
-
-      dispatch(getEmployees(params, source.token, history));
-    },
-    [dispatch, history, searchStore, searchInput]
-  );
+  const handleRequest = useHandleRequest(searchStore, searchInput, source);
 
   useEffect(() => {
     // app.min.js
@@ -70,39 +49,41 @@ const Employee = React.memo(() => {
     handleRequest(pages, page);
 
     return () => {
-      if (source) source.cancel("Đã cancel");
+      if (source) source.cancel();
     };
-  }, [handleRequest, page, pages]);
+  }, [page, pages]);
 
   const prev = usePrev(pages, page, handleRequest);
 
   const next = useNext(pages, page, handleRequest);
 
-  const onChange = useCallback(
-    (e) => {
-      e.preventDefault();
-      switch (e.target.name) {
-        case "search_store_id":
-          setSearchStore(e.target.value);
-          break;
-        case "search_input":
-          setSearcInput(e.target.value);
-          break;
-        default:
-          break;
-      }
+  const onChange = useChange(setSearchStore, setSearchInput, handleRequest);
+  // const onChange = useCallback(
+  //   (e) => {
+  //     e.preventDefault();
+  //     switch (e.target.name) {
+  //       case "search_store_id":
+  //         setSearchStore(e.target.value);
+  //         break;
+  //       case "search_input":
+  //         setSearchInput(e.target.value);
+  //         break;
+  //       default:
+  //         break;
+  //     }
 
-      handleRequest(0, 0);
-    },
-    [handleRequest]
-  );
+  //     handleRequest(0, 0);
+  //   },
+  //   [handleRequest]
+  // );
 
   const renderData = useRenderData(
     employees,
     handleRequest,
     errors,
     pages,
-    page
+    page,
+    source
   );
 
   return (

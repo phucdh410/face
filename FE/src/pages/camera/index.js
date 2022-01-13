@@ -4,16 +4,15 @@ import { Box, Typography } from "@mui/material";
 import { useHistory } from "react-router";
 import { useSelector, shallowEqual } from "react-redux";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
 
 import { renderSelect, renderPagination } from "../../utils/handler";
 import SuspenseLoading from "../../components/SuspenseLoading";
-import useChange from "../../utils/Hooks/useChange";
 import useHandleRequest from "./hooks/useHandleRequest";
 import useInitialProps from "./hooks/useInitialProps";
 import useNext from "../../utils/Hooks/useNext";
 import usePrev from "../../utils/Hooks/usePrev";
 import useRenderData from "./hooks/useRenderData";
-import axios from "axios";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));

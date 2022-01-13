@@ -1,8 +1,9 @@
-import React, { Suspense, lazy, useState } from "react";
+import React, { Suspense, lazy, useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { withRouter } from "react-router-dom";
 import { useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
+import axios from "axios";
 
 import { getDepts } from "../../actions/dept.actions";
 import { renderPagination } from "../../utils/handler";
@@ -11,13 +12,13 @@ import useChange from "../../utils/Hooks/useChange";
 import useHandleRequest from "../../utils/Hooks/useHandleRequest";
 import useNext from "../../utils/Hooks/useNext";
 import usePrev from "../../utils/Hooks/usePrev";
-import useRefresh from "../../utils/Hooks/useRefresh";
 import useRenderData from "./hooks/useRenderData";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
 const FilterPanel = lazy(() => import("./components/FilterPanel"));
 
+let source = axios.CancelToken.source();
 const Dept = React.memo(() => {
   const history = useHistory();
 
@@ -36,9 +37,15 @@ const Dept = React.memo(() => {
   const { depts, pages, page, success, errors } = state;
   const [searchInput, setSearchInput] = useState(state.searchInput);
 
-  const handleRequest = useHandleRequest(searchInput, getDepts);
+  const handleRequest = useHandleRequest(searchInput, getDepts, source);
 
-  const Update = useRefresh(handleRequest, pages, page, searchInput);
+  useEffect(() => {
+    window.loading();
+    handleRequest(pages, page);
+    return () => {
+      source && source.cancel();
+    };
+  }, [pages, page]);
 
   const prev = usePrev(pages, page, handleRequest);
 
@@ -46,7 +53,14 @@ const Dept = React.memo(() => {
 
   const onChange = useChange(setSearchInput, handleRequest);
 
-  const renderData = useRenderData(depts, handleRequest, errors, pages, page);
+  const renderData = useRenderData(
+    depts,
+    handleRequest,
+    errors,
+    pages,
+    page,
+    source
+  );
 
   return (
     <Suspense fallback={<SuspenseLoading />}>
