@@ -6,7 +6,7 @@ import useHandleStatus from "./useHandleStatus";
 import { useTheme } from "@mui/material/styles";
 import ConnectButton from "../components/ConnectButton";
 
-const useRenderData = (cameras, currentCamera, source) => {
+const useRenderCamera = (cameras, currentCamera, source) => {
   const handleLog = useHandleLog(cameras);
   const handleStatus = useHandleStatus(source);
   const theme = useTheme();
@@ -74,4 +74,4 @@ const useRenderData = (cameras, currentCamera, source) => {
   return renderData;
 };
 
-export default useRenderData;
+export default useRenderCamera;
