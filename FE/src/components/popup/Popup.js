@@ -1,5 +1,5 @@
 import "./Popup.css";
-import React, { useContext, useCallback, useEffect, useState } from "react";
+import React, { useContext, useCallback } from "react";
 import { useTheme } from "@mui/material/styles";
 import FlashMessage from "react-flash-message";
 import { PopupContext } from "../../context/PopupContext";
