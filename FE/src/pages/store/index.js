@@ -37,7 +37,7 @@ const Store = React.memo(() => {
   const { stores, pages, page, success, errors } = state;
 
   const [searchInput, setSearchInput] = useState(state.searchInput);
-
+  const [newStores, setNewStores] = useState([]);
   const handleRequest = useHandleRequest(searchInput, getStores, source);
 
   useEffect(() => {
@@ -63,6 +63,26 @@ const Store = React.memo(() => {
     source
   );
 
+  useEffect(() => {
+    if (searchInput !== "") {
+      let tmp = stores.filter((item) => {
+        return item.name.toLowerCase().includes(searchInput.toLowerCase());
+      });
+      setNewStores(tmp);
+    }
+  }, [searchInput]);
+
+  console.log(newStores);
+
+  const newRenderData = useRenderData(
+    newStores,
+    handleRequest,
+    errors,
+    pages,
+    page,
+    source
+  );
+
   return (
     <Suspense fallback={<SuspenseLoading />}>
       {/* Content header */}
@@ -79,7 +99,6 @@ const Store = React.memo(() => {
                 <Typography variant="h4">Thông tin cửa hàng</Typography>
               </Box>
             </Box>
-
             <Box className="panel-body">
               <DataTable
                 headers={[
@@ -92,7 +111,8 @@ const Store = React.memo(() => {
                   "Trạng thái",
                   "",
                 ]}
-                renderData={renderData}
+                renderData={searchInput ? newRenderData : renderData}
+                // renderData={renderData}
               />
 
               {renderPagination(pages, page, prev, next, handleRequest)}
