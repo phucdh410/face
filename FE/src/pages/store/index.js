@@ -36,7 +36,7 @@ const Store = React.memo(() => {
   );
   const { stores, pages, page, success, errors } = state;
   const [searchInput, setSearchInput] = useState(state.searchInput);
-  const handleRequest = useHandleRequest(searchInput, getStores, source);
+  const handleRequest = useHandleRequest([0, searchInput], getStores, source);
   const { prev, next } = usePagination(pages, page, handleRequest);
 
   useEffect(() => {
