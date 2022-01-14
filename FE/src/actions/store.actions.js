@@ -52,7 +52,6 @@ export const getStores = (params, cancelToken, history) => async (dispatch) => {
       }`,
       { cancelToken }
     );
-
     const { payload, pages, page } = res.data;
 
     dispatch({

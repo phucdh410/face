@@ -10,9 +10,8 @@ import { renderSelect, renderPagination } from "../../utils/handler";
 import SuspenseLoading from "../../components/SuspenseLoading";
 import useHandleRequest from "./hooks/useHandleRequest";
 import useInitialProps from "./hooks/useInitialProps";
-import useNext from "../../utils/Hooks/useNext";
-import usePrev from "../../utils/Hooks/usePrev";
 import useRenderData from "./hooks/useRenderData";
+import usePagination from "../../utils/Hooks/usePagination";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -42,6 +41,7 @@ const Camera = React.memo(() => {
   const getInitialProps = useInitialProps(source);
 
   const handleRequest = useHandleRequest(searchStore, source);
+  const { prev, next } = usePagination(pages, page, handleRequest);
 
   useEffect(() => {
     window.loading();
@@ -58,10 +58,6 @@ const Camera = React.memo(() => {
       source && source.cancel();
     };
   }, [handleRequest]);
-
-  const prev = usePrev(pages, page, handleRequest);
-
-  const next = useNext(pages, page, handleRequest);
 
   const renderData = useRenderData(
     cameras,

@@ -1,18 +1,18 @@
-import React, { Suspense, lazy, useState, useEffect } from "react";
+import React, { Suspense, lazy, useState, useEffect, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
+import { debounce } from "lodash";
 import { useHistory } from "react-router";
 import { useSelector, shallowEqual } from "react-redux";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 
-import { getStores } from "../../actions/store.actions";
+import { getStores, removeStore } from "../../actions/store.actions";
 import { renderPagination } from "../../utils/handler";
 import SuspenseLoading from "../../components/SuspenseLoading";
-import useChange from "../../utils/Hooks/useChange";
 import useHandleRequest from "../../utils/Hooks/useHandleRequest";
-import useNext from "../../utils/Hooks/useNext";
-import usePrev from "../../utils/Hooks/usePrev";
+import useOnDelete from "../../utils/Hooks/useOnDelete";
 import useRenderData from "./hooks/useRenderData";
+import usePagination from "../../utils/Hooks/usePagination";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -33,12 +33,11 @@ const Store = React.memo(() => {
     }),
     shallowEqual
   );
-
   const { stores, pages, page, success, errors } = state;
-
   const [searchInput, setSearchInput] = useState(state.searchInput);
-  const [newStores, setNewStores] = useState([]);
   const handleRequest = useHandleRequest(searchInput, getStores, source);
+  const data = useRenderData(stores, onDelete);
+  const { prev, next } = usePagination(pages, page, handleRequest);
 
   useEffect(() => {
     window.loading();
@@ -48,14 +47,10 @@ const Store = React.memo(() => {
     };
   }, [pages, page]);
 
-  const prev = usePrev(pages, page, handleRequest);
-
-  const next = useNext(pages, page, handleRequest);
-
-  const onChange = useChange(setSearchInput, handleRequest);
-
-  const renderData = useRenderData(
-    stores,
+  //Tạo hàm delete sử dụng cho renderData
+  const onDelete = useOnDelete(
+    removeStore,
+    "cửa hàng",
     handleRequest,
     errors,
     pages,
@@ -63,25 +58,42 @@ const Store = React.memo(() => {
     source
   );
 
-  useEffect(() => {
-    if (searchInput !== "") {
-      let tmp = stores.filter((item) => {
-        return item.name.toLowerCase().includes(searchInput.toLowerCase());
-      });
-      setNewStores(tmp);
+  //Tạo hàm renderData lấy data từ hook useRenderData
+  const renderData = useCallback(() => {
+    if (stores && stores.length > 0) {
+      return data;
     }
-  }, [searchInput]);
+    return null;
+  }, [stores, onDelete]);
 
-  console.log(newStores);
-
-  const newRenderData = useRenderData(
-    newStores,
-    handleRequest,
-    errors,
-    pages,
-    page,
-    source
+  //Delay request cho đến khi người dùng ngưng nhập 0.5 giây
+  useEffect(() => {
+    debounceChange(handleRequest);
+  }, [handleRequest]);
+  const debounceChange = useCallback(
+    debounce((handleRequest) => {
+      handleRequest(0, 0);
+    }, 500),
+    []
   );
+
+  // const onChange = useChange(setSearchInput, handleRequest);
+  const onChange = useCallback((e) => {
+    e.preventDefault();
+    setSearchInput(e.target.value);
+  }, []);
+
+  // const [newStores, setNewStores] = useState([]); Danh sách cửa hàng mới theo input
+  //Lọc danh sách cửa hàng theo input
+  // useEffect(() => {
+  //   if (searchInput !== "") {
+  //     let tmp = stores.filter((item) => {
+  //       return item.name.toLowerCase().includes(searchInput.toLowerCase());
+  //     });
+  //     setNewStores(tmp);
+  //     console.log("index", searchInput);
+  //   }
+  // }, [searchInput]);
 
   return (
     <Suspense fallback={<SuspenseLoading />}>
@@ -111,8 +123,8 @@ const Store = React.memo(() => {
                   "Trạng thái",
                   "",
                 ]}
-                renderData={searchInput ? newRenderData : renderData}
-                // renderData={renderData}
+                // renderData={searchInput ? newRenderData : renderData}
+                renderData={renderData}
               />
 
               {renderPagination(pages, page, prev, next, handleRequest)}

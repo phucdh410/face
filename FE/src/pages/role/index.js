@@ -11,9 +11,8 @@ import { renderPagination } from "../../utils/handler";
 import SuspenseLoading from "../../components/SuspenseLoading";
 import useChange from "../../utils/Hooks/useChange";
 import useHandleRequest from "../../utils/Hooks/useHandleRequest";
-import useNext from "../../utils/Hooks/useNext";
-import usePrev from "../../utils/Hooks/usePrev";
 import useRenderData from "./hooks/useRenderData";
+import usePagination from "../../utils/Hooks/usePagination";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -41,6 +40,7 @@ const Role = React.memo(() => {
   const [searchInput, setSearchInput] = useState(state.searchInput);
 
   const handleRequest = useHandleRequest(searchInput, getRoles, source);
+  const { prev, next } = usePagination(pages, page, handleRequest);
 
   useEffect(() => {
     window.loading();
@@ -49,10 +49,6 @@ const Role = React.memo(() => {
       source && source.cancel();
     };
   }, [pages, page]);
-
-  const prev = usePrev(pages, page, handleRequest);
-
-  const next = useNext(pages, page, handleRequest);
 
   const onChange = useChange(setSearchInput, handleRequest);
 

@@ -8,11 +8,10 @@ import axios from "axios";
 
 import { renderPagination, renderSelect } from "../../utils/handler";
 import SuspenseLoading from "../../components/SuspenseLoading";
-import usePrev from "../../utils/Hooks/usePrev";
-import useNext from "../../utils/Hooks/useNext";
 import useRenderData from "./hooks/useRenderData";
 import useHandleRequest from "./hooks/useHandleRequest";
 import useChange from "./hooks/useChange";
+import usePagination from "../../utils/Hooks/usePagination";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -42,6 +41,7 @@ const Employee = React.memo(() => {
   const [searchInput, setSearchInput] = useState(state.searchInput);
 
   const handleRequest = useHandleRequest(searchStore, searchInput, source);
+  const { prev, next } = usePagination(pages, page, handleRequest);
 
   useEffect(() => {
     // app.min.js
@@ -51,10 +51,6 @@ const Employee = React.memo(() => {
       if (source) source.cancel();
     };
   }, [page, pages]);
-
-  const prev = usePrev(pages, page, handleRequest);
-
-  const next = useNext(pages, page, handleRequest);
 
   const onChange = useChange(
     searchStore,

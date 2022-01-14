@@ -12,10 +12,9 @@ import {
 import { renderPagination } from "../../../utils/handler";
 import DataTable from "../../../components/DataTable";
 import useCameraStatusChanged from "../hooks/useCameraStatusChanged";
-import useNext from "../../../utils/Hooks/useNext";
-import usePrev from "../../../utils/Hooks/usePrev";
 import useRenderCamera from "../hooks/useRenderCamera";
 import useRequestCamera from "../hooks/useRequestCamera";
+import usePagination from "../../../utils/Hooks/usePagination";
 
 let source = axios.CancelToken.source();
 
@@ -33,12 +32,8 @@ const Cameras = React.memo(({ searchStore, socket }) => {
   const { currentCamera, cameras, pages, page } = state;
 
   const handleRequest = useRequestCamera(searchStore, source);
-
+  const { prev, next } = usePagination(pages, page, handleRequest);
   const renderData = useRenderCamera(cameras, currentCamera, source);
-
-  const prev = usePrev(pages, page, handleRequest);
-
-  const next = useNext(pages, page, handleRequest);
 
   const onCameraStatusChanged = useCameraStatusChanged(cameras);
 
