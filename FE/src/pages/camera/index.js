@@ -12,6 +12,8 @@ import useHandleRequest from "./hooks/useHandleRequest";
 import useInitialProps from "./hooks/useInitialProps";
 import useRenderData from "./hooks/useRenderData";
 import usePagination from "../../utils/Hooks/usePagination";
+import useOnDelete from "../../utils/Hooks/useOnDelete";
+import { removeCamera } from "../../actions/camera.actions";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -21,7 +23,6 @@ let source = axios.CancelToken.source();
 
 const Camera = React.memo(() => {
   const history = useHistory();
-
   const state = useSelector(
     (state) => ({
       cameras: state.camera.cameras,
@@ -34,12 +35,9 @@ const Camera = React.memo(() => {
     }),
     shallowEqual
   );
-
   const { cameras, pages, page, success, errors, stores } = state;
   const [searchStore, setSearchStore] = useState(state.searchStore);
-
   const getInitialProps = useInitialProps(source);
-
   const handleRequest = useHandleRequest(searchStore, source);
   const { prev, next } = usePagination(pages, page, handleRequest);
 
@@ -59,14 +57,26 @@ const Camera = React.memo(() => {
     };
   }, [handleRequest]);
 
-  const renderData = useRenderData(
-    cameras,
+  //Tạo hàm delete sử dụng cho renderData
+  const onDelete = useOnDelete(
+    removeCamera,
+    "thiết bị",
     handleRequest,
     errors,
     pages,
     page,
     source
   );
+
+  //Lấy dữ liệu bằng hook
+  const data = useRenderData(cameras, onDelete);
+  //Tạo hàm renderData lấy data từ hook useRenderData
+  const renderData = useCallback(() => {
+    if (cameras && cameras.length > 0) {
+      return data;
+    }
+    return null;
+  }, [cameras, onDelete]);
 
   const onChange = useCallback((e) => {
     e.preventDefault();

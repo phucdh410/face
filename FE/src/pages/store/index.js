@@ -13,6 +13,7 @@ import useHandleRequest from "../../utils/Hooks/useHandleRequest";
 import useOnDelete from "../../utils/Hooks/useOnDelete";
 import useRenderData from "./hooks/useRenderData";
 import usePagination from "../../utils/Hooks/usePagination";
+import useDebounce from "../../utils/Hooks/useDebounce";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -36,7 +37,6 @@ const Store = React.memo(() => {
   const { stores, pages, page, success, errors } = state;
   const [searchInput, setSearchInput] = useState(state.searchInput);
   const handleRequest = useHandleRequest(searchInput, getStores, source);
-  const data = useRenderData(stores, onDelete);
   const { prev, next } = usePagination(pages, page, handleRequest);
 
   useEffect(() => {
@@ -58,6 +58,8 @@ const Store = React.memo(() => {
     source
   );
 
+  //Lấy dữ liệu bằng hook
+  const data = useRenderData(stores, onDelete);
   //Tạo hàm renderData lấy data từ hook useRenderData
   const renderData = useCallback(() => {
     if (stores && stores.length > 0) {
@@ -66,22 +68,19 @@ const Store = React.memo(() => {
     return null;
   }, [stores, onDelete]);
 
-  //Delay request cho đến khi người dùng ngưng nhập 0.5 giây
+  //Dùng hook useDebounce để tạo 1 hàm gọi request có độ trễ 0.5s
+  //sau khi người dùng thay đổi input
+  const debounceChange = useDebounce();
   useEffect(() => {
     debounceChange(handleRequest);
-  }, [handleRequest]);
-  const debounceChange = useCallback(
-    debounce((handleRequest) => {
-      handleRequest(0, 0);
-    }, 500),
-    []
-  );
+  }, [searchInput]);
 
-  // const onChange = useChange(setSearchInput, handleRequest);
   const onChange = useCallback((e) => {
     e.preventDefault();
     setSearchInput(e.target.value);
   }, []);
+
+  // const onChange = useChange(setSearchInput, handleRequest);
 
   // const [newStores, setNewStores] = useState([]); Danh sách cửa hàng mới theo input
   //Lọc danh sách cửa hàng theo input
