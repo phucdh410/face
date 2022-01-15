@@ -54,8 +54,8 @@ const Role = React.memo(() => {
     e.preventDefault();
     setSearchInput(e.target.value);
   }, []);
-  //Dùng hook useDebounce để tạo 1 hàm gọi request có độ trễ 0.5s
-  //sau khi người dùng ngừng thay đổi input
+  //Dùng hook useDebounce để tạo 1 hàm gọi request
+  //sau khi người dùng ngừng thay đổi input 0.5s
   const debounceChange = useDebounce();
   useEffect(() => {
     debounceChange(handleRequest);

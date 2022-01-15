@@ -51,8 +51,8 @@ const Dept = React.memo(() => {
     e.preventDefault();
     setSearchInput(e.target.value);
   }, []);
-  // tạo hàm debounceChange từ hook useDebounce để delay request 0.5s
-  //  sau khi người dùng ngừng thay đổi input
+  // tạo hàm debounceChange từ hook useDebounce để request
+  //  sau khi người dùng ngừng thay đổi input 0.5s
   const debounceChange = useDebounce();
   useEffect(() => {
     debounceChange(handleRequest);
