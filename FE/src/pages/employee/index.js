@@ -9,9 +9,10 @@ import axios from "axios";
 import { renderPagination, renderSelect } from "../../utils/handler";
 import SuspenseLoading from "../../components/SuspenseLoading";
 import useRenderData from "./hooks/useRenderData";
-import useHandleRequest from "./hooks/useHandleRequest";
-import useChange from "./hooks/useChange";
 import usePagination from "../../utils/Hooks/usePagination";
+import useHandleRequest from "../../utils/Hooks/useHandleRequest";
+import { getEmployees } from "../../actions/employee.actions";
+import useDebounce from "../../utils/Hooks/useDebounce";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -40,7 +41,11 @@ const Employee = React.memo(() => {
   const [searchStore, setSearchStore] = useState(state.searchStore);
   const [searchInput, setSearchInput] = useState(state.searchInput);
 
-  const handleRequest = useHandleRequest(searchStore, searchInput, source);
+  const handleRequest = useHandleRequest(
+    [searchStore, searchInput],
+    getEmployees,
+    source
+  );
   const { prev, next } = usePagination(pages, page, handleRequest);
 
   useEffect(() => {
@@ -52,13 +57,29 @@ const Employee = React.memo(() => {
     };
   }, [page, pages]);
 
-  const onChange = useChange(
-    searchStore,
-    setSearchStore,
-    searchInput,
-    setSearchInput,
-    handleRequest
-  );
+  const onChange = useCallback((e) => {
+    e.preventDefault();
+    switch (e.target.name) {
+      case "search_store_id":
+        setSearchStore(e.target.value);
+        break;
+      case "search_input":
+        setSearchInput(e.target.value);
+      default:
+        break;
+    }
+  }, []);
+  //Gửi request lấy lại danh sách lọc theo phần search
+  //Sử dụng useDebounce để tạo hàm gọi request
+  //sau khi người dùng ngừng nhập input 0.5s
+  const debounceChange = useDebounce();
+  useEffect(() => {
+    debounceChange(handleRequest);
+  }, [searchInput]);
+  //Nếu search theo store thì sẽ gửi request luôn mà không delay
+  useEffect(() => {
+    handleRequest(0, 0);
+  }, [searchStore]);
 
   const renderData = useRenderData(
     employees,

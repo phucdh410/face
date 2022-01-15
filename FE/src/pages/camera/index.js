@@ -8,12 +8,12 @@ import axios from "axios";
 
 import { renderSelect, renderPagination } from "../../utils/handler";
 import SuspenseLoading from "../../components/SuspenseLoading";
-import useHandleRequest from "./hooks/useHandleRequest";
 import useInitialProps from "./hooks/useInitialProps";
 import useRenderData from "./hooks/useRenderData";
 import usePagination from "../../utils/Hooks/usePagination";
 import useOnDelete from "../../utils/Hooks/useOnDelete";
-import { removeCamera } from "../../actions/camera.actions";
+import { getCameras, removeCamera } from "../../actions/camera.actions";
+import useHandleRequest from "../../utils/Hooks/useHandleRequest";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -38,7 +38,7 @@ const Camera = React.memo(() => {
   const { cameras, pages, page, success, errors, stores } = state;
   const [searchStore, setSearchStore] = useState(state.searchStore);
   const getInitialProps = useInitialProps(source);
-  const handleRequest = useHandleRequest(searchStore, source);
+  const handleRequest = useHandleRequest([searchStore, ""], getCameras, source);
   const { prev, next } = usePagination(pages, page, handleRequest);
 
   useEffect(() => {
