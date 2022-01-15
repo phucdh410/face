@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useState, useEffect } from "react";
+import React, { Suspense, lazy, useState, useEffect, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import { withRouter } from "react-router-dom";
 import { useSelector, shallowEqual } from "react-redux";
@@ -8,10 +8,10 @@ import axios from "axios";
 import { getDepts } from "../../actions/dept.actions";
 import { renderPagination } from "../../utils/handler";
 import SuspenseLoading from "../../components/SuspenseLoading";
-import useChange from "../../utils/Hooks/useChange";
 import useHandleRequest from "../../utils/Hooks/useHandleRequest";
 import useRenderData from "./hooks/useRenderData";
 import usePagination from "../../utils/Hooks/usePagination";
+import useDebounce from "../../utils/Hooks/useDebounce";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -36,7 +36,7 @@ const Dept = React.memo(() => {
   const { depts, pages, page, success, errors } = state;
   const [searchInput, setSearchInput] = useState(state.searchInput);
 
-  const handleRequest = useHandleRequest(searchInput, getDepts, source);
+  const handleRequest = useHandleRequest([0, searchInput], getDepts, source);
   const { prev, next } = usePagination(pages, page, handleRequest);
 
   useEffect(() => {
@@ -47,7 +47,16 @@ const Dept = React.memo(() => {
     };
   }, [pages, page]);
 
-  const onChange = useChange(setSearchInput, handleRequest);
+  const onChange = useCallback((e) => {
+    e.preventDefault();
+    setSearchInput(e.target.value);
+  }, []);
+  // tạo hàm debounceChange từ hook useDebounce để delay request 0.5s
+  //  sau khi người dùng ngừng thay đổi input
+  const debounceChange = useDebounce();
+  useEffect(() => {
+    debounceChange(handleRequest);
+  }, [searchInput]);
 
   const renderData = useRenderData(
     depts,

@@ -60,17 +60,16 @@ const Store = React.memo(() => {
   //Tạo hàm renderData để map ra danh sách cửa hàng từ "stores" truyền vào
   const renderData = useRenderData(stores, onDelete);
 
+  const onChange = useCallback((e) => {
+    e.preventDefault();
+    setSearchInput(e.target.value);
+  }, []);
   //Dùng hook useDebounce để tạo 1 hàm gọi request có độ trễ 0.5s
   //sau khi người dùng ngừng thay đổi input
   const debounceChange = useDebounce();
   useEffect(() => {
     debounceChange(handleRequest);
   }, [searchInput]);
-
-  const onChange = useCallback((e) => {
-    e.preventDefault();
-    setSearchInput(e.target.value);
-  }, []);
 
   // const onChange = useChange(setSearchInput, handleRequest);
 

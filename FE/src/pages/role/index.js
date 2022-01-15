@@ -1,5 +1,5 @@
 import "./styles/custom.css";
-import React, { Suspense, lazy, useState, useEffect } from "react";
+import React, { Suspense, lazy, useState, useEffect, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import { useHistory } from "react-router";
 import { useSelector, shallowEqual } from "react-redux";
@@ -9,10 +9,10 @@ import axios from "axios";
 import { getRoles } from "../../actions/role.actions";
 import { renderPagination } from "../../utils/handler";
 import SuspenseLoading from "../../components/SuspenseLoading";
-import useChange from "../../utils/Hooks/useChange";
 import useHandleRequest from "../../utils/Hooks/useHandleRequest";
 import useRenderData from "./hooks/useRenderData";
 import usePagination from "../../utils/Hooks/usePagination";
+import useDebounce from "../../utils/Hooks/useDebounce";
 
 const DataTable = lazy(() => import("../../components/DataTable"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -39,7 +39,7 @@ const Role = React.memo(() => {
 
   const [searchInput, setSearchInput] = useState(state.searchInput);
 
-  const handleRequest = useHandleRequest(searchInput, getRoles, source);
+  const handleRequest = useHandleRequest([0, searchInput], getRoles, source);
   const { prev, next } = usePagination(pages, page, handleRequest);
 
   useEffect(() => {
@@ -50,7 +50,16 @@ const Role = React.memo(() => {
     };
   }, [pages, page]);
 
-  const onChange = useChange(setSearchInput, handleRequest);
+  const onChange = useCallback((e) => {
+    e.preventDefault();
+    setSearchInput(e.target.value);
+  }, []);
+  //Dùng hook useDebounce để tạo 1 hàm gọi request có độ trễ 0.5s
+  //sau khi người dùng ngừng thay đổi input
+  const debounceChange = useDebounce();
+  useEffect(() => {
+    debounceChange(handleRequest);
+  }, [searchInput]);
 
   const renderData = useRenderData(
     roles,
