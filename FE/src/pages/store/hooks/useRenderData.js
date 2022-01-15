@@ -5,8 +5,8 @@ import { useTheme } from "@mui/material/styles";
 
 const useRenderData = (stores, onDelete) => {
   const theme = useTheme();
-  const data = useMemo(() => {
-    return stores.map((store, index) => (
+  const getData = useMemo(() => {
+    const data = stores.map((store, index) => (
       <TableRow key={index}>
         <TableCell style={{ minWidth: 30, textAlign: "center" }}>
           <Link to={`/stores/edit/${store.id}`}>
@@ -83,7 +83,11 @@ const useRenderData = (stores, onDelete) => {
         </TableCell>
       </TableRow>
     ));
+    return data;
   }, [stores]);
-  return data;
+  const renderData = () => {
+    return stores && stores.length > 0 ? getData : null;
+  };
+  return renderData;
 };
 export default useRenderData;

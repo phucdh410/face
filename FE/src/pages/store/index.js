@@ -1,6 +1,5 @@
 import React, { Suspense, lazy, useState, useEffect, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
-import { debounce } from "lodash";
 import { useHistory } from "react-router";
 import { useSelector, shallowEqual } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -58,15 +57,8 @@ const Store = React.memo(() => {
     source
   );
 
-  //Lấy dữ liệu bằng hook
-  const data = useRenderData(stores, onDelete);
-  //Tạo hàm renderData lấy data từ hook useRenderData
-  const renderData = useCallback(() => {
-    if (stores && stores.length > 0) {
-      return data;
-    }
-    return null;
-  }, [stores, onDelete]);
+  //Tạo hàm renderData để map ra danh sách cửa hàng từ "stores" truyền vào
+  const renderData = useRenderData(stores, onDelete);
 
   //Dùng hook useDebounce để tạo 1 hàm gọi request có độ trễ 0.5s
   //sau khi người dùng ngừng thay đổi input
