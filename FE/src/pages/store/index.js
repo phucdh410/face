@@ -69,7 +69,7 @@ const Store = React.memo(() => {
   }, [stores, onDelete]);
 
   //Dùng hook useDebounce để tạo 1 hàm gọi request có độ trễ 0.5s
-  //sau khi người dùng thay đổi input
+  //sau khi người dùng ngừng thay đổi input
   const debounceChange = useDebounce();
   useEffect(() => {
     debounceChange(handleRequest);
