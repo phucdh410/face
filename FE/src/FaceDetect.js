@@ -68,18 +68,13 @@ const FaceDetect = () => {
           id="myVideo"
           height="400"
           width="800"
+          style={{ position: "fixed" }}
           // autoPlay
           muted
         >
           <source src="/assets/1.mp4" />
         </video>
-        <canvas
-          height="400"
-          width="800"
-          position="absolute"
-          backgroundColor="red"
-          color="red"
-        />
+        <canvas height="400" width="800" style={{ position: "absolute" }} />
       </div>
     </div>
   );
