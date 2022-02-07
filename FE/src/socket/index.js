@@ -41,7 +41,7 @@ export const onDisconnect = function (reason) {
   socket.connect();
 };
 
-export const getSocket = url => {
+export const getSocket = (url) => {
   socket = io.connect(url);
 
   if (socket) {

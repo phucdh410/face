@@ -83,6 +83,13 @@ const LeftMenu = React.memo(({ pathname }) => (
           isActive={pathname.includes("/roles")}
         />
 
+        <MenuItem
+          pathname={pathname}
+          routename="facedetect"
+          icon="assignment"
+          label="Face Detection"
+          isActive={pathname.includes("/facedetect")}
+        />
         <li>
           <a
             href="#/"

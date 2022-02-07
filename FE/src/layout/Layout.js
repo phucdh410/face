@@ -29,6 +29,7 @@ const EditDept = lazy(() => import("../pages/dept/EditDept"));
 const User = lazy(() => import("../pages/user"));
 const CreateUser = lazy(() => import("../pages/user/CreateUser"));
 const EditUser = lazy(() => import("../pages/user/EditUser"));
+const FaceDetect = lazy(() => import("../FaceDetect"));
 
 const Layout = React.memo(({ socket }) => (
   <Suspense fallback={<SuspenseLoading />}>
@@ -60,6 +61,7 @@ const Layout = React.memo(({ socket }) => (
       <Route exact path="/roles" component={Role} />
       <Route exact path="/roles/add" component={CreateRole} />
       <Route exact path="/roles/edit/:id" component={EditRole} />
+      <Route exact path="/facedetect" component={FaceDetect} />
     </Wrapper>
   </Suspense>
 ));
