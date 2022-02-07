@@ -5,7 +5,7 @@ import axios from "axios";
 
 //depc sẽ là 1 array gồm [searchStore,searchInput]
 const useHandleRequest = (depc, action, source) => {
-  let [searchStore, searchInput] = depc;
+  const [searchStore, searchInput] = depc;
   const dispatch = useDispatch();
   const history = useHistory();
   const handleRequest = useCallback((pages, page) => {

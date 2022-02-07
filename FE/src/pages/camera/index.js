@@ -47,6 +47,7 @@ const Camera = React.memo(() => {
     handleRequest(pages, page);
     return () => {
       source && source.cancel();
+      source = null;
     };
   }, [getInitialProps, pages, page]);
 
