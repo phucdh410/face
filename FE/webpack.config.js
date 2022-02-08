@@ -11,13 +11,16 @@ const fs = require("fs");
 
 const directoryPath = path.resolve("public");
 
-const handleDir = () => new Promise((resolve, reject) => fs.readdir(directoryPath, (err, files) => {
-  if (err) {
-    return reject(new Error(`Unable to scan directory: ${err}`));
-  }
+const handleDir = () =>
+  new Promise((resolve, reject) =>
+    fs.readdir(directoryPath, (err, files) => {
+      if (err) {
+        return reject(new Error(`Unable to scan directory: ${err}`));
+      }
 
-  return resolve(files);
-}));
+      return resolve(files);
+    })
+  );
 
 module.exports = async (env, agrv) => {
   const isDev = agrv.mode === "development";
@@ -39,18 +42,20 @@ module.exports = async (env, agrv) => {
       filename: "./index.html",
       // favicon: './public/favicon.ico',
       // manifest: "./public/manifest.json",
-      minify: !isDev ? {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true,
-      } : null,
+      minify: !isDev
+        ? {
+            removeComments: true,
+            collapseWhitespace: true,
+            removeRedundantAttributes: true,
+            useShortDoctype: true,
+            removeEmptyAttributes: true,
+            removeStyleLinkTypeAttributes: true,
+            keepClosingSlash: true,
+            minifyJS: true,
+            minifyCSS: true,
+            minifyURLs: true,
+          }
+        : null,
     }),
 
     new CopyPlugin({
@@ -117,7 +122,9 @@ module.exports = async (env, agrv) => {
             {
               loader: "file-loader",
               options: {
-                name: isDev ? "[path][name].[ext]" : "static/fonts/[name].[ext]",
+                name: isDev
+                  ? "[path][name].[ext]"
+                  : "static/fonts/[name].[ext]",
               },
             },
           ],

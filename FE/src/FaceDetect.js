@@ -1,30 +1,51 @@
 import React, { useEffect, useRef } from "react";
-// import * as faceapi from "face-api.js";
-
-// Promise.all([
-//   faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
-//   faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
-//   faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
-//   faceapi.nets.faceExpressionNet.loadFromUri("/models"),
-// ]).then(console.log("Đã load xong model"));
+import * as faceapi from "face-api.js";
 
 const FaceDetect = () => {
   const videoRef = useRef();
   const canvasRef = useRef();
 
-  useEffect(() => {
-    const loadModels = () => {
-      Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
-        faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
-        faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
-        faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
-      ])
-        .then(console.log("Đã load xong models"))
-        .catch((e) => console.log(e));
+  const handleVideo = async () => {
+    console.log("chạy handleVideo");
+    const displaySize = {
+      width: videoRef.current.width,
+      height: videoRef.current.height,
     };
+    setInterval(async () => {
+      const detections = await faceapi
+        .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
+        .withFaceLandmarks()
+        .withFaceExpressions();
+
+      //Tạo ra canvas mới thay thế lên canvas mặc định
+      canvasRef.current.innerHtml = faceapi.createCanvasFromMedia(
+        videoRef.current
+      );
+      //
+      faceapi.matchDimensions(canvasRef.current, displaySize);
+      const resizedDetections = faceapi.resizeResults(detections, displaySize);
+
+      faceapi.draw.drawDetections(canvasRef.current, resizedDetections); //Vẽ phần khuông tại gương mặt phát hiện được
+      faceapi.draw.drawFaceLandmarks(canvasRef.current, resizedDetections); //Vẽ các điểm landmark trên gương mặt
+      faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetections); //Vẽ phần mô tả cảm xúc
+    }, 300);
+  };
+
+  const loadModels = async () => {
+    await Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
+      faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+      faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
+      faceapi.nets.faceExpressionNet.loadFromUri("/models"),
+    ]);
+    console.log("Đã load xong models");
+    handleVideo();
+  };
+
+  useEffect(() => {
     videoRef.current && loadModels();
   }, []);
+
   // var video;
   // useEffect(() => {
   //   video = document.getElementById("myVideo");
@@ -64,17 +85,23 @@ const FaceDetect = () => {
       <div className="camera-container" display="flex">
         <video
           controls
+          ref={videoRef}
           onPlay={onPlay}
           id="myVideo"
           height="400"
           width="800"
           style={{ position: "fixed" }}
-          // autoPlay
+          autoPlay
           muted
         >
           <source src="/assets/1.mp4" />
         </video>
-        <canvas height="400" width="800" style={{ position: "absolute" }} />
+        <canvas
+          ref={canvasRef}
+          height="400"
+          width="800"
+          style={{ position: "absolute" }}
+        />
       </div>
     </div>
   );
