@@ -5,7 +5,7 @@ const FaceDetect = () => {
   const videoRef = useRef();
   const canvasRef = useRef();
 
-  const handleVideo = async () => {
+  const handleVideo = () => {
     console.log("chạy handleVideo");
     const displaySize = {
       width: videoRef.current.width,
